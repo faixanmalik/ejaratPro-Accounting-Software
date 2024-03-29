@@ -1,0 +1,68 @@
+{
+  "totalProducts": "Total Products",
+  "totalCustomers": "Total Customers",
+  "totalSuppliers": "Total Suppliers",
+  "totalEmployees": "Total Employees",
+  "salesSummary": "Sales Summary",
+  "yearlySalesReport":"Yearly Sales Report",
+  "assetsSummary":"Assets Summary",
+  "yearlyAssetsReport":"Yearly Assets Report",
+  "sales":"Sales",
+  "grossProfit": "Gross Profit",
+  "currentAssets":"Current-Assets",
+  "currentLiabilities":"Current-Liabilities",
+  "hey":"Hey!",
+  "info": "Info",
+  "editProfile": "Edit Profile",
+  "logout": "Logout",
+
+
+
+  
+  "new": "New",
+  "dasboard": "Dashboard",
+
+  "realEstate": "Real Estate",
+  "buildingsAndOwners": "Buildings and Owner",
+  "units": "Units",
+  "contractAndTenants": "Contract And Tenants",
+  "fundsManagement": "Funds Management",
+  "chequeTrx": "Cheque Trx",
+
+  "userManagment": "User Managment",
+  "addRole": "Add Role",
+  "clients":"Clients",
+
+  "businessSetup": "Business Setup",
+  "chartsOfAccount": "Charts of Accounts",
+  "taxRate": "Tax Rate",
+  "contactList": "Contact List",
+  "productAndServices": "Product and Services",
+  "bankAccount": "Bank Accounts",
+
+  "purchaseModule": "Purchase Module",
+  "purchaseInvoice": "Purchase Invoice",
+  "debitNote": "Debit Note",
+  "expenses": "Expenses",
+  "paymentVoucher": "Payment Voucher",
+
+  "salesModule": "Sales Module",
+  "salesInvoice": "Sales Invoice",
+  "creditSaleInvoice": "Credit Sales Invoice",
+  "creditNote": "Credit Note",
+  "receiptVoucher": "Receipt Voucher",
+  "journalVoucher": "Journal Voucher",
+
+  "payroll": "Payroll",
+  "employees": "Employees",
+
+  "reports": "Reports",
+  "generalLedger": "General Ledger",
+  "trialBalance": "Trial Balance",
+  "profitAndLoss": "Profit And Loss",
+  "balanceSheet": "Balance Sheet",
+  "contactTransaction": "Contact Transaction",
+
+  "settings": "Settings",
+  "paymentMethod": "Payment Method"
+}

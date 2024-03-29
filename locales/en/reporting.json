@@ -1,0 +1,41 @@
+{
+  "generalLedgerTitle": "General Ledger Summary",
+  "from":"From",
+  "to":"To",
+  "account":"Account",
+  "update":"Update",
+  "voucherNo":"Voucher No",
+  "products":"Products / Accounts",
+  "date":"Date",
+  "debit":"Debit",
+  "credit":"Credit",
+  "balance":"Balance",
+  "print":"Print",
+
+
+  "trialBalanceTitle":"Trial Balance Summary",
+  "accountName":"Account Name",
+  "subAccount":"Sub-Account",
+  "totalDebit":"Total Debit",
+  "totalCredit":"Total Credit",
+
+  "profitAndLossTitle":"Profit & Loss Summary",
+  "amount":"Amount",
+  "gross":"Gross",
+  "profit":"Profit",
+  "loss":"Loss",
+  "fromOperations":"From Operations",
+  "net":"Net",
+
+
+  "balanceSheetTitle":"Balance Sheet Summary",
+  "totalAssets":"Total Assets",
+  "totalEquity":"Total Equity",
+  "totalLiabilities":"Total Liabilities",
+  "liabilities":"Liabilities",
+
+
+  "contactsTitle":"Contact Transaction Summary",
+  "contacts":"Contacts",
+  "name":"Name"
+}

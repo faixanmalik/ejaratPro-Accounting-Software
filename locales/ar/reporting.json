@@ -1,0 +1,42 @@
+{
+  "generalLedgerTitle": "ملخص دفتر الأستاذ العام",
+  "from":"من",
+  "to":"ل",
+  "account":"حساب",
+  "update":"تحديث",
+  "voucherNo":"رقم السند",
+  "products":"المنتجات / الحسابات",
+  "date":"تاريخ",
+  "debit":"مدين",
+  "credit":"دائن",
+  "balance":"الرصيد",
+  "print":"طباعة",
+
+
+  "trialBalanceTitle":"ملخص ميزان المراجعة",
+  "accountName":"إسم الحساب",
+  "subAccount":"الحساب الفرعي",
+  "totalDebit":"الاجمالي المدين",
+  "totalCredit":"الاجمالي الدائن",
+
+
+  "profitAndLossTitle":"ملخص الربح والخسارة",
+  "amount":"المبلغ",
+  "gross":"الاجمالي",
+  "profit":"الربح",
+  "loss":"الخسارة",
+  "fromOperations":"الصافي",
+  "net":"شبكة",
+
+  "balanceSheetTitle":"ملخص الميزانية العمومية",
+  "totalAssets":"إجمالي الأصول",
+  "totalEquity":"اجمالي حقوق الملكية",
+  "totalLiabilities":"اجمالي الالتزامات",
+  "liabilities":"الإلتزامات",
+
+
+  "contactsTitle":"كشف الحساب",
+  "contacts":"جهات الاتصال",
+  "name":"اسم"
+  
+}

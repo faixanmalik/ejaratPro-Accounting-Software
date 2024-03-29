@@ -1,0 +1,66 @@
+{
+  "totalProducts": "إجمالي المنتجات",
+  "totalCustomers": "إجمالي العملاء",
+  "totalSuppliers": "إجمالي الموردين",
+  "totalEmployees": "عدد الموظفي",
+  "salesSummary": "ملخص المبيعات",
+  "yearlySalesReport":"تقرير المبيعات السنوي",
+  "assetsSummary":"ملخص الأصول",
+  "yearlyAssetsReport":"تقرير الأصول السنوي",
+  "sales":"مبيعات",
+  "grossProfit": "اجمالي الربح",
+  "currentAssets":"الاصول المتداولة",
+  "currentLiabilities":"المطلوبات المتداولة",
+  "hey":"يا!",
+  "info": "معلومات",
+  "editProfile": "تعديل الملف الشخصي",
+  "logout": "تسجيل خروج",
+
+
+  "new": "جديد",
+  "dasboard": "الشاشة الرئيسية",
+
+  "realEstate": "العقارات", 
+  "buildingsAndOwners": "المباني والمالكين",
+  "units": "الوحدات",
+  "contractAndTenants": "العقود والمستأجرين",
+  "fundsManagement": "إدارة الأموال",
+  "chequeTrx": "حركات الأموال",
+
+  "userManagment": "ادارة المستحدمين",
+  "addRole": "أضف دور",
+  "clients":"المستخدمين",
+
+  "businessSetup": "اعدادات العمل",
+  "chartsOfAccount": "شجرة الحسابات",
+  "taxRate": "معدل الضريبة",
+  "contactList": "العملاء والموردين",
+  "productAndServices": "المنتجات والخدمات",
+  "bankAccount": "حسابات بنكية",
+
+  "purchaseModule": "المشتريات",
+  "purchaseInvoice": "فاتورة الشراء",
+  "debitNote": "اشعار مدين",
+  "expenses": "المصاريف",
+  "paymentVoucher": "سند صرف",
+
+  "salesModule": "الايرادات",
+  "salesInvoice": "فاتورة المبيعات",
+  "creditSaleInvoice": "فاتورة مبيعات اجلة",
+  "creditNote": "اشعار دائن",
+  "receiptVoucher": "سندات القبض",
+  "journalVoucher": "سند قيد يومية",
+
+  "payroll": "كشف رواتب",
+  "employees": "موظفين",
+
+  "reports": "التقارير",
+  "generalLedger": "دفتر الأستاذ العام",
+  "trialBalance": "ميزان المراجعة",
+  "profitAndLoss": "الربح والخسارة",
+  "balanceSheet": "المركز المالي",
+  "contactTransaction": "العملاء والموردين",
+
+  "settings": "إعدادات",
+  "paymentMethod": "طرق السداد"
+}

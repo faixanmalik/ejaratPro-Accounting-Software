@@ -1,0 +1,92 @@
+{
+  "purchaseInvoiceTitle":"Purchase Invoice",
+  "new":"New",
+  "delete":"Delete",
+  "printAll":"Print All",
+  "billNo":"Bill No",
+  "date":"Date",
+  "supplier":"Supplier",
+  "totalAmount":"Total Amount",
+  "amountPaid":"Amount Paid",
+  "amountReceived":"Amount Received",
+  "status":"Status",
+  "viewOrEdit":"View/Edit",
+  "journalDate":"Journal Date",
+  "supplierName":"Supplier Name",
+  "phoneNo":"Phone No",
+  "email":"Email",
+  "city":"City",
+  "reference":"Reference",
+  "address":"Address",
+  "dueDate":"Due Date",
+  "account":"Account",
+  "desc":"Description",
+  "amount":"Amount",
+  "taxRate":"Tax Rate",
+  "taxAmount":"Tax Amount",
+  "total":"Total",
+  "addOrDel":"Add/Del",
+  "vat":"VAT",
+  "memo":"Memo",
+  "print":"Print",
+  "saveChanges":"Save Changes",
+  "save":"Save",
+
+
+  "debitNoteTitle":"Debit Note Invoices",
+  "accuralDate":"Accural Date",
+  "project":"Project",
+
+
+  "expensesTitle":"Expenses",
+  "voucherNo":"Voucher No",
+  "journalNo":"Journal No",
+  "paidBy":"Paid By",
+  "name":"Name",
+
+
+  "paymentVoucherTitle":"Payment Vouchers",
+  "balance":"Balance",
+  "prevPaid":"Prev Paid",
+  "remaining":"Remaining",
+  "paid":"Paid",
+  "netBalance":"Net Balance",
+  "totalBalance":"Total Balance",
+  "totalPaid":"Total Paid",
+  "totalNetBalance":"Total Net Balance",
+
+
+
+  "salesInvoiceTitle":"Sales Invoices",
+  "receivedBy":"Received By",
+  "chqNo":"Cheque No",
+  "productAndServices":"Products / Services",
+
+
+  "creditSalesInvoiceTitle":"Credit Sales Invoice",
+  "deleteInvoice":"Delete Invoice",
+  "deleteInvoicePara":"Are you sure you want to delete your invoice? May be it linked with the contracts",
+  "cancel":"Cancel",
+  "customerName":"Customer Name",
+  "discount":"Discount",
+
+
+  "creditNoteTitle":"Credit Note Invoices",
+  "product":"Product",
+
+  "receiptVoucherTitle":"Receipt Vouchers",
+  "view":"View",
+  "vocherNo":"Voucher No",
+  "bank":"Bank",
+
+  "journalVoucherTitle":"Journal Vouchers",
+  "debit":"Debit",
+  "credit":"Credit",
+  "totalDebit":"Total Debit",
+  "totalCredit":"Total Credit",
+  "action":"Action",
+  
+
+
+  "":""
+}

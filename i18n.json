@@ -1,0 +1,51 @@
+{
+  "locales": ["en", "ar"],
+  "defaultLocale": "en",
+  "pages": {
+    "*": ["common"],
+    "/": ["credentials"],
+    "/login": ["credentials"],
+    "/signup": ["credentials"],
+    "/panel": ["panel"],
+    "/panel/realEstate/buildings": ["panel", "realEstate"],
+    "/panel/realEstate/units": ["panel", "realEstate"],
+    "/panel/realEstate/contractAndTenants": ["panel", "realEstate"],
+    "/panel/realEstate/cheques": ["panel", "realEstate"],
+    "/panel/realEstate/chequeTransactions": ["panel", "realEstate"],
+    "/panel/realEstate/tenantStatement": ["panel", "realEstate"],
+    "/panel/realEstate/contractTermination": ["panel", "realEstate"],
+
+    "/panel/userManagment/addRole": ["panel", "users"],
+    "/panel/userManagment/clients": ["panel", "users"],
+    
+    "/panel/businessSetup/chartsOfAccount": ["panel", "businessSetup"],
+    "/panel/businessSetup/taxRate": ["panel", "businessSetup"],
+    "/panel/businessSetup/contactList": ["panel", "businessSetup"],
+    "/panel/businessSetup/productAndServices": ["panel", "businessSetup"],
+    "/panel/businessSetup/bankAccount": ["panel", "businessSetup"],
+
+
+    "/panel/purchaseModule/purchaseInvoice": ["panel", "modules"],
+    "/panel/purchaseModule/debitNote": ["panel", "modules"],
+    "/panel/purchaseModule/expenses": ["panel", "modules"],
+    "/panel/purchaseModule/paymentVoucher": ["panel", "modules"],
+
+
+    "/panel/salesModule/salesInvoice": ["panel", "modules"],
+    "/panel/salesModule/creditSaleInvoice": ["panel", "modules"],
+    "/panel/salesModule/creditNote": ["panel", "modules"],
+    "/panel/salesModule/receiptVoucher": ["panel", "modules"],
+    "/panel/salesModule/journalVoucher": ["panel", "modules"],
+
+
+    "/panel/settings/paymentMethod": ["panel", "settings"],
+    "/panel/payroll/employees": ["panel", "payroll"],
+    "/panel/financialManagment/reports/generalLedger": ["panel", "reporting"],
+    "/panel/financialManagment/reports/trialBalance": ["panel", "reporting"],
+    "/panel/financialManagment/reports/profitAndLoss": ["panel", "reporting"],
+    "/panel/financialManagment/reports/balanceSheet": ["panel", "reporting"],
+    "/panel/financialManagment/reports/contactTransactionSummary": ["panel", "reporting"]
+
+    
+  }
+}

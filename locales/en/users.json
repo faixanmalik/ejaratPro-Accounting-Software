@@ -1,0 +1,22 @@
+{
+  "title": "Manage Users",
+  "new":"New",
+  "delete":"Delete",
+  "sr":"Sr",
+  "roleName":"Role Name",
+  "roleDesc":"Role Description",
+  "desc":"Description",
+  "addUser":"Add User",
+  "viewOrEdit":"View / Edit",
+  "saveChanges":"Save Changes",
+  "save":"Save",
+
+
+  "businessName":"Business Name",
+  "name":"Name",
+  "email":"Email",
+  "password":"Password",
+  "addClient":"Add Client",
+  "firstName":"First Name",
+  "lastName":"Last Name"
+}
