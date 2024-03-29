@@ -185,24 +185,6 @@ const Sidebar2 = ({ showMobilemenu }) => {
             <MenuItem icon={<BiHomeAlt className='text-lg'/>} className={ location === '/panel' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium' } href={`/${router.locale}/panel`}>
               {t('dasboard')}
             </MenuItem>
-      
-            <SubMenu label={t('realEstate')} icon={<MdOutlineRealEstateAgent className='text-lg'/>}>
-              <MenuItem href={`/${router.locale}/panel/realEstate/buildings`} icon={<FaRegBuilding className='text-lg'/>} className={ location === '/panel/realEstate/buildings' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('buildingsAndOwners')}
-               </MenuItem>
-              <MenuItem href={`/${router.locale}/panel/realEstate/units`} icon={<RiCommunityLine className='text-lg'/>} className={ location === '/panel/realEstate/units' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('units')}
-              </MenuItem>
-              <MenuItem href={`/${router.locale}/panel/realEstate/contractAndTenants`} icon={<FaFileContract className='text-lg'/>} className={ location === '/panel/realEstate/contractAndTenants' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('contractAndTenants')}
-              </MenuItem>
-              <MenuItem href={`/${router.locale}/panel/realEstate/cheques`} icon={<HiOutlineBanknotes className='text-lg'/>} className={ location === '/panel/realEstate/cheques' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('fundsManagement')}
-              </MenuItem>
-              <MenuItem href={`/${router.locale}/panel/realEstate/chequeTransactions`} icon={<AiOutlineTransaction className='text-lg'/>} className={ location === '/panel/realEstate/chequeTransactions' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('chequeTrx')}
-              </MenuItem>
-            </SubMenu>
 
             <SubMenu label={t('purchaseModule')} icon={<RiBankCardLine className='text-lg'/>}>
 
