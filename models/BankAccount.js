@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const BankAccountSchema = new mongoose.Schema({
 
+  
     userEmail:{type: String},
     bankBranch:{type: String},
     accountNo:{type: Number},

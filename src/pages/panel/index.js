@@ -4,7 +4,6 @@ import { Col, Row } from "reactstrap";
 import SalesChart from "@/panel/components/dashboard/SalesChart";
 import TopCards from "@/panel/components/dashboard/TopCards";
 import AssetsChart from "@/panel/components/dashboard/AssetsChart";
-import UnitsChart from "@/panel/components/dashboard/UnitsChart";
 
 
 import mongoose from "mongoose";
@@ -27,11 +26,9 @@ import Expenses from 'models/Expenses';
 import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
 import Units from "models/Units";
-import ChequesChart from "@/panel/components/dashboard/ChequesChart";
-import Cheque from "models/Cheque";
 
 
-export default function Home({customer, dbUnits, dbCheques, dbProducts, supplier, employees, dbExpensesVoucher, dbPaymentVoucher, dbReceiptVoucher, dbDebitNote, dbCreditNote, dbPurchaseInvoice, dbSalesInvoice, dbCreditSalesInvoice, dbJournalVoucher, dbCharts }) {
+export default function Home({customer, dbProducts, supplier, employees, dbExpensesVoucher, dbPaymentVoucher, dbReceiptVoucher, dbDebitNote, dbCreditNote, dbPurchaseInvoice, dbSalesInvoice, dbCreditSalesInvoice, dbJournalVoucher, dbCharts }) {
 
   const [filteredCustomer, setFilteredCustomer] = useState([])
   const [filteredSupplier, setFilteredSupplier] = useState([])
@@ -143,16 +140,6 @@ export default function Home({customer, dbUnits, dbCheques, dbProducts, supplier
         </Row>
 
 
-        <Row>
-          <Col sm="6" lg="6">
-            <UnitsChart userEmail={userEmail} dbUnits={dbUnits} />
-          </Col> 
-          <Col sm="6" lg="6">
-            <ChequesChart userEmail={userEmail} dbCheques={dbCheques} />
-          </Col>
-        </Row>
-
-
         {/***Sales & Feed***/}
         <Row className="mt-4">
           <Col sm="12" lg="12">
@@ -184,8 +171,6 @@ export async function getServerSideProps() {
   let supplier = await Contact.find({"type": "Supplier"})
   let employees = await Employees.find()
   let dbProducts = await Product.find()
-  let dbUnits = await Units.find()
-  let dbCheques = await Cheque.find()
 
   let dbCharts = await Charts.find()
   let dbJournalVoucher = await JournalVoucher.find()
@@ -208,9 +193,6 @@ export async function getServerSideProps() {
       employees: JSON.parse(JSON.stringify(employees)),
       dbCharts: JSON.parse(JSON.stringify(dbCharts)),
       dbJournalVoucher: JSON.parse(JSON.stringify(dbJournalVoucher)),
-
-      dbUnits: JSON.parse(JSON.stringify(dbUnits)),
-      dbCheques: JSON.parse(JSON.stringify(dbCheques)),
 
       dbCreditSalesInvoice: JSON.parse(JSON.stringify(dbCreditSalesInvoice)),
       dbSalesInvoice: JSON.parse(JSON.stringify(dbSalesInvoice)),
