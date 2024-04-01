@@ -314,14 +314,19 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
       },
       body: JSON.stringify(data),
     })
-      let response = await res.json()
+    let response = await res.json()
 
-      if(response.success === true){
+    if(response.success === true){
+      
+      toast.success(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+
+      setTimeout(() => {
         router.push('?open=false');
-      }
-      else {
-          toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
-      }
+      }, 1500);
+    }
+    else {
+      toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+    }
   }
 
   const openSettings = async ()=>{

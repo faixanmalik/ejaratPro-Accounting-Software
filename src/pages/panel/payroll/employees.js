@@ -336,7 +336,11 @@ const Employees = ({ userEmail, dbEmployee, dbRole }) => {
       let response = await res.json()
 
       if(response.success === true){
-        window.location.reload();
+        toast.success(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+      
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       }
       else {
         toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
