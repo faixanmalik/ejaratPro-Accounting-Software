@@ -725,13 +725,13 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                                 {/* All Vouchers */}
                                 { newEntry.map((item, index) => {
 
-                                    let previousBalance = 0;
+                                    let previousBalance = openingBalance;
                                     newEntry.forEach((item) => {
                                       if(dbAccount === true){
-                                        item.balance = previousBalance + item.credit - item.debit;
+                                        item.balance = previousBalance + parseFloat(item.credit) - parseFloat(item.debit);
                                       }
                                       else if(dbAccount === false){
-                                        item.balance = previousBalance + item.debit - item.credit;
+                                        item.balance = previousBalance + parseFloat(item.debit) - parseFloat(item.credit);
                                       }
                                       previousBalance = item.balance;
                                     });
