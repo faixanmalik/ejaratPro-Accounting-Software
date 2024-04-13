@@ -1,5 +1,6 @@
 import User from 'models/User'
 import connectDb from 'middleware/mongoose'
+import Employees from 'models/Employees';
 // Crypto JS
 var CryptoJS = require("crypto-js");
 // Jwt token

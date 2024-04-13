@@ -16,6 +16,12 @@ import PaymentVoucher from 'models/PaymentVoucher';
 import CreditSalesInvoice from 'models/CreditSalesInvoice';
 import ReceiptVoucher from 'models/ReceiptVoucher';
 import PaymentMethod from 'models/PaymentMethod';
+import Buildings from 'models/Buildings';
+import Units from 'models/Units';
+import ContractAndTenant from 'models/ContractAndTenant';
+import Cheque from 'models/Cheque';
+import ChequeTransaction from 'models/ChequeTransaction';
+
 
 export default async function handler(req, res) {
 
@@ -212,6 +218,60 @@ export default async function handler(req, res) {
                 res.status(400).json({ success: false, message: "Internal server error!" }) 
             }
         }
+        else if( path === 'Buildings' ){
+            const { id } = req.body;
+            let data = await Buildings.findById(id)
+            if(data){
+                res.status(200).json({ success: true, data}) 
+            }
+            else{
+                res.status(400).json({ success: false, message: "Internal server error!" }) 
+            }
+        }
+        else if( path === 'Units' ){
+            const { id } = req.body;
+            let data = await Units.findById(id)
+            if(data){
+                res.status(200).json({ success: true, data}) 
+            }
+            else{
+                res.status(400).json({ success: false, message: "Internal server error!" }) 
+            }
+        }
+        else if( path === 'ContractAndTenants' ){
+            const { id } = req.body;
+            let data = await ContractAndTenant.findById(id)
+            if(data){
+                res.status(200).json({ success: true, data}) 
+            }
+            else{
+                res.status(400).json({ success: false, message: "Internal server error!" }) 
+            }
+        }
+        else if( path === 'Cheques' ){
+            const { id } = req.body;
+            let data = await Cheque.findById(id)
+            if(data){
+                res.status(200).json({ success: true, data}) 
+            }
+            else{
+                res.status(400).json({ success: false, message: "Internal server error!" }) 
+            }
+        }
+        else if( path === 'ChequeTransaction' ){
+            const { id } = req.body;
+            let data = await ChequeTransaction.findById(id)
+
+            if(data){
+                res.status(200).json({ success: true, data}) 
+            }
+            else{
+                res.status(400).json({ success: false, message: "Internal server error!" }) 
+            }
+        }
+
+
+        
         
     }
     else{

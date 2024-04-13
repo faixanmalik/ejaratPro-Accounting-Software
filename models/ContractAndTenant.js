@@ -1,0 +1,56 @@
+const mongoose = require('mongoose');
+
+const ContractAndTenantSchema = new mongoose.Schema({
+
+    userEmail:{type: String},
+    unitNo: Number,
+    buildingNameInArabic: String,
+    buildingNameInEnglish: String,
+    plotNo: Number,
+    rent: Number,
+    bathroom: Number,
+    parkings: Number,
+    rentParking: Number,
+    roof: Number,
+    balcony: Number,
+    size: Number,
+    electricityMeterNo: Number,
+    waterMeterNumber: Number,
+    sewageNumber: Number,
+    ac: String,
+    unitType: String,
+    unitUse: String,
+    unitStatus: String,
+    view: String,
+    country: String,
+    city: String,
+    area: String,
+    notes: String,
+    tenantName: String,
+    tenantEmail: String,
+    tenantPhoneNo: String,
+    tenantOpeningBalance: Number,
+    tenantPassPortNumber: Number,
+    tenantExpPassPort: Date,
+    tenantVatRegistrationNo: String,
+    tenantIbanNo: Number,
+    tenantBank: String,
+    tenantBankAccountNumber: Number,
+    tenantIdNumber: Number,
+    tenantExpIdNumber: Date,
+    newContractStartDate: Date,
+    newContractEndDate: Date,
+    newContractUnitRent: Number,
+    newContractCommission: Number,
+    newContractRentParking: Number,
+    newContractBouncedChequeFine: Number,
+    newContractStatus: String,
+    newContractPaymentScheduling: String,
+    newContractSecurityDeposit: Number,
+    newContractNotes: String,
+
+
+  },{timestamps:true});
+
+mongoose.models={}
+export default mongoose.model("ContractAndTenant", ContractAndTenantSchema);

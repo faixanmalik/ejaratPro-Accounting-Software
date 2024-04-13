@@ -185,34 +185,22 @@ const Sidebar2 = ({ showMobilemenu }) => {
             <MenuItem icon={<BiHomeAlt className='text-lg'/>} className={ location === '/panel' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium' } href={`/${router.locale}/panel`}>
               {t('dasboard')}
             </MenuItem>
-
-            <SubMenu label={t('userManagment')} icon={<AiOutlineUser className='text-lg'/>}>
-              <MenuItem href={`/${router.locale}/panel/userManagment/addRole`} icon={<BiUserCheck className='text-lg'/>} className={ location === '/panel/userManagment/addRole' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('addRole')}
+      
+            <SubMenu label={t('realEstate')} icon={<MdOutlineRealEstateAgent className='text-lg'/>}>
+              <MenuItem href={`/${router.locale}/panel/realEstate/buildings`} icon={<FaRegBuilding className='text-lg'/>} className={ location === '/panel/realEstate/buildings' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('buildingsAndOwners')}
+               </MenuItem>
+              <MenuItem href={`/${router.locale}/panel/realEstate/units`} icon={<RiCommunityLine className='text-lg'/>} className={ location === '/panel/realEstate/units' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('units')}
               </MenuItem>
-              {isOwner === true && <MenuItem href="/panel/userManagment/clients" icon={<FaUserFriends className='text-lg'/>} className={ location === '/panel/userManagment/clients' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('clients')}
-              </MenuItem>}
-            </SubMenu>
-
-            <SubMenu label={t('businessSetup')} icon={<IoBusinessOutline className='text-lg'/>}>
-              <MenuItem href={`/${router.locale}/panel/businessSetup/chartsOfAccount`} icon={<IoPieChartSharp className='text-lg'/>} className={ location === '/panel/businessSetup/chartsOfAccount' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('chartsOfAccount')}
+              <MenuItem href={`/${router.locale}/panel/realEstate/contractAndTenants`} icon={<FaFileContract className='text-lg'/>} className={ location === '/panel/realEstate/contractAndTenants' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('contractAndTenants')}
               </MenuItem>
-              <MenuItem href={`/${router.locale}/panel/businessSetup/taxRate`} icon={<HiOutlineReceiptTax className='text-lg'/>} className={ location === '/panel/businessSetup/taxRate' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('taxRate')}
+              <MenuItem href={`/${router.locale}/panel/realEstate/cheques`} icon={<HiOutlineBanknotes className='text-lg'/>} className={ location === '/panel/realEstate/cheques' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('fundsManagement')}
               </MenuItem>
-              <MenuItem href={`/${router.locale}/panel/businessSetup/contactList`} icon={<AiOutlineContacts className='text-lg'/>} className={ location === '/panel/businessSetup/contactList' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('contactList')}
-              </MenuItem>
-              <MenuItem href={`/${router.locale}/panel/businessSetup/productAndServices`} icon={<MdProductionQuantityLimits className='text-lg'/>} className={ location === '/panel/businessSetup/productAndServices' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('productAndServices')}
-              </MenuItem>
-              <MenuItem href={`/${router.locale}/panel/businessSetup/paymentMethod`} icon={<MdPayment className='text-lg'/>} className={ location === '/panel/businessSetup/paymentMethod' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('paymentMethod')}
-              </MenuItem>
-              <MenuItem href={`/${router.locale}/panel/businessSetup/bankAccount`} icon={<BsBank className='text-lg'/>} className={ location === '/panel/businessSetup/bankAccounts' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
-                {t('bankAccount')}
+              <MenuItem href={`/${router.locale}/panel/realEstate/chequeTransactions`} icon={<AiOutlineTransaction className='text-lg'/>} className={ location === '/panel/realEstate/chequeTransactions' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('chequeTrx')}
               </MenuItem>
             </SubMenu>
 
@@ -276,9 +264,35 @@ const Sidebar2 = ({ showMobilemenu }) => {
               </MenuItem>
             </SubMenu>
 
-            
+            <SubMenu label={t('userManagment')} icon={<AiOutlineUser className='text-lg'/>}>
+              <MenuItem href={`/${router.locale}/panel/userManagment/addRole`} icon={<BiUserCheck className='text-lg'/>} className={ location === '/panel/userManagment/addRole' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('addRole')}
+              </MenuItem>
+              {isOwner === true && <MenuItem href="/panel/userManagment/clients" icon={<FaUserFriends className='text-lg'/>} className={ location === '/panel/userManagment/clients' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('clients')}
+              </MenuItem>}
+            </SubMenu>
 
-            
+            <SubMenu label={t('businessSetup')} icon={<IoBusinessOutline className='text-lg'/>}>
+              <MenuItem href={`/${router.locale}/panel/businessSetup/chartsOfAccount`} icon={<IoPieChartSharp className='text-lg'/>} className={ location === '/panel/businessSetup/chartsOfAccount' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('chartsOfAccount')}
+              </MenuItem>
+              <MenuItem href={`/${router.locale}/panel/businessSetup/taxRate`} icon={<HiOutlineReceiptTax className='text-lg'/>} className={ location === '/panel/businessSetup/taxRate' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('taxRate')}
+              </MenuItem>
+              <MenuItem href={`/${router.locale}/panel/businessSetup/contactList`} icon={<AiOutlineContacts className='text-lg'/>} className={ location === '/panel/businessSetup/contactList' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('contactList')}
+              </MenuItem>
+              <MenuItem href={`/${router.locale}/panel/businessSetup/productAndServices`} icon={<MdProductionQuantityLimits className='text-lg'/>} className={ location === '/panel/businessSetup/productAndServices' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('productAndServices')}
+              </MenuItem>
+              <MenuItem href={`/${router.locale}/panel/businessSetup/paymentMethod`} icon={<MdPayment className='text-lg'/>} className={ location === '/panel/businessSetup/paymentMethod' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('paymentMethod')}
+              </MenuItem>
+              <MenuItem href={`/${router.locale}/panel/businessSetup/bankAccount`} icon={<BsBank className='text-lg'/>} className={ location === '/panel/businessSetup/bankAccounts' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('bankAccount')}
+              </MenuItem>
+            </SubMenu>
             
           </Menu>
         </Menu>

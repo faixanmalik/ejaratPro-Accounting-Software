@@ -17,12 +17,13 @@ import PaymentVoucher from 'models/PaymentVoucher';
 import Expenses from 'models/Expenses';
 import Product from 'models/Product';
 import PaymentMethod from 'models/PaymentMethod';
+import ChequeTransaction from 'models/ChequeTransaction';
 import useTranslation from 'next-translate/useTranslation';
 import ReactToPrint from 'react-to-print';
 import { AiOutlinePrinter } from 'react-icons/ai';
 
 
-const BalanceSheet = ({ userEmail, dbPaymentMethod, dbProducts, dbExpensesVoucher, dbPaymentVoucher, dbReceiptVoucher, dbDebitNote, dbCreditNote, dbPurchaseInvoice, dbSalesInvoice, dbCreditSalesInvoice, dbJournalVoucher, dbCharts, name }) => {
+const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProducts, dbExpensesVoucher, dbPaymentVoucher, dbReceiptVoucher, dbDebitNote, dbCreditNote, dbPurchaseInvoice, dbSalesInvoice, dbCreditSalesInvoice, dbJournalVoucher, dbCharts, name }) => {
 
     const { t } = useTranslation('reporting')
     const componentRef = useRef();
@@ -71,7 +72,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbProducts, dbExpensesVouche
             let allVouchers = [];
             let account = element.accountName;
             
-            allVouchers = allVouchers.concat(dbExpensesVoucher, dbPaymentVoucher, dbReceiptVoucher, dbDebitNote, dbCreditNote, dbPurchaseInvoice, dbSalesInvoice, dbCreditSalesInvoice, dbJournalVoucher);
+            allVouchers = allVouchers.concat(dbExpensesVoucher, dbChequeTransaction, dbPaymentVoucher, dbReceiptVoucher, dbDebitNote, dbCreditNote, dbPurchaseInvoice, dbSalesInvoice, dbCreditSalesInvoice, dbJournalVoucher);
 
             // Data filter
             const dbAll = allVouchers.filter((data) => {
@@ -1034,6 +1035,7 @@ export async function getServerSideProps() {
 
     let dbCreditSalesInvoice = await CreditSalesInvoice.find()
     let dbSalesInvoice = await SalesInvoice.find()
+    let dbChequeTransaction = await ChequeTransaction.find()
     let dbPurchaseInvoice = await PurchaseInvoice.find()
     let dbDebitNote = await DebitNote.find()
     let dbCreditNote = await CreditNote.find()
@@ -1053,6 +1055,7 @@ export async function getServerSideProps() {
 
             dbCreditSalesInvoice: JSON.parse(JSON.stringify(dbCreditSalesInvoice)),
             dbSalesInvoice: JSON.parse(JSON.stringify(dbSalesInvoice)),
+            dbChequeTransaction: JSON.parse(JSON.stringify(dbChequeTransaction)),
             dbPurchaseInvoice: JSON.parse(JSON.stringify(dbPurchaseInvoice)),
             dbDebitNote: JSON.parse(JSON.stringify(dbDebitNote)),
             dbCreditNote: JSON.parse(JSON.stringify(dbCreditNote)),

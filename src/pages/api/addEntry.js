@@ -16,6 +16,11 @@ import CreditSalesInvoice from 'models/CreditSalesInvoice';
 import ReceiptVoucher from 'models/ReceiptVoucher';
 import PaymentMethod from 'models/PaymentMethod';
 import JournalVoucher from 'models/JournalVoucher';
+import Buildings from 'models/Buildings';
+import Units from 'models/Units';
+import ContractAndTenant from 'models/ContractAndTenant';
+import Cheque from 'models/Cheque';
+import ChequeTransaction from 'models/ChequeTransaction';
 import User from 'models/User';
 
 
@@ -129,6 +134,9 @@ export default async function handler(req, res) {
         else if( path === 'CreditSalesInvoice'){
           const { userEmail, contractId, phoneNo, email, discount, billStatus, amountPaid, amountReceived, city, address, reference, dueDate, inputList, name,  memo, journalDate, billNo, fullAmount, fullTax, totalAmount, attachment, path, importEntries, row } = req.body;
 
+          if(contractId){
+            await ContractAndTenant.findByIdAndUpdate(contractId, { newContractStatus: 'Close', unitStatus:'Available' });
+          }
           let newEntry = new CreditSalesInvoice( { userEmail, contractId, phoneNo, email, discount, billStatus, amountPaid, amountReceived, city, address, reference, dueDate, inputList, name,  memo, journalDate, billNo, fullAmount, fullTax, totalAmount, attachment, type:path } );
           await newEntry.save();
           res.status(200).json({ success: true, message: "Entry Added !" }) 
@@ -156,6 +164,10 @@ export default async function handler(req, res) {
         else if( path === 'CreditNote'){
           const { userEmail, contractId, phoneNo, email, city, address, project, dueDate, inputList, name,  memo, journalDate, journalNo, fullAmount, fullTax, totalAmount, attachment, path, importEntries, row } = req.body;
 
+          if(contractId){
+            await ContractAndTenant.findByIdAndUpdate(contractId, { newContractStatus: 'Close', unitStatus:'Available' });
+          }
+
           let newEntry = new CreditNote( { userEmail, contractId, phoneNo, email, city, address, project, dueDate, inputList, name,  memo, journalDate, journalNo, fullAmount, fullTax, totalAmount, attachment, type:path } );
           await newEntry.save();
           res.status(200).json({ success: true, message: "Entry Added !" }) 
@@ -174,6 +186,9 @@ export default async function handler(req, res) {
           const { userEmail, phoneNo, email, chqNo, discount, city, fromAccount, receivedBy, project, dueDate, inputList, name,  memo, journalDate, journalNo, fullAmount, fullTax, totalAmount, attachment, path, importEntries, row } = req.body;
 
           try {
+
+            let newChequeEntry = new Cheque( { userEmail, phoneNo, email, chqNo, discount, city, fromAccount, receivedBy, project, dueDate, inputList, name,  memo, journalDate, journalNo, fullAmount, fullTax, totalAmount, attachment, type:path } );
+            await newChequeEntry.save();
 
             let newEntry = new SalesInvoice( { userEmail, phoneNo, email, chqNo, discount, city, fromAccount, receivedBy, project, dueDate, inputList, name,  memo, journalDate, journalNo, fullAmount, fullTax, totalAmount, attachment, type:path } );
             await newEntry.save();
@@ -232,6 +247,33 @@ export default async function handler(req, res) {
         else if( path === 'ReceiptVoucher'){
           const { userEmail, phoneNo, email, city, reference, amount, inputList, name,  memo, journalDate, journalNo, totalPaid, project, attachment, path, importEntries, row } = req.body;
 
+          const modifiedInputList = inputList.map((item) => {
+            return {
+              userEmail,
+              phoneNo,
+              email,
+              city,
+              reference,
+              amount,
+              inputList: [item], // Use an array with the current item
+              name,
+              memo,
+              journalDate,
+              journalNo,
+              totalPaid,
+              project,
+              attachment,
+              type:path,
+            };
+          })
+
+          await Promise.all(
+            modifiedInputList.map(async (data) => {
+              const newEntry = new Cheque(data);
+              await newEntry.save();
+            })
+          );
+
           for (const newItem of inputList) {
             await CreditSalesInvoice.findOneAndUpdate({billNo:newItem.billNo}, { $inc: { amountPaid: newItem.paid } });
           }
@@ -250,6 +292,86 @@ export default async function handler(req, res) {
           await newEntry.save();
 
           res.status(200).json({ success: true, message: "Entry Added !" }) 
+        }
+
+        // Receipt Voucher Invoice
+        else if( path === 'Buildings'){
+          const { userEmail, receiveUnitsArray, nameInInvoice, lessorName, adjective, buildingType, idNumber, expID, bank, passPortNumber, expPassPort, nationality, ibanNo, vatRegistrationNo, bankAccountNumber, tradeLicenseNo, buildingNameInArabic, buildingNameInEnglish, totalUnits, unitsPerFloor, parkings, roof, country, city, area, mizan, plotArea, floor, buildingArea, electricityMeterNo, titleDeedNo, contractStartDate, investmentStructure, gracePeriodFrom, contractEndDate, amount, gracePeriodTo, paymentScheduling, attachment, name, phoneNo, email, path, importEntries, row } = req.body;
+
+            for (const unit of receiveUnitsArray) {
+
+              let rent = unit.unitRent;
+              const unitDocument = {
+                nameInBill:nameInInvoice, userEmail, name, phoneNo, email, buildingNameInEnglish, expID, idNumber, expPassPort, passPortNumber, contractStartDate, investmentStructure, gracePeriodFrom, contractEndDate, amount, gracePeriodTo, paymentScheduling, attachment,
+                parkings, roof, rent, country, city, area, electricityMeterNo, contractStartDate, investmentStructure, gracePeriodFrom, contractEndDate, amount, gracePeriodTo, paymentScheduling,
+                ...unit
+              };
+        
+              await Units.create(unitDocument);
+              console.log('Unit inserted:', unitDocument);
+            }
+
+            let newEntry = new Buildings( { userEmail, receiveUnitsArray, nameInInvoice, lessorName, adjective, buildingType, idNumber, expID, bank, passPortNumber, expPassPort, nationality, ibanNo, vatRegistrationNo, bankAccountNumber, tradeLicenseNo, buildingNameInArabic, buildingNameInEnglish, totalUnits, unitsPerFloor, parkings, roof, country, city, area, mizan, plotArea, floor, buildingArea, electricityMeterNo, titleDeedNo, contractStartDate, investmentStructure, gracePeriodFrom, contractEndDate, amount, gracePeriodTo, paymentScheduling, attachment, name, phoneNo, email, type:path } );
+            await newEntry.save();
+
+            res.status(200).json({ success: true, message: "Entry Added !" }) 
+        }
+        else if( path === 'Units'){
+            const { userEmail, attachment, name, phoneNo, email, nameInBill, idNumber, expID, building, passPortNumber, expPassPort, buildingNameInArabic, buildingNameInEnglish, parkings, roof, country, city, area, electricityMeterNo, contractStartDate, investmentStructure, gracePeriodFrom, contractEndDate, amount, gracePeriodTo, paymentScheduling, unitNo, balcony, ac, unitType, unitUse, bathroom, unitStatus, plotNo, rent, rentParking, size, waterMeterNumber, sewageNumber, view, notes, path, importEntries, row } = req.body;
+
+            let newEntry = new Units( { userEmail, attachment, name, phoneNo, email, nameInBill, idNumber, expID, building, passPortNumber, expPassPort, buildingNameInArabic, buildingNameInEnglish, parkings, roof, country, city, area, electricityMeterNo, contractStartDate, investmentStructure, gracePeriodFrom, contractEndDate, amount, gracePeriodTo, paymentScheduling, unitNo, balcony, ac, unitType, unitUse, bathroom, unitStatus, plotNo, rent, rentParking, size, waterMeterNumber, sewageNumber, view, notes, type:path } );
+            await newEntry.save();
+
+            res.status(200).json({ success: true, message: "Entry Added !" }) 
+        }
+        else if( path === 'NewContract'){
+            const { userEmail, unitNo, buildingNameInArabic, buildingNameInEnglish, plotNo, rent, bathroom, parkings, rentParking, roof,  balcony, size,  electricityMeterNo, waterMeterNumber, sewageNumber, ac, unitType, unitUse, unitStatus, view, country, city,  area,  notes,tenant, tenantName, tenantEmail, tenantPhoneNo, tenantOpeningBalance, tenantPassPortNumber, tenantExpPassPort, tenantVatRegistrationNo, tenantIbanNo, tenantBank, tenantBankAccountNumber, tenantIdNumber, tenantExpIdNumber,newContractStartDate, newContractEndDate, newContractUnitRent, newContractCommission, newContractRentParking, newContractBouncedChequeFine, newContractStatus, newContractPaymentScheduling, newContractSecurityDeposit, newContractNotes, path, importEntries, row } = req.body;
+
+            let newEntry = new ContractAndTenant( { userEmail, unitNo, buildingNameInArabic, buildingNameInEnglish, plotNo, rent, bathroom, parkings, rentParking, roof,  balcony, size,  electricityMeterNo, waterMeterNumber, sewageNumber, ac, unitType, unitUse, unitStatus, view, country, city,  area,  notes,tenant, tenantName, tenantEmail, tenantPhoneNo, tenantOpeningBalance, tenantPassPortNumber, tenantExpPassPort, tenantVatRegistrationNo, tenantIbanNo, tenantBank, tenantBankAccountNumber, tenantIdNumber, tenantExpIdNumber,newContractStartDate, newContractEndDate, newContractUnitRent, newContractCommission, newContractRentParking, newContractBouncedChequeFine, newContractStatus, newContractPaymentScheduling, newContractSecurityDeposit, newContractNotes, type:path } );
+            await newEntry.save();
+            
+            res.status(200).json({ success: true, message: "Entry Added !" }) 
+        }
+
+        else if( path === 'ChequeTransaction'){
+          const { userEmail, totalDebit , totalCredit, inputList, chequeStatus, chequeId, name, email, desc, memo, journalDate, journalNo, attachment, path } = req.body;
+          
+            let newEntry = new ChequeTransaction( { userEmail, totalDebit , totalCredit, inputList, chequeStatus, chequeId, name, email, desc , memo, journalDate, journalNo, attachment, path } );
+            await Cheque.findByIdAndUpdate(chequeId, {chequeStatus: chequeStatus})
+            await newEntry.save();
+            res.status(200).json({ success: true, message: "Entry Added !" }) 
+
+          // let data = await ChequeTransaction.findOne({ journalNo })
+          // if( data ){
+          //   res.status(400).json({ success: false, message: "Already Found!" }) 
+          // }
+          // else{
+          //   let newEntry = new ChequeTransaction( { userEmail, totalDebit , totalCredit, inputList, chequeStatus, chequeId, name, email, desc , memo, journalDate, journalNo, attachment, path } );
+          //   await Cheque.findByIdAndUpdate(chequeId, {chequeStatus: chequeStatus})
+          //   await newEntry.save();
+          //   res.status(200).json({ success: true, message: "Entry Added !" }) 
+          // }
+        }
+        else if( path === 'importCheques'){
+          const { userEmail, importEntries, row } = req.body;
+          
+          console.log(req.body)
+          try {
+
+            const updatedRow = row.map(item => ({
+              ...item,
+              userEmail: userEmail
+            }));
+            
+            if(importEntries){
+              await Cheque.insertMany(updatedRow);
+              res.status(200).json({ success: true, message: "Entry Added !" }) 
+            }
+            
+          } catch (error) {
+            console.log(error)
+          }
+          
         }
         else if( path === 'clients'){
           const { businessName, email, password, firstName, lastName } = req.body;

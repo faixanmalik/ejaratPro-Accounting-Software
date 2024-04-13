@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import Contact from 'models/Contact';
 import Charts from '../../../models/Charts'
+import moment from 'moment';
 import Product from 'models/Product';
 import BankAccount from 'models/BankAccount';
 import JournalVoucher from 'models/JournalVoucher';
@@ -14,6 +15,11 @@ import SalesInvoice from 'models/SalesInvoice';
 import Expenses from 'models/Expenses';
 import CreditSalesInvoice from 'models/CreditSalesInvoice';
 import PaymentMethod from 'models/PaymentMethod';
+import Buildings from 'models/Buildings';
+import Units from 'models/Units';
+import ContractAndTenant from 'models/ContractAndTenant';
+import ChequeTransaction from 'models/ChequeTransaction';
+import Cheque from 'models/Cheque';
 
 
 export default async function handler(req, res) {
@@ -140,6 +146,7 @@ export default async function handler(req, res) {
 
             const { id, journalNo } = req.body;
 
+            await Cheque.updateOne({ journalNo: journalNo }, req.body);
             await SalesInvoice.updateOne({ _id: id }, req.body);
             res.status(200).json({ success: true, message: "Update Successfully!" }) 
         }
@@ -154,6 +161,49 @@ export default async function handler(req, res) {
             await Expenses.updateOne({ _id: id }, req.body);
             res.status(200).json({ success: true, message: "Update Successfully!" }) 
         }
+
+        else if(path === 'Buildings'){
+
+            const { id } = req.body;
+            
+            // Attempt to update the document
+            await Buildings.updateOne({ _id: id }, req.body);
+            res.status(200).json({ success: true, message: 'Update Successfully!' });
+        }
+
+        else if(path === 'Units'){
+            const { id } = req.body;
+            
+            // Attempt to update the document
+            await Units.updateOne({ _id: id }, req.body);
+            res.status(200).json({ success: true, message: 'Update Successfully!' });
+        }
+
+        else if(path === 'NewContract'){
+            const { id } = req.body;
+            
+            // Attempt to update the document
+            await ContractAndTenant.updateOne({ _id: id }, req.body);
+            res.status(200).json({ success: true, message: 'Update Successfully!' });
+        }
+
+        else if (path === 'ChequeTransaction'){
+            const { id } = req.body;
+
+            await ChequeTransaction.updateOne({ _id: id }, req.body);
+            res.status(200).json({ success: true, message: "Update Successfully!" }) 
+        }
+
+        else if (path === 'clearCheque'){
+            const { selectedIds, changeStatus } = req.body;
+            
+            selectedIds.forEach( async(newItem) => {
+                await Cheque.findByIdAndUpdate(newItem, {chequeStatus: changeStatus});
+            })
+            res.status(200).json({ success: true, message: "Edit Successfully !" }) 
+        }
+
+
 
         
         else{

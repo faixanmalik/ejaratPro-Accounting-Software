@@ -7,251 +7,313 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { AiOutlineDelete, AiOutlineEdit, AiOutlinePlusCircle, AiOutlinePrinter } from 'react-icons/ai';
-import Voucher from 'models/JournalVoucher';
+import Voucher from 'models/ChequeTransaction';
 import Contact from 'models/Contact';
 import Charts from 'models/Charts';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import FullLayout from '@/panel/layouts/FullLayout';
 import Employees from 'models/Employees';
 import ReactToPrint from 'react-to-print';
+import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation'
+import Link from 'next/link';
+import PaymentMethod from 'models/PaymentMethod';
 import useTranslation from 'next-translate/useTranslation';
 
 
-  const JournalVoucher = ({ userEmail, dbVouchers, dbCharts, dbContacts, dbEmployees }) => {
-    
-    const [open, setOpen] = useState(false)
-    const { t } = useTranslation('modules')
-    const [contacts, setContacts] = useState([])
-    const [id, setId] = useState('')
-    const [selectedIds, setSelectedIds] = useState([]);
+const ChequeTransactions = ({ userEmail, dbPaymentMethod, dbVouchers, dbCharts, dbContacts, dbEmployees}) => {
 
-    // authentications
-    const [isAdmin, setIsAdmin] = useState(false)
-    const [filteredInvoices, setFilteredInvoices] = useState([])
-    const [filteredCharts, setFilteredCharts] = useState([])
-    const [filteredContacts, setFilteredContacts] = useState([])
+  const router = useRouter();
+  const { t } = useTranslation('realEstate')
+  const searchParams = useSearchParams()
+  const open = searchParams.get('open')
+  const referCheque = searchParams.get('referCheque')
+  const chequeStatus = searchParams.get('chequeStatus')
+  const chequeId = searchParams.get('chequeId')
 
-    const [isOpenSaveChange, setIsOpenSaveChange] = useState(true)
+  const [contacts, setContacts] = useState([])
+  const [id, setId] = useState('')
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [isOpenSaveChange, setIsOpenSaveChange] = useState(true)
+
+  // authentications
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [filteredInvoices, setFilteredInvoices] = useState([])
+  const [filteredCharts, setFilteredCharts] = useState([])
+  const [filteredContacts, setFilteredContacts] = useState([])
   
 
-    function handleRowCheckboxChange(e, id) {
-      if (e.target.checked) {
-        setSelectedIds([...selectedIds, id]);
-      } else {
-        setSelectedIds(selectedIds.filter(rowId => rowId !== id));
-      }
+  function handleRowCheckboxChange(e, id) {
+    if (e.target.checked) {
+      setSelectedIds([...selectedIds, id]);
+    } else {
+      setSelectedIds(selectedIds.filter(rowId => rowId !== id));
     }
+  }
 
 
-    useEffect(() => {
-      setContacts(dbContacts, dbEmployees)
+  useEffect(() => {
 
-      let filteredInvoices = dbVouchers.filter((item)=>{
-        return item.userEmail === userEmail;
-      })
-      setFilteredInvoices(filteredInvoices)
+    let filteredInvoices = dbVouchers.filter((item)=>{
+      return item.userEmail === userEmail;
+    })
+    setFilteredInvoices(filteredInvoices)
 
-      let filteredCharts = dbCharts.filter((item)=>{
-        return item.userEmail === userEmail;
-      })
-      setFilteredCharts(filteredCharts)
+    let filteredCharts = dbCharts.filter((item)=>{
+      return item.userEmail === userEmail;
+    })
+    setFilteredCharts(filteredCharts)
 
-      let filteredContacts = dbContacts.filter((item)=>{
-        return item.userEmail === userEmail;
-      })
-      setFilteredContacts(filteredContacts)
-
-      const myUser = JSON.parse(localStorage.getItem('myUser'))
-      if(myUser.department === 'Admin'){
-        setIsAdmin(true)
-      }
-
-    }, [userEmail])
-    
-
-    // JV
-    const today = new Date().toISOString().split('T')[0];
-    const [journalDate, setJournalDate] = useState(today)
-    const [journalNo, setJournalNo] = useState('')
-    const [memo, setMemo] = useState('')
-    const [attachment, setAttachment] = useState('')
-    const [totalDebit, setTotalDebit] = useState(0)
-    const [totalCredit, setTotalCredit] = useState(0)
-    const [desc, setDesc] = useState('')
-    const [name, setName] = useState('')
+    let filteredContacts = dbContacts.filter((item)=>{
+      return item.userEmail === userEmail;
+    })
+    setFilteredContacts(filteredContacts)
 
 
-    // JV
-    const [inputList, setInputList] = useState([
-      { journalNo, journalDate, account: '', credit: 0, debit: 0},
-      { journalNo, journalDate, account: '', credit: 0, debit: 0},
-    ]);
+    if(referCheque){
 
-    // JV
-    const handleChange = (e) => {
-      if(e.target.name === 'journalDate'){
-        setJournalDate(e.target.value)
-      }
-      else if(e.target.name === 'journalNo'){
-        setJournalNo(e.target.value)
-      }
-      else if(e.target.name === 'memo'){
-        setMemo(e.target.value)
-      }
-      else if(e.target.name === 'attachment'){
-        setAttachment(e.target.value)
-      }
-      else if(e.target.name === 'type'){
-        setType(e.target.value)
-      }
-      else if(e.target.name === 'name'){
-        setName(e.target.value)
-      }
-      else if(e.target.name === 'desc'){
-        setDesc(e.target.value)
-      }
-    }
+      let { name, email, amount, creditAccount, debitAccount } = router.query;
 
-    // JV
-    const submit = async(e)=>{
-      e.preventDefault()
-      
-      inputList.forEach(item => {
-        item.date = journalDate;
-      });
+      const invoiceNumber = (filteredInvoices.length + 1).toString().padStart(4, '0');
+      const formattedInvoice = `FUND-${invoiceNumber}`;
+      setJournalNo(formattedInvoice)
+      setEmail(email)
 
-      // fetch the data from form to makes a file in local system
-      const data = { userEmail, totalDebit , totalCredit, inputList, name, desc,  memo, journalDate, journalNo, attachment, path:'journalVoucher' };
-
-      if( totalDebit != totalCredit ){
-        toast.error("Debit Credit values must be equal" , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
-      }
-      else{
-        let res = await fetch(`/api/addEntry`, {
-          method: 'POST',
-          headers:{
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        })
-        let response = await res.json()
-
-        if (response.success === true) {
-          window.location.reload();
-        }
-        else {
-          toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
-        }
-      }
-    }
-
-    // JV
-    const addLines = () => {
-      setInputList([...inputList,
-        {account: '', desc: '', name: '' , credit: 0, debit: 0 },
+      setName(name)
+      setInputList([
+        { journalNo:formattedInvoice, journalDate, account: creditAccount || '', credit: amount || 0, debit: 0},
+        { journalNo:formattedInvoice, journalDate, account: debitAccount || '', credit: 0, debit: amount || 0},
       ])
     }
 
-    const delLines = (indexToDelete) => {
-      const updatedInputList = [...inputList];
-      updatedInputList.splice(indexToDelete, 1);
-      setInputList(updatedInputList);
-    };
+    setContacts(dbContacts, dbEmployees)
+    const myUser = JSON.parse(localStorage.getItem('myUser'))
+    if(myUser.department === 'Admin'){
+      setIsAdmin(true)
+    }
+  }, [router, userEmail])
+  
+    
 
-    // JV
-    const change = (e, index) => {
-      const values = [...inputList];
-      values[index][e.target.name] = e.target.value;
-      setInputList(values);
+  // JV
+  const today = new Date().toISOString().split('T')[0];
+  const [journalDate, setJournalDate] = useState(today)
+  const [journalNo, setJournalNo] = useState('')
+  const [memo, setMemo] = useState('')
+  const [attachment, setAttachment] = useState('')
+  const [totalDebit, setTotalDebit] = useState(0)
+  const [totalCredit, setTotalCredit] = useState(0)
+  const [desc, setDesc] = useState('')
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+
+  // JV
+  const [inputList, setInputList] = useState([
+    { journalNo, journalDate, account: '', credit: 0, debit: 0},
+    { journalNo, journalDate, account: '', credit: 0, debit: 0},
+  ]);
 
 
-      // total Debit
-      var totalDebitValue = 0;
-      var totalCreditValue = 0;
-      for (let index = 0; index < inputList.length; index++) {
-        totalDebitValue += parseInt(inputList[index].debit);
-        totalCreditValue += parseInt(inputList[index].credit);
+  useEffect(() => {
+
+    let totalDebitValue = 0;
+    let totalCreditValue = 0;
+    for (let index = 0; index < inputList.length; index++) {
+      totalDebitValue += parseInt(inputList[index].debit);
+      totalCreditValue += parseInt(inputList[index].credit);
+    }
+    setTotalDebit(totalDebitValue);
+    setTotalCredit(totalCreditValue);
+
+  }, [inputList])
+
+  
+  
+
+  // JV
+  const handleChange = (e) => {
+    if(e.target.name === 'journalDate'){
+      setJournalDate(e.target.value)
+    }
+    else if(e.target.name === 'journalNo'){
+      setJournalNo(e.target.value)
+    }
+    else if(e.target.name === 'memo'){
+      setMemo(e.target.value)
+    }
+    else if(e.target.name === 'attachment'){
+      setAttachment(e.target.value)
+    }
+    else if(e.target.name === 'type'){
+      setType(e.target.value)
+    }
+    else if(e.target.name === 'name'){
+      setName(e.target.value)
+      const newData = dbContacts.filter(item => item.name === e.target.value);
+      if(newData.length > 0){
+        setEmail(newData[0].email)
       }
-      setTotalDebit(totalDebitValue);
-      setTotalCredit(totalCreditValue);
+      else{
+        setEmail('')
+      }
     }
+    else if(e.target.name === 'desc'){
+      setDesc(e.target.value)
+    }
+  }
 
-    const editEntry = async(id)=>{
-      setOpen(true)
+  // JV
+  const submit = async(e)=>{
+    e.preventDefault()
+    
+    inputList.forEach(item => {
+      item.date = journalDate;
+    });
 
-      const data = { id, totalDebit, totalCredit, inputList, name, desc, memo, journalDate, journalNo, attachment ,  path: 'journalVoucher'};
-      
-      let res = await fetch(`/api/editEntry`, {
+    // fetch the data from form to makes a file in local system
+    const data = { userEmail, totalDebit , totalCredit, inputList, chequeStatus, chequeId, name, email, desc,  memo, journalDate, journalNo, attachment, path:'ChequeTransaction' };
+
+    if( totalDebit != totalCredit ){
+      toast.error("Debit Credit values must be equal" , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+    }
+    else{
+      let res = await fetch(`/api/addEntry`, {
         method: 'POST',
-        headers: {
+        headers:{
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       })
-        let response = await res.json()
+      let response = await res.json()
+
+      if (response.success === true) {
+        router.push('?open=false');
+      }
+      else {
+        toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+      }
+    }
+  }
+
+  // JV
+  const addLines = () => {
+    setInputList([...inputList,
+      {account: '', desc: '', name: '' , credit: 0, debit: 0 },
+    ])
+  }
+
+  const delLines = (indexToDelete) => {
+    const updatedInputList = [...inputList];
+    updatedInputList.splice(indexToDelete, 1);
+    setInputList(updatedInputList);
+  };
+
+  // JV
+  const change = (e, index) => {
+    const values = [...inputList];
+    values[index][e.target.name] = e.target.value;
+    setInputList(values);
+  }
+
+  const editEntry = async(id)=>{
+    router.push('?open=true');
+
+    const data = { id, totalDebit, totalCredit, inputList, name, desc, memo, journalDate, journalNo, attachment ,  path: 'ChequeTransaction'};
+    
+    let res = await fetch(`/api/editEntry`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    let response = await res.json()
+    if (response.success === true) {
+      router.push('?open=false');
+    }
+    else {
+      toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+    }
+  }
+
+  const delEntry = async()=>{
+
+    const data = { selectedIds , path: 'ChequeTransaction' };
+    let res = await fetch(`/api/delEntry`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    let response = await res.json()
+
+    if (response.success === true) {
+      window.location.reload();
+    }
+    else {
+      toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+    }
+    
+  }
+
+  const getData = async (id) =>{
+    router.push('?open=true');
+    setIsOpenSaveChange(false)
+
+    const data = { id, path: 'ChequeTransaction' };
+    let res = await fetch(`/api/getDataEntry`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      let response = await res.json()
+
+      if (response.success === true){
+        const dbJournalDate = moment(response.data.journalDate).utc().format('YYYY-MM-DD')
         
-        if (response.success === true) {
-          window.location.reload();
-        }
-        else {
-          toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
-        }
-    }
+        setId(response.data._id)
+        setJournalDate(dbJournalDate)
+        setJournalNo(response.data.journalNo)
+        setInputList(response.data.inputList)
+        setTotalDebit(response.data.totalDebit)
+        setTotalCredit(response.data.totalCredit)
+        setMemo(response.data.memo)
+        setName(response.data.name)
+        setDesc(response.data.desc)
+        setAttachment(response.data.attachment.data)
+      }
+  }
 
-    const delEntry = async()=>{
+  // For print
+  const componentRef = useRef();
+  const speceficComponentRef = useRef();
 
-      const data = { selectedIds , path: 'journalVoucher' };
-      let res = await fetch(`/api/delEntry`, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-        let response = await res.json()
+  const openSettings = async ()=>{
 
-        if (response.success === true) {
-          window.location.reload();
-        }
-        else {
-            toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
-        }
-      
-    }
+    setId('')
+    setJournalDate(today)
 
-    const getData = async (id) =>{
-      setOpen(true)
-      setIsOpenSaveChange(false)
+    // this code do the numbering like that 
+    // FUND-0001 FUND-0002 FUND-0003
+    const invoiceNumber = (filteredInvoices.length + 1).toString().padStart(4, '0');
+    const formattedInvoice = `FUND-${invoiceNumber}`;
+    setJournalNo(formattedInvoice)
 
-      const data = { id, path: 'journalVoucher' };
-      let res = await fetch(`/api/getDataEntry`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-        let response = await res.json()
-
-        if (response.success === true){
-          const dbJournalDate = moment(response.data.journalDate).utc().format('YYYY-MM-DD')
-          
-          setId(response.data._id)
-          setJournalDate(dbJournalDate)
-          setJournalNo(response.data.journalNo)
-          setInputList(response.data.inputList)
-          setTotalDebit(response.data.totalDebit)
-          setTotalCredit(response.data.totalCredit)
-          setMemo(response.data.memo)
-          setName(response.data.name)
-          setDesc(response.data.desc)
-          setAttachment(response.data.attachment.data)
-        }
-    }
-
-    // For print
-    const componentRef = useRef();
-    const speceficComponentRef = useRef();
+    setInputList([
+      {journalNo : formattedInvoice, journalDate: journalDate, account: '', credit: 0, debit: 0},
+      {journalNo : formattedInvoice, journalDate: journalDate, account: '', credit: 0, debit: 0},
+    ])
+    setMemo('')
+    setEmail('')
+    setName('')
+    setTotalDebit(0)
+    setTotalCredit(0)
+    setAttachment('')
+    setIsOpenSaveChange(true)
+  }
 
   return (
     <>
@@ -273,36 +335,18 @@ import useTranslation from 'next-translate/useTranslation';
       <div className="md:grid md:grid-cols-1 md:gap-6">
         <div className="md:col-span-1">
           <div className="px-4 sm:px-0 flex justify-between">
-            <h3 className="text-lg font-bold leading-6 text-gray-900">{t('journalVoucherTitle')}</h3>
-            <button onClick={()=>{
-              setOpen(true)
-              setId('')
-              setJournalDate(today)
-
-              const invoiceNumber = (filteredInvoices.length + 1).toString().padStart(4, '0');
-              const formattedInvoice = `JV-${invoiceNumber}`;
-              setJournalNo(formattedInvoice)
-
-
-              setInputList([
-                {journalNo : formattedInvoice, journalDate: journalDate, account: '', credit: 0, debit: 0},
-                {journalNo : formattedInvoice, journalDate: journalDate, account: '', credit: 0, debit: 0},
-              ])
-              setMemo('')
-              setTotalDebit(0)
-              setTotalCredit(0)
-              setAttachment('')
-              setIsOpenSaveChange(true)
-
-              }} 
-              className={`${isAdmin === false ? 'cursor-not-allowed': ''} bg-blue-800 hover:bg-blue-900 text-white px-14 py-2 rounded-lg`} disabled={isAdmin === false}>
+            <h3 className="text-lg font-bold leading-6 text-gray-900">{t('ChequeTrxTitle')}</h3>
+            <Link
+              onClick={()=>openSettings()}
+              href={'?open=true'}
+              className={`${isAdmin === false ? 'cursor-not-allowed': ''} no-underline bg-blue-800 hover:bg-blue-900 text-white px-14 py-2 rounded-lg`} disabled={isAdmin === false}>
               {t('new')}
-            </button>
+            </Link>
           </div>
         </div>
         <div className="mt-2 md:col-span-2 md:mt-0">
 
-        <div className='flex'>
+          <div className='flex'>
             <button onClick={delEntry}
               className={`${isAdmin === false ? 'cursor-not-allowed': ''} text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}
               >
@@ -315,12 +359,12 @@ import useTranslation from 'next-translate/useTranslation';
                 return <button 
                   type='button'
                   className={`${isAdmin === false ? 'cursor-not-allowed': ''} text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}>
-                    {t('printAll')}
+                  {t('printAll')}
                   <AiOutlinePrinter className='text-lg ml-2'/>
                 </button>
               }}
               content={() => componentRef.current}
-              documentTitle={`${userEmail} - Journal Vouchers`}
+              documentTitle='Cheque Transactions'
               pageStyle='print'
             />
           </div>
@@ -329,33 +373,33 @@ import useTranslation from 'next-translate/useTranslation';
               
               <div className="overflow-x-auto shadow-sm">
                 <table ref={componentRef} className="w-full text-sm text-left text-gray-500 ">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                  <thead className="text-xs text-gray-700 uppercase bg-[#e9ecf7]">
                     <tr>
                       <th scope="col" className="p-4">
                         <div className="flex items-center">
                           <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
                         </div>
                       </th>
-                      <th scope="col" className="px-6 py-3">
+                      <th scope="col" className="px-2 py-3">
                           {t('voucherNo')}
                       </th>
-                      <th scope="col" className="px-6 py-3">
+                      <th scope="col" className="px-2 py-3">
                           {t('date')}
                       </th>
-                      <th scope="col" className="px-6 py-3">
+                      <th scope="col" className="px-2 py-3">
                           {t('name')}
                       </th>
-                      <th scope="col" className="px-6 py-3">
+                      <th scope="col" className="px-2 py-3">
                           {t('account')}
                       </th>
-                      <th scope="col" className="px-6 py-3">
+                      <th scope="col" className="px-2 py-3">
                           {t('totalDebit')}
                       </th>
-                      <th scope="col" className="px-6 py-3">
+                      <th scope="col" className="px-2 py-3">
                           {t('totalCredit')}
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        {t('action')}
+                          {t('action')}
                       </th>
                     </tr>
                   </thead>
@@ -367,22 +411,22 @@ import useTranslation from 'next-translate/useTranslation';
                           <input id="checkbox-table-search-1" type="checkbox" onChange={e => handleRowCheckboxChange(e, item._id)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
                         </div>
                       </td>
-                      <td className="px-6 py-3">
+                      <td className="px-2 py-3">
                         <div className='text-sm text-black font-semibold'>{item.journalNo}</div>
                       </td>
-                      <td className="px-6 py-3">
+                      <td className="px-2 py-3">
                         <div className='text-sm'>{moment(item.journalDate).utc().format('DD-MM-YYYY')}</div>
                       </td>
-                      <td className="px-6 py-3">
+                      <td className="px-2 py-3">
                         <div className='text-sm'>{item.name}</div>
                       </td>
-                      <td className="px-6 py-3">
+                      <td className="px-2 py-3">
                         <div className='text-sm'>{item.inputList[0].account}</div>
                       </td>
-                      <td className="px-6 py-3">
+                      <td className="px-2 py-3">
                         <div className='text-sm text-black font-semibold'>{parseInt(item.totalDebit).toLocaleString()}</div>
                       </td>
-                      <td className="px-6 py-3">
+                      <td className="px-2 py-3">
                         <div className='text-sm text-black font-semibold'>{parseInt(item.totalCredit).toLocaleString()}</div>
                       </td>
                       <td className="flex items-center px-6 mr-5 py-4 space-x-4 rtl:space-x-reverse">
@@ -405,8 +449,8 @@ import useTranslation from 'next-translate/useTranslation';
       </div>
     </div>
 
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-20" onClose={()=>{setOpen(false)}}>
+    <Transition.Root show={open === 'true' ? true : false} as={Fragment}>
+      <Dialog as="div" className="relative z-20" onClose={()=>{router.push('?open=false')}}>
         <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
           <div className="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block" />
         </Transition.Child>
@@ -415,7 +459,7 @@ import useTranslation from 'next-translate/useTranslation';
             <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 translate-y-4 md:translate-y-0 md:scale-95" enterTo="opacity-100 translate-y-0 md:scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 translate-y-0 md:scale-100" leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95">
               <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-5xl">
                 <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
-                  <button type="button" className="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-6 lg:right-8" onClick={() => setOpen(false)}>
+                  <button type="button" className="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-6 lg:right-8" onClick={() => router.push('?open=false')}>
                     <span className="sr-only">Close</span>
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
@@ -469,7 +513,21 @@ import useTranslation from 'next-translate/useTranslation';
                                   </option>
                                 })}
                               </select>
-                            </div> 
+                            </div>
+
+                            <div className="w-1/3">
+                              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                {t('email')}
+                              </label>
+                              <input
+                                type="text"
+                                onChange={handleChange}
+                                name="email"
+                                value={email}
+                                id="email"
+                                className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              />
+                            </div>
                             
                             <div className="w-2/3">
                               <label htmlFor="desc" className="block text-sm font-medium text-gray-700">
@@ -486,6 +544,9 @@ import useTranslation from 'next-translate/useTranslation';
 
                           </div>
 
+
+
+
                           <div className='flex space-x-4 rtl:space-x-reverse my-10'>
                             <table className="w-full text-sm text-left text-gray-500 ">
                               <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -499,57 +560,60 @@ import useTranslation from 'next-translate/useTranslation';
                                   <th scope="col" className="p-2">
                                       {t('credit')}
                                   </th>
-                                  <th scope="col" className="p-2 w-20 py-3">
-                                      {t('addOrDel')}
+                                  <th scope="col" className="p-2 w-20">
+                                      {t('addAndDelete')}
                                   </th>
                                 </tr>
                               </thead>
                             
                               <tbody >
-                                {inputList.map(( inputList , index)=>{
-                                  return <tr key={index} className="bg-white text-black border-b hover:bg-gray-50">
+                              {inputList.map(( inputList , index)=>{
+                                return <tr key={index} className="bg-white text-black border-b hover:bg-gray-50">
+                                
+                                  <td className="p-2 w-1/2">
+                                    <select id="account" name="account" onChange={ e => change(e, index) } value={inputList.account} className="mt-1 p-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                                      <option>select accounts</option>
+                                      {filteredCharts.map((item, index)=>{
+                                        return <option key={index} value={item.accountName}>{item.accountCode} - {item.accountName}</option>
+                                      })}
+                                    </select>
+                                  </td>
+                                  <td className="p-2">
+                                    <input
+                                      type="number"
+                                      onChange={ e=> change(e, index) }
+                                      value={ inputList.debit }
+                                      name="debit"
+                                      id="debit"
+                                      className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    />
+                                  </td>
+
+                                  <td className="p-2">
+                                    <input
+                                      type="number"
+                                      onChange={ e=> change(e, index) }
+                                      value = { inputList.credit }
+                                      name="credit"
+                                      id="credit"
+                                      className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    />
+                                  </td>
+
                                   
-                                    <td className="p-2 w-1/2">
-                                      <select id="account" name="account" onChange={ e => change(e, index) } value={inputList.account} className="mt-1 p-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                        <option>select accounts</option>
-                                        {filteredCharts.map((item, index)=>{
-                                          return <option key={index} value={item.accountName}>{item.accountCode} - {item.accountName}</option>
-                                        })}
-                                      </select>
-                                    </td>
-                                    <td className="p-2">
-                                      <input
-                                        type="number"
-                                        onChange={ e=> change(e, index) }
-                                        value={ inputList.debit }
-                                        name="debit"
-                                        id="debit"
-                                        className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                      />
-                                    </td>
-
-                                    <td className="p-2">
-                                      <input
-                                        type="number"
-                                        onChange={ e=> change(e, index) }
-                                        value = { inputList.credit }
-                                        name="credit"
-                                        id="credit"
-                                        className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                      />
-                                    </td>
-
-                                    <td className="p-1 flex items-center mt-[18px]">
-                                      <button type='button' className='mx-auto' onClick={addLines}><AiOutlinePlusCircle className='text-xl text-green-600'/></button>
-                                      <button type='button' className='mx-auto'><AiOutlineDelete onClick={()=>index != 0 && delLines(index)} className='text-xl text-red-700'/></button>
-                                    </td>
+                                  <td className="p-1 flex items-center mt-[18px]">
+                                    
+                                    <button type='button' className='mx-auto' onClick={addLines}><AiOutlinePlusCircle className='text-xl text-green-600'/></button>
+                                    <button type='button' className='mx-auto'><AiOutlineDelete onClick={()=>index != 0 && delLines(index)} className='text-xl text-red-700'/></button>
+                                  </td>
 
                                 </tr>})}
+                                  
                               </tbody>
                             </table>
                           </div>
 
-                          
+                            
                           <div className='bg-gray-50'>
                             <div className='flex space-x-4 rtl:space-x-reverse py-2 mt-10 justify-end pr-20 '>
                               <div className="w-44">
@@ -621,12 +685,12 @@ import useTranslation from 'next-translate/useTranslation';
                               return <button 
                                 type="button"
                                 className='inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>
-                                  {t('print')}
+                                {t('print')}
                                 <AiOutlinePrinter className='text-lg ml-2'/>
                               </button>
                             }}
                             content={() => speceficComponentRef.current}
-                            documentTitle={`${userEmail} - Journal Voucher`}
+                            documentTitle='Cheque Transaction'
                             pageStyle='print'
                           />
 
@@ -651,8 +715,6 @@ import useTranslation from 'next-translate/useTranslation';
   )
 }
 
-
-
 export async function getServerSideProps() {
   if (!mongoose.connections[0].readyState){
     mongoose.set("strictQuery", false);
@@ -662,6 +724,7 @@ export async function getServerSideProps() {
   let dbContacts = await Contact.find()
   let dbEmployees = await Employees.find()
   let dbCharts = await Charts.find()
+  let dbPaymentMethod = await PaymentMethod.find()
 
   // Pass data to the page via props
   return {
@@ -670,7 +733,9 @@ export async function getServerSideProps() {
       dbContacts: JSON.parse(JSON.stringify(dbContacts)), 
       dbCharts: JSON.parse(JSON.stringify(dbCharts)), 
       dbEmployees: JSON.parse(JSON.stringify(dbEmployees)), 
+      dbPaymentMethod: JSON.parse(JSON.stringify(dbPaymentMethod)), 
     }
   }
-}   
-export default JournalVoucher
+}
+
+export default ChequeTransactions
