@@ -671,13 +671,13 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                     <h3 className="text-lg mx-auto font-black tracking-wide leading-6 text-blue-800">General Ledger Summary</h3>
                 </div>
             </div>
-            <div className='flex justify-between mb-0'>
+            {printButton == true && <div className='flex justify-between mb-0'>
                 
                 <div className='mb-0 ml-2'>
                     <h1 className='text-blue-700 mb-0 mt-2 text-center text-base'>Opening Balance: <span className='font-bold font-sans'>{openingBalance.toLocaleString()}</span></h1>
                 </div>
 
-              {printButton == true ? <ReactToPrint
+               <ReactToPrint
                 trigger={()=>{
                   return <button 
                     type="button"
@@ -689,8 +689,8 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                 content={() => componentRef.current}
                 documentTitle={`${userEmail} (${account}) - Ledger`}
                 pageStyle='print'
-                />: ''}
-            </div>
+                />
+            </div>}
         </div>
         <div className="md:col-span-2">
             <form method="POST">
