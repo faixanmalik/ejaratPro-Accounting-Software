@@ -412,7 +412,7 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
                         <div className="grid grid-cols-6 gap-6">
                           <div className="col-span-2">
                             <label htmlFor="code" className="block text-sm font-medium text-gray-700">
-                              {t('code')} (required)
+                              {t('code')} *
                             </label>
                             <input
                               value={code}
@@ -443,7 +443,7 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
                           
                           <div className="col-span-2">
                             <label htmlFor="linkAccount" className="block text-sm font-medium text-gray-700">
-                              {t('linkedAccount')}
+                              {t('linkedAccount')} *
                             </label>
                             <select
                               onChange={handleChange}
@@ -451,8 +451,9 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
                               id="linkAccount"
                               name="linkAccount"
                               className="mt-1 p-2 block w-full rounded-md border border-gray-300 bg-white px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                              required
                             >
-                                <option>Select account</option>
+                              <option value="" disabled>Select account</option>
                               {filteredCharts.map((item, index)=>{
                                 return <option key={index} value={item.accountName}>{item.accountCode} - {item.accountName}</option>
                               })}
