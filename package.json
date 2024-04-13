@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "engines": {
-    "node": "^21.2.0",
+    "node": "20.x",
     "npm": "^10.2.5"
   },
   "dependencies": {
