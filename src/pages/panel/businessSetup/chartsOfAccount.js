@@ -63,6 +63,57 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
   }, [filterCharts, userEmail]);
 
 
+  useEffect(() => {
+
+    const assetsTotal = filteredInvoices.reduce((total, item) => {
+      if (item.account === 'Assets') {
+        return total + item.balance;
+      }
+      return total;
+    }, 0);
+
+    const liabilitiesTotal = filteredInvoices.reduce((total, item) => {
+      if (item.account === 'Liabilities') {
+        return total + item.balance;
+      }
+      return total;
+    }, 0);
+
+    let retainedBalance = assetsTotal - liabilitiesTotal;
+
+
+    const getRetainedEarning = filteredInvoices.filter((item)=>{
+      return item.accountName === 'Retained Earnings';
+    })
+
+    if(getRetainedEarning.length > 0){
+      let retainedId = getRetainedEarning[0]._id;
+      let dbBalance = getRetainedEarning[0].balance;
+      
+      
+      if(retainedBalance != dbBalance){
+        setRetainedBalance(retainedId, retainedBalance)
+      }
+    }
+
+  }, [filteredInvoices])
+
+
+  const setRetainedBalance = async(id, updatedBalance)=>{
+
+    const data = { id, updatedBalance, path:'retainedBalance' };
+
+    let res = await fetch(`/api/editEntry`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    let response = await res.json()     
+  }
+
+
 
   // Forms Usestates
   const [accountCode, setAccountCode] = useState('')
@@ -75,6 +126,8 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
 
   const [selectedIds, setSelectedIds] = useState([]);
   const [isOpenSaveChange, setIsOpenSaveChange] = useState(true)
+
+
   
 
   function handleRowCheckboxChange(e, id) {

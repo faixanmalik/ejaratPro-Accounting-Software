@@ -30,22 +30,10 @@ export default async function handler(req, res) {
         
         if(path === 'chartsOfAccounts'){
 
-            const { accountCode, accountName, account, balance , asof, desc, subAccount } = req.body;
-
-            let dbChart = await Charts.findOne({"accountCode": accountCode})
-        
-            if(dbChart){
-                if( accountName == dbChart.accountName && account == dbChart.account && balance == dbChart.balance && desc == dbChart.desc &&  subAccount == dbChart.subAccount){
-                        res.status(400).json({ success: false, message: "Already In Charts of accounts!" }) 
-                    }
-                    else{
-                        let editChart =  await Charts.findOneAndUpdate({accountCode: dbChart.accountCode}, {accountName : accountName , account : account , balance : balance , asof : asof , desc : desc , subAccount : subAccount})
-                        res.status(200).json({ success: true, message: "Update Successfully!", editChart }) 
-                    }
-                }
-            else{
-                res.status(400).json({ success: false, message: "Cannot change Account Code!" }) 
-            }
+            const { id } = req.body;
+            await Charts.updateOne({ _id: id }, req.body);
+            res.status(200).json({ success: true, message: "Update Successfully!" }) 
+  
         }
         else if (path === 'contactList'){
 
@@ -201,6 +189,16 @@ export default async function handler(req, res) {
                 await Cheque.findByIdAndUpdate(newItem, {chequeStatus: changeStatus});
             })
             res.status(200).json({ success: true, message: "Edit Successfully !" }) 
+        }
+
+
+
+        else if (path === 'retainedBalance'){
+
+            const { id, updatedBalance } = req.body;
+            await Charts.findByIdAndUpdate(id, {balance: updatedBalance});
+  
+            res.status(200).json({ success: true, message: "Update Successfully!" }) 
         }
 
 
