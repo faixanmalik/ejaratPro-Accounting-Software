@@ -38,13 +38,27 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
     const [newEntry, setNewEntry] = useState([])
     const [coaAccount, setCoaAccount] = useState('')
     const [filteredCharts, setFilteredCharts] = useState([])
+    const [openingBalance, setOpeningBalance] = useState(0)
+
+
+
+    useEffect(() => {
+
+        let filteredCharts = dbCharts.filter((item)=>{
+        return item.userEmail === userEmail;
+        })
+        setFilteredCharts(filteredCharts)
+    
+    }, [userEmail])
     
 
 
     useEffect(() => {
 
+        
+
         if(account != 'Cash' && account != 'Bank' ){
-            const dbchart = dbCharts.filter((data) => {
+            const dbchart = filteredCharts.filter((data) => {
                 if (data.accountName === account) {
                     return data.account;
                 }
@@ -65,7 +79,7 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
         }
 
 
-        const checkAccount = dbCharts.filter((data) => {
+        const checkAccount = filteredCharts.filter((data) => {
             if (data.accountName === account) {
                 return data.account;
             }
@@ -76,19 +90,17 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
 
     }, [account, dbAccount])
 
-    useEffect(() => {
-
-        let filteredCharts = dbCharts.filter((item)=>{
-        return item.userEmail === userEmail;
-        })
-        setFilteredCharts(filteredCharts)
-    
-    }, [userEmail])
-
-
 
     let dbAllEntries = [];
     const submit = ()=>{
+
+        const filterAccount = filteredCharts.filter((item)=> {
+            return item.accountName === account
+        })
+        if(filterAccount.length > 0){
+            const openingBalance = filterAccount[0].balance;
+            setOpeningBalance(openingBalance)
+        }
 
         setPrintButton(true);
 
@@ -654,10 +666,17 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
 
     <div className="md:grid md:grid-cols-1 md:gap-2">
         <div className="md:col-span-1">
-            <div className="px-4 mt-4 sm:px-0 flex">
-                <h3 className="text-lg mx-auto font-black tracking-wide leading-6 text-blue-800">{t('generalLedgerTitle')}</h3>
+            <div className="md:col-span-1">
+                <div className="px-4 mt-4 sm:px-0 flex">
+                    <h3 className="text-lg mx-auto font-black tracking-wide leading-6 text-blue-800">General Ledger Summary</h3>
+                </div>
             </div>
-            <div className='flex justify-end'>
+            <div className='flex justify-between mb-0'>
+                
+                <div className='mb-0 ml-2'>
+                    <h1 className='text-blue-700 mb-0 mt-2 text-center text-base'>Opening Balance: <span className='font-bold font-sans'>{openingBalance.toLocaleString()}</span></h1>
+                </div>
+
               {printButton == true ? <ReactToPrint
                 trigger={()=>{
                   return <button 
