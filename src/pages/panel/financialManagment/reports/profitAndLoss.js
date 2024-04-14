@@ -871,7 +871,7 @@ const ProfitAndLoss = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                             })}
                         </table>
 
-                        <div className='w-11/12 py-4 space-y-3'>
+                        {sortedDbCharts.length != 0  ? <div className='w-11/12 py-4 space-y-3'>
 
                           <div className={`text-sm border-b-2 border-gray-700 text-end font-bold ${grossProfit > 0 ? 'text-green-700' : 'text-red-700'}`}>
                             {t('gross')} {grossProfit > 0 ? t('profit') : t('loss')}:
@@ -887,7 +887,7 @@ const ProfitAndLoss = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                             {t('net')} {profitBeforeTax > 0 ? t('profit') : t('loss')}:
                             <span className='font-bold ml-1'>${profitBeforeTax.toLocaleString()}</span>
                           </div>
-                        </div>
+                        </div> : ''}
 
                         { sortedDbCharts.length === 0  ? <h1 className='text-red-600 text-center text-base my-3'>No data found!</h1> : ''}
                     </div>
