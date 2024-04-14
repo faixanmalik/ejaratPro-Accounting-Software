@@ -536,6 +536,9 @@ const TrialBalance = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
           dbAllEntries.sort((a, b) => new Date(a.date) - new Date(b.date));
 
 
+          // openingBalance
+          let openingBalance = element.balance;
+
           // Balance
           let result = [];
           if(dbAllEntries.length > 0){
@@ -551,10 +554,10 @@ const TrialBalance = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                       let totalBalance;
 
                       if(element.account === 'Incomes' || element.account === 'Equity' || element.account === 'Liabilities'){
-                          totalBalance = currentCreditEntry - currentDebitEntry;
+                          totalBalance = openingBalance + currentCreditEntry - currentDebitEntry;
                       }
                       else{
-                          totalBalance = currentDebitEntry - currentCreditEntry;
+                          totalBalance = openingBalance + currentDebitEntry - currentCreditEntry;
                       }
 
                       initialBalance = totalBalance;
@@ -573,6 +576,9 @@ const TrialBalance = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                       result.push(totalBalance);
                   }
               }
+          }
+          else{
+            result.push(openingBalance)
           }
           balance.push(result);
       });
@@ -597,17 +603,19 @@ const TrialBalance = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
 
     useEffect(() => {
 
-        let totalDebit = 0;
-        let totalCredit = 0;
-        
-        for (let i = 0; i < filteredCharts.length; i++) {
-          totalDebit += filteredCharts[i].debitBalance;
-          totalCredit += filteredCharts[i].creditBalance;
-        }
-        
-        
-        setDebitSum(totalDebit);
-        setCreditSum(totalCredit);
+      let totalDebit = 0;
+      let totalCredit = 0;
+
+      filteredCharts.forEach(element => {
+        totalDebit += Math.abs(element.debitBalance);
+        totalCredit += Math.abs(element.creditBalance);
+      });
+
+      let roundTotalDebit = Math.round(totalDebit * 100) / 100
+      let roundTotalCredit = Math.round(totalCredit * 100) / 100
+
+      setDebitSum(roundTotalDebit);
+      setCreditSum(roundTotalCredit);
   
     }, [filteredCharts]);
 
@@ -730,23 +738,29 @@ const TrialBalance = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                 {/* All Vouchers */}
                                 {filteredCharts.map((item,index) => {
 
-                                    if(item.accountName != 'Profit for the year'){
+                                  let debitBalance = Math.round(item.debitBalance * 100) / 100
+                                  let creditBalance = Math.round(item.creditBalance * 100) / 100
 
-                                        return <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                                            <td className="px-6 py-3">
-                                                <div className='font-semibold'>{item.accountName}</div>
-                                            </td>
-                                            <td className="px-6 py-3">
-                                                <div className='text-black font-semibold'>{item.subAccount}</div>
-                                            </td>
-                                            <td className="px-6 py-3 text-blue-700 font-bold">
-                                                { item.debitBalance ? Math.abs(item.debitBalance).toLocaleString() : 0}
-                                            </td>
-                                            <td className="px-6 py-3 text-blue-700 font-bold">
-                                                { item.creditBalance ? Math.abs(item.creditBalance).toLocaleString() : 0}
-                                            </td>
-                                        </tr>
-                                    }
+                                  return <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                                    <td className="px-6 py-3">
+                                        <div className='font-semibold'>{item.accountName}</div>
+                                    </td>
+                                    <td className="px-6 py-3">
+                                        <div className='text-black font-semibold'>{item.subAccount}</div>
+                                    </td>
+                                    <td className="px-6 py-3 text-blue-700 font-bold">
+                                      { item.debitBalance 
+                                        ? (Math.abs(debitBalance)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                                        : 0
+                                      }
+                                    </td>
+                                    <td className="px-6 py-3 text-blue-700 font-bold">
+                                      { item.creditBalance 
+                                        ? (Math.abs(creditBalance)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                                        : 0
+                                      }
+                                    </td>
+                                  </tr>
                                 })}
 
                             </tbody>
