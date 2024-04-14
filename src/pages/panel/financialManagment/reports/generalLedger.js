@@ -700,22 +700,22 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                         <table className="w-full text-sm text-left text-gray-500 ">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="px-6 print:px-2 py-3">
                                         {t('voucherNo')}
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="px-6 print:px-2 py-3">
                                         {t('products')}
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="px-6 print:px-2 py-3">
                                         {t('date')}
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="px-6 print:px-2 py-3">
                                         {t('debit')}
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="px-6 print:px-2 py-3">
                                         {t('credit')}
                                     </th>
-                                    <th scope="col" className="px-6 py-3 text-blue-800 font-bold">
+                                    <th scope="col" className="px-6 print:px-2 py-3 text-blue-800 font-bold">
                                         {t('balance')}
                                     </th>
                                 </tr>
@@ -724,6 +724,9 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
 
                                 {/* All Vouchers */}
                                 { newEntry.map((item, index) => {
+
+                                    let debit = Math.round(item.debit * 100) / 100;
+                                    let credit = Math.round(item.credit * 100) / 100;
 
                                     let previousBalance = openingBalance;
                                     newEntry.forEach((item) => {
@@ -737,26 +740,32 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                                     });
 
                                     return <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                                        <td className="px-6 py-3">
+                                        <td className="px-6 print:px-2 py-3">
                                             {item.journalNo ? item.journalNo : item.billNo}
                                         </td>
-                                        <td className="px-6 py-3">
+                                        <td className="px-6 print:px-2 py-3">
                                             <div className='text-blue-700 font-bold'>{item.products ? item.products : item.account}</div>
                                         </td>
-                                        <td className="px-6 py-3">
+                                        <td className="px-6 print:px-2 py-3">
                                             {item.date 
                                               ? moment(item.date).format('DD-MM-YYYY')
                                               : moment(item.journalDate).format('DD-MM-YYYY')
                                             }
                                         </td>
-                                        <td className="px-6 py-3">
-                                            {parseInt(item.debit).toLocaleString()}
+                                        <td className="px-6 print:px-2 py-3">
+                                          {
+                                            (debit).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                                          }
                                         </td>
-                                        <td className="px-6 py-3">
-                                            {parseInt(item.credit).toLocaleString()}
+                                        <td className="px-6 print:px-2 py-3">
+                                          {
+                                            (credit).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                                          }
                                         </td>
-                                        <td className="px-6 py-3 bg-gray-50 text-blue-700 font-bold">
-                                            {parseInt(item.balance).toLocaleString()}
+                                        <td className="px-6 print:px-2 py-3 bg-gray-50 text-blue-700 font-bold">
+                                            {
+                                                Math.abs(item.balance).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                                            }
                                         </td>
                                     </tr>
                                 })}

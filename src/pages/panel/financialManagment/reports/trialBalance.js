@@ -719,16 +719,16 @@ const TrialBalance = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                         <table className="w-full text-sm text-left text-gray-500 ">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="px-6 print:px-2 py-3">
                                         {t('accountName')}
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="px-6 print:px-2 py-3">
                                         {t('subAccount')}
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="px-6 print:px-2 py-3">
                                         {t('debit')}
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="px-6 print:px-2 py-3">
                                         {t('credit')}
                                     </th>
                                 </tr>
@@ -742,19 +742,19 @@ const TrialBalance = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                   let creditBalance = Math.round(item.creditBalance * 100) / 100
 
                                   return <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                                    <td className="px-6 py-3">
+                                    <td className="px-6 print:px-2 py-3">
                                         <div className='font-semibold'>{item.accountName}</div>
                                     </td>
-                                    <td className="px-6 py-3">
+                                    <td className="px-6 print:px-2 py-3">
                                         <div className='text-black font-semibold'>{item.subAccount}</div>
                                     </td>
-                                    <td className="px-6 py-3 text-blue-700 font-bold">
+                                    <td className="px-6 print:px-2 py-3 text-blue-700 font-bold">
                                       { item.debitBalance 
                                         ? (Math.abs(debitBalance)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                                         : 0
                                       }
                                     </td>
-                                    <td className="px-6 py-3 text-blue-700 font-bold">
+                                    <td className="px-6 print:px-2 py-3 text-blue-700 font-bold">
                                       { item.creditBalance 
                                         ? (Math.abs(creditBalance)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                                         : 0
