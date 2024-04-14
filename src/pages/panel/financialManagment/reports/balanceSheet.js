@@ -544,6 +544,10 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
             // Date filter
             dbAllEntries.sort((a, b) => new Date(a.date) - new Date(b.date));
 
+
+            // openingBalance
+            let openingBalance = element.balance;
+
             // Balance
             let result = [];
             if(dbAllEntries.length > 0){
@@ -559,10 +563,10 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                         let totalBalance;
 
                         if(element.account === 'Incomes' || element.account === 'Equity' || element.account === 'Liabilities'){
-                            totalBalance = currentCreditEntry - currentDebitEntry;
+                            totalBalance = openingBalance + currentCreditEntry - currentDebitEntry;
                         }
                         else{
-                            totalBalance = currentDebitEntry - currentCreditEntry;
+                            totalBalance = openingBalance + currentDebitEntry - currentCreditEntry;
                         }
 
                         initialBalance = totalBalance;
@@ -581,6 +585,9 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                         result.push(totalBalance);
                     }
                 }
+            }
+            else{
+                result.push(openingBalance)
             }
             balance.push(result);
         });

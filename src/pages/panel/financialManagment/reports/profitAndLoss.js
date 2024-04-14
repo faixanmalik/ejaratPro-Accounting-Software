@@ -537,6 +537,8 @@ const ProfitAndLoss = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
             // Date filter
             dbAllEntries.sort((a, b) => new Date(a.date) - new Date(b.date));
 
+            // openingBalance
+            let openingBalance = element.balance;
 
             // Balance
             let result = [];
@@ -553,10 +555,10 @@ const ProfitAndLoss = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                         let totalBalance;
 
                         if(element.account === 'Incomes' || element.account === 'Equity' || element.account === 'Liabilities'){
-                            totalBalance = currentCreditEntry - currentDebitEntry;
+                            totalBalance = openingBalance + currentCreditEntry - currentDebitEntry;
                         }
                         else{
-                            totalBalance = currentDebitEntry - currentCreditEntry;
+                            totalBalance = openingBalance + currentDebitEntry - currentCreditEntry;
                         }
 
                         initialBalance = totalBalance;
@@ -575,6 +577,9 @@ const ProfitAndLoss = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                         result.push(totalBalance);
                     }
                 }
+            }
+            else{
+                result.push(openingBalance)
             }
             balance.push(result);
         });
