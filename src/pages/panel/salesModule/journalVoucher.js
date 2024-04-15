@@ -87,6 +87,24 @@ import useTranslation from 'next-translate/useTranslation';
       { journalNo, journalDate, account: '', credit: 0, debit: 0},
     ]);
 
+
+    const [searchInput, setSearchInput] = useState('');
+
+    const handleSearch = (e) => {
+      const inputValue = e.target.value;
+  
+      setSearchInput(inputValue);
+      let filtered = dbVouchers.filter(item => item.userEmail === userEmail);
+      
+      if (inputValue != '') {
+        filtered = filtered.filter(item => {
+          return item.journalNo.toLowerCase().includes(inputValue.toLowerCase())
+        });
+      }
+  
+      setFilteredInvoices(filtered);
+    };
+
     // JV
     const handleChange = (e) => {
       if(e.target.name === 'journalDate'){
@@ -302,28 +320,45 @@ import useTranslation from 'next-translate/useTranslation';
         </div>
         <div className="mt-2 md:col-span-2 md:mt-0">
 
-        <div className='flex'>
-            <button onClick={delEntry}
-              className={`${isAdmin === false ? 'cursor-not-allowed': ''} text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}
-              >
-                {t('delete')}
-              <AiOutlineDelete className='text-lg ml-2'/>
-            </button>
-
-            <ReactToPrint
-              trigger={()=>{
-                return <button 
-                  type='button'
-                  className={`${isAdmin === false ? 'cursor-not-allowed': ''} text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}>
-                    {t('printAll')}
-                  <AiOutlinePrinter className='text-lg ml-2'/>
+          <div className='flex justify-between'>
+            <div className='w-full'>
+              <input
+                type="text"
+                value={searchInput}
+                className='w-1/2 bg-transparent text-gray-700 border-2 border-blue-800 outline-none font-semibold rounded-lg text-sm px-3 py-2 mb-2'
+                onChange={handleSearch}
+                placeholder="Search..."
+              />
+            </div>
+            <div className='flex items-center space-x-2 rtl:space-x-reverse mb-1'>
+              <div className=''>
+                <button type="button" onClick={() => delEntry()}
+                className={`${isAdmin === false ? 'cursor-not-allowed': ''} text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}
+                >
+                  {t('delete')}
+                  <AiOutlineDelete className='text-lg ml-2'/>
                 </button>
-              }}
-              content={() => componentRef.current}
-              documentTitle={`${userEmail} - Journal Vouchers`}
-              pageStyle='print'
-            />
+              </div>
+              <div className=''>
+                <ReactToPrint
+                  trigger={()=>{
+                    return <button 
+                      type='button'
+                      className={`${isAdmin === false ? 'cursor-not-allowed': ''} w-32 text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-3 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}>
+                      {t('printAll')}
+                      <AiOutlinePrinter className='text-lg ml-2'/>
+                    </button>
+                  }}
+                  content={() => componentRef.current}
+                  documentTitle={`${userEmail} - Journal Vouchers`}
+                  pageStyle='print'
+                />
+              </div>
+            </div>
           </div>
+
+
+
           <form method="POST">
             <div className="overflow-hidden shadow sm:rounded-md">
               

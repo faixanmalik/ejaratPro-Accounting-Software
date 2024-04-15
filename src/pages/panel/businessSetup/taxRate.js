@@ -57,6 +57,24 @@ const TaxRate = ({ userEmail, dbTaxRate, charts}) => {
 
   }, [userEmail]);
 
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleSearch = (e) => {
+    const inputValue = e.target.value;
+
+    setSearchInput(inputValue);
+    
+    let filtered = dbTaxRate.filter(item => item.userEmail === userEmail);
+    
+    if (inputValue != '') {
+      filtered = filtered.filter(item => {
+        return item.name.toLowerCase().includes(inputValue.toLowerCase())
+      });
+    }
+
+    setFilteredInvoices(filtered);
+  };
+
   
   function handleRowCheckboxChange(e, id) {
     if (e.target.checked) {
@@ -261,38 +279,50 @@ const TaxRate = ({ userEmail, dbTaxRate, charts}) => {
         <div className="mt-2 md:col-span-2 md:mt-0">
 
 
-          <div className='flex items-center space-x-2 rtl:space-x-reverse mb-1'>
-            <div>
-              <DownloadTableExcel
-                filename="Bank Account"
-                sheet="Bank Account"
-                currentTableRef={tableRef.current}>
-                <button type="button" className="text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2">
-                  {t('export')}
-                  <BiExport className='text-lg ml-2'/>
-                </button>
-
-              </DownloadTableExcel>
+          <div className='flex justify-between'>
+            <div className='w-full'>
+              <input
+                type="text"
+                value={searchInput}
+                className='w-1/2 bg-transparent text-gray-700 border-2 border-blue-800 outline-none font-semibold rounded-lg text-sm px-3 py-2 mb-2'
+                onChange={handleSearch}
+                placeholder="Search..."
+              />
             </div>
-            <div className=''>
-              <button type="button" onClick={handleClick} 
-                className={`${isAdmin === false ? 'cursor-not-allowed': ''} text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}>
-                  {t('import')}
-                <BiImport className='text-lg ml-2'/>
-              </button>
-              <input type="file"
-                ref={hiddenFileInput}
-                onChange={handleFileChange}
-                style={{display:'none'}} 
-              /> 
-            </div>
-            <div className=''>
-              <button button type="button" onClick={delEntry}
+            <div className='flex items-center space-x-2 rtl:space-x-reverse mb-1'>
+              <div className=''>
+                <button type="button" onClick={delEntry}
                 className={`${isAdmin === false ? 'cursor-not-allowed': ''} text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}
                 >
-                {t('delete')}
-                <AiOutlineDelete className='text-lg ml-2'/>
-              </button>
+                  {t('delete')}
+                  <AiOutlineDelete className='text-lg ml-2'/>
+                </button>
+              </div>
+              <div>
+                <DownloadTableExcel
+                  filename="Taxes"
+                  sheet="Taxes"
+                  currentTableRef={tableRef.current}>
+                  <button type="button" className="text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2">
+                    {t('export')}
+                    <BiExport className='text-lg ml-2'/>
+                  </button>
+
+                </DownloadTableExcel>
+              </div>
+              <div className=''>
+                <button type="button" onClick={handleClick} 
+                  className={`${isAdmin === false ? 'cursor-not-allowed': ''} text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}>
+                    {t('import')}
+                  <BiImport className='text-lg ml-2'/>
+                </button>
+                <input type="file"
+                  ref={hiddenFileInput}
+                  onChange={handleFileChange}
+                  style={{display:'none'}} 
+                /> 
+              </div>
+              
             </div>
           </div>
 

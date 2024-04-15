@@ -54,11 +54,15 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
       setIsAdmin(true)
     }
 
-    let filteredInvoices = allCharts.filter((item)=>{
-      return item.userEmail === userEmail;
-    })
-    filteredInvoices.sort((a, b) => a.accountCode - b.accountCode);
-    setFilteredInvoices(filteredInvoices)
+    // let filteredInvoices = allCharts.filter((item)=>{
+    //   return item.userEmail === userEmail;
+    // })
+    // filteredInvoices.sort((a, b) => a.accountCode - b.accountCode);
+    // setFilteredInvoices(filteredInvoices)
+
+    let filtered = allCharts.filter(item => item.userEmail === userEmail);
+    filtered.sort((a, b) => a.accountCode - b.accountCode);
+    setFilteredInvoices(filtered);
 
   }, [filterCharts, userEmail]);
 
@@ -114,7 +118,6 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
   }
 
 
-
   // Forms Usestates
   const [accountCode, setAccountCode] = useState('')
   const [accountName, setAccountName] = useState('')
@@ -126,6 +129,26 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
 
   const [selectedIds, setSelectedIds] = useState([]);
   const [isOpenSaveChange, setIsOpenSaveChange] = useState(true)
+
+
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleSearch = (e) => {
+    const inputValue = e.target.value;
+
+    setSearchInput(inputValue);
+    
+    let filtered = allCharts.filter(item => item.userEmail === userEmail);
+    filtered.sort((a, b) => a.accountCode - b.accountCode);
+    
+    if (inputValue != '') {
+      filtered = filtered.filter(item => {
+        return item.accountName.toLowerCase().includes(inputValue.toLowerCase())
+      });
+    }
+
+    setFilteredInvoices(filtered);
+  };
 
 
   
@@ -154,7 +177,7 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
       const parsedData = utils.sheet_to_json(worksheet, {header: 1});
 
       const header = ['accountCode','accountName', 'account', 'subAccount' , 'balance']
-      const heads = header.map((head, index) => ({ title: head, entry: head, key: index }));
+      // const heads = header.map((head, index) => ({ title: head, entry: head, key: index }));
 
       parsedData.splice(0,1)
       convertToJson(header, parsedData)
@@ -386,41 +409,57 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
           </div>
         </div>
         <div className="mt-2 md:col-span-2 md:mt-0">
-          <div className='flex items-center space-x-2 rtl:space-x-reverse mb-1'>
-            <div>
-              <DownloadTableExcel
-                filename="Charts Of Accounts"
-                sheet="Charts Of Accounts"
-                currentTableRef={tableRef.current}>
-                <button type="button" className="text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2">
-                  {t('export')}
-                  <BiExport className='text-lg ml-2'/>
+
+          <div className='flex justify-between'>
+
+            <div className='w-full'>
+              <input
+                type="text"
+                value={searchInput}
+                className='w-1/2 bg-transparent text-gray-700 border-2 border-blue-800 outline-none font-semibold rounded-lg text-sm px-3 py-2 mb-2'
+                onChange={handleSearch}
+                placeholder="Search..."
+              />
+            </div>
+            <div className='flex items-center space-x-2 rtl:space-x-reverse mb-1'>
+              <div className=''>
+                <button type="button" onClick={delEntry}
+                className={`${isAdmin === false ? 'cursor-not-allowed': ''} text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}
+                >
+                  {t('delete')}
+                  <AiOutlineDelete className='text-lg ml-2'/>
                 </button>
+              </div>
+              <div>
+                <DownloadTableExcel
+                  filename="Charts Of Accounts"
+                  sheet="Charts Of Accounts"
+                  currentTableRef={tableRef.current}>
+                  <button type="button" className="text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2">
+                    {t('export')}
+                    <BiExport className='text-lg ml-2'/>
+                  </button>
 
-              </DownloadTableExcel>
+                </DownloadTableExcel>
+              </div>
+              <div className=''>
+                <button type="button" onClick={handleClick} 
+                  className={`${isAdmin === false ? 'cursor-not-allowed': ''} text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}>
+                    {t('import')}
+                  <BiImport className='text-lg ml-2'/>
+                </button>
+                <input type="file"
+                  ref={hiddenFileInput}
+                  onChange={handleFileChange}
+                  style={{display:'none'}} 
+                /> 
+              </div>
+              
             </div>
-            <div className=''>
-              <button type="button" onClick={handleClick} 
-                className={`${isAdmin === false ? 'cursor-not-allowed': ''} text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}>
-                  {t('import')}
-                <BiImport className='text-lg ml-2'/>
-              </button>
-              <input type="file"
-                ref={hiddenFileInput}
-                onChange={handleFileChange}
-                style={{display:'none'}} 
-              /> 
-            </div>
-            <div className=''>
-              <button type="button" onClick={delEntry}
-              className={`${isAdmin === false ? 'cursor-not-allowed': ''} text-blue-800 flex hover:text-white border-2 border-blue-800 hover:bg-blue-800 font-semibold rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2`} disabled={isAdmin === false}
-              >
-                {t('delete')}
-                <AiOutlineDelete className='text-lg ml-2'/>
-              </button>
-            </div>
-
           </div>
+
+
+          
           <form method="POST">
             <div className="overflow-hidden shadow sm:rounded-md">
 
