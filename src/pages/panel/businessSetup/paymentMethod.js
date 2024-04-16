@@ -196,7 +196,7 @@ const PaymentMethod = ({ userEmail, dbPaymentMethods, charts}) => {
       `}</style>
     <FullLayout>
     {/* React tostify */}
-    <ToastContainer position="bottom-center" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
+    <ToastContainer position="top-right" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
 
     <div className="mt-10 sm:mt-0">
       <div className="md:grid md:grid-cols-1 md:gap-6">
