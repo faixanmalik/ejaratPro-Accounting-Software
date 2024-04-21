@@ -29,7 +29,7 @@ import useTranslation from 'next-translate/useTranslation';
   }
 
 
-  const SalesInvoice = ({ userEmail, dbVouchers, dbProducts, dbPaymentMethod, dbContacts, dbEmployees, dbTaxRate, dbProject }) => {
+  const SalesInvoice = ({ setIsLoading, userEmail, dbVouchers, dbProducts, dbPaymentMethod, dbContacts, dbEmployees, dbTaxRate, dbProject }) => {
 
     const router = useRouter();
     const { t } = useTranslation('modules')
