@@ -397,7 +397,7 @@ import useTranslation from 'next-translate/useTranslation';
         window.location.reload();
       }
       else {
-        toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -419,7 +419,7 @@ import useTranslation from 'next-translate/useTranslation';
         window.location.reload();
       }
       else {
-        toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -439,7 +439,7 @@ import useTranslation from 'next-translate/useTranslation';
         window.location.reload();
       }
       else {
-        toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -599,7 +599,7 @@ import useTranslation from 'next-translate/useTranslation';
         setUnitType('')
       }
       else{
-        toast.error('Please Enter Details', { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error('Please Enter Details', { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -612,7 +612,7 @@ import useTranslation from 'next-translate/useTranslation';
         setUnitUse('')
       }
       else{
-        toast.error('Please Enter Details', { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error('Please Enter Details', { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -625,7 +625,7 @@ import useTranslation from 'next-translate/useTranslation';
         setCountry('')
       }
       else{
-        toast.error('Please Enter Details', { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error('Please Enter Details', { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -638,7 +638,7 @@ import useTranslation from 'next-translate/useTranslation';
         setCity('')
       }
       else{
-        toast.error('Please Enter Details', { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error('Please Enter Details', { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -651,7 +651,7 @@ import useTranslation from 'next-translate/useTranslation';
         setArea('')
       }
       else{
-        toast.error('Please Enter Details', { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error('Please Enter Details', { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -2301,7 +2301,7 @@ import useTranslation from 'next-translate/useTranslation';
       e.preventDefault();
       
       if(selectedIds.length > 1){
-        toast.error('select only 1 item' , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error('select only 1 item' , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
       else{
         setOpenNewContract(true);
@@ -2344,7 +2344,7 @@ import useTranslation from 'next-translate/useTranslation';
         router.push(`/panel/salesModule/creditSaleInvoice?${query}`);
       }
       else {
-        toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -2363,7 +2363,7 @@ import useTranslation from 'next-translate/useTranslation';
     <FullLayout>
 
       {/* React tostify */}
-      <ToastContainer position="bottom-center" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
+      <ToastContainer position="top-right" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
 
       <div className="mt-10 sm:mt-0">
         <div className="md:grid md:grid-cols-1 md:gap-6">

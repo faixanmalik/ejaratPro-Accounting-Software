@@ -359,7 +359,7 @@ import useTranslation from 'next-translate/useTranslation';
         window.location.reload();
       }
       else {
-        toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -1166,7 +1166,7 @@ import useTranslation from 'next-translate/useTranslation';
     
       if (selectedIds.length > 1) {
         toast.error('Select only 1 item', {
-          position: "bottom-center",
+          position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -1224,7 +1224,7 @@ import useTranslation from 'next-translate/useTranslation';
         
       }
       else {
-        toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -1311,7 +1311,7 @@ import useTranslation from 'next-translate/useTranslation';
     <FullLayout>
 
       {/* React tostify */}
-      <ToastContainer position="bottom-center" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
+      <ToastContainer position="top-right" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
 
       <div className="mt-10 sm:mt-0">
         <div className="md:grid md:grid-cols-1 md:gap-6">

@@ -28,10 +28,18 @@ import useTranslation from 'next-translate/useTranslation';
     return classes.filter(Boolean).join(' ')
   }
 
-  const CreditSalesInvoice = ({ userEmail, dbVouchers, dbProducts, dbContacts, dbEmployees, dbTaxRate }) => {
+  const CreditSalesInvoice = ({ isLoading, setIsLoading, userEmail, dbVouchers, dbProducts, dbContacts, dbEmployees, dbTaxRate }) => {
 
     const router = useRouter();
     const { t } = useTranslation('modules')
+    
+    setIsLoading(true); 
+    
+
+    useEffect(() => {
+      console.log(isLoading); // This will log the updated state after it's been set
+    }, [isLoading]);
+    
 
     const searchParams = useSearchParams()
     const open = searchParams.get('open')
@@ -290,6 +298,7 @@ import useTranslation from 'next-translate/useTranslation';
     // JV
     const submit = async(e)=>{
       e.preventDefault()
+      setIsLoading(true)
       
       inputList.forEach(item => {
         item.date = journalDate;
@@ -307,12 +316,13 @@ import useTranslation from 'next-translate/useTranslation';
         body: JSON.stringify(data),
       })
       let response = await res.json()
+      setIsLoading(false)
 
       if (response.success === true) {
         router.push('/panel/salesModule/receiptVoucher');
       }
       else {
-        toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -385,7 +395,7 @@ import useTranslation from 'next-translate/useTranslation';
         router.push('?open=false');
       }
       else {
-        toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -402,13 +412,13 @@ import useTranslation from 'next-translate/useTranslation';
       let response = await res.json()
 
       if (response.success === true) {
-        toast.success(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       }
       else {
-        toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -649,7 +659,7 @@ import useTranslation from 'next-translate/useTranslation';
                           {t('amountPaid')}
                       </th>
                       <th scope="col" className="p-1">
-                          {t('amountReceived')}
+                          {t('amountRemaning')}
                       </th>
                       <th scope="col" className="p-1">
                           {t('status')}
@@ -683,7 +693,7 @@ import useTranslation from 'next-translate/useTranslation';
                         <div className='text-sm text-black font-semibold'>{item.amountPaid ? parseInt(item.amountPaid).toLocaleString() : 0}</div>
                       </td>
                       <td className="p-1">
-                        <div className='text-sm text-black font-semibold'>{item.amountReceived ? parseInt(item.amountReceived).toLocaleString(): 0}</div>
+                        <div className='text-sm text-black font-semibold'>{item.totalAmount ? parseInt(item.totalAmount - item.amountPaid).toLocaleString(): 0}</div>
                       </td>
                       <td className="p-1">
                         <div className={`text-sm ${item.billStatus != 'unpaid' ? 'text-green-600' : 'text-red-600'} font-bold`}>{item.billStatus && item.billStatus.toUpperCase()}</div>

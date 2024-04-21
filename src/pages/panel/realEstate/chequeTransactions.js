@@ -174,7 +174,7 @@ const ChequeTransactions = ({ userEmail, dbPaymentMethod, dbVouchers, dbCharts, 
     const data = { userEmail, totalDebit , totalCredit, inputList, chequeStatus, chequeId, name, email, desc,  memo, journalDate, journalNo, attachment, path:'ChequeTransaction' };
 
     if( totalDebit != totalCredit ){
-      toast.error("Debit Credit values must be equal" , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+      toast.error("Debit Credit values must be equal" , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
     }
     else{
       let res = await fetch(`/api/addEntry`, {
@@ -190,7 +190,7 @@ const ChequeTransactions = ({ userEmail, dbPaymentMethod, dbVouchers, dbCharts, 
         router.push('?open=false');
       }
       else {
-        toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
   }
@@ -232,7 +232,7 @@ const ChequeTransactions = ({ userEmail, dbPaymentMethod, dbVouchers, dbCharts, 
       router.push('?open=false');
     }
     else {
-      toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+      toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
     }
   }
 
@@ -252,7 +252,7 @@ const ChequeTransactions = ({ userEmail, dbPaymentMethod, dbVouchers, dbCharts, 
       window.location.reload();
     }
     else {
-      toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+      toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
     }
     
   }
@@ -329,7 +329,7 @@ const ChequeTransactions = ({ userEmail, dbPaymentMethod, dbVouchers, dbCharts, 
     <FullLayout>
 
     {/* React tostify */}
-    <ToastContainer position="bottom-center" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
+    <ToastContainer position="top-right" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
 
     <div className="mt-10 sm:mt-0">
       <div className="md:grid md:grid-cols-1 md:gap-6">

@@ -439,7 +439,7 @@ const ContractTermination = ({ dbProducts, dbTenants, dbContracts, dbContacts}) 
     <FullLayout>
 
     {/* React tostify */}
-    <ToastContainer position="bottom-center" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
+    <ToastContainer position="top-right" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
 
     <Transition.Root show={open === 'true' ? true : false} as={Fragment}>
       <Dialog as="div" className="relative z-20" onClose={()=>{router.push('/panel/realEstate/contractAndTenants')}}>

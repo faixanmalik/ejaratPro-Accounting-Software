@@ -8,7 +8,7 @@
   "supplier":"المورد",
   "totalAmount":"المبلغ الإجمالي",
   "amountPaid":"المبلغ المدفوع",
-  "amountReceived":"المبلغ المستلم",
+  "amountRemaning":"المبلغ المستلم",
   "status":"الحالة",
   "viewOrEdit":"عرض /تحرير",
   "journalDate":"التاريخ",

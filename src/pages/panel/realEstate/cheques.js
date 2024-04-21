@@ -355,7 +355,7 @@ import {XLSX, read, utils} from 'xlsx';
       e.preventDefault();
       if (selectedIds.length > 1) {
         toast.error('Select only 1 item', {
-          position: "bottom-center",
+          position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -383,7 +383,7 @@ import {XLSX, read, utils} from 'xlsx';
       try {
 
         if(selectedIds.length > 1){
-          toast.error('select only 1 item' , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+          toast.error('select only 1 item' , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         }
         else{
           const contractData = await newContract(e);
@@ -434,7 +434,7 @@ import {XLSX, read, utils} from 'xlsx';
         window.location.reload();
       }
       else {
-        toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
     }
 
@@ -444,7 +444,7 @@ import {XLSX, read, utils} from 'xlsx';
       try {
 
         if(selectedIds.length > 1){
-          toast.error('select only 1 item' , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+          toast.error('select only 1 item' , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         }
         else{
           const contractData = await newContract(e);
@@ -483,7 +483,7 @@ import {XLSX, read, utils} from 'xlsx';
       try {
 
         if(selectedIds.length > 1){
-          toast.error('select only 1 item' , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+          toast.error('select only 1 item' , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         }
         else{
           const contractData = await newContract(e);
@@ -529,7 +529,7 @@ import {XLSX, read, utils} from 'xlsx';
       try {
 
         if(selectedIds.length > 1){
-          toast.error('select only 1 item' , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+          toast.error('select only 1 item' , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         }
         else{
 
@@ -623,7 +623,7 @@ import {XLSX, read, utils} from 'xlsx';
           window.location.reload();
         }
         else {
-          toast.error(response.message , { position: "bottom-center", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+          toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         }
     }
 
@@ -642,7 +642,7 @@ import {XLSX, read, utils} from 'xlsx';
     <FullLayout>
 
       {/* React tostify */}
-      <ToastContainer position="bottom-center" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
+      <ToastContainer position="top-right" autoClose={1000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
 
       <div className="mt-10 sm:mt-0">
         <div className="md:grid md:grid-cols-1 md:gap-6">
