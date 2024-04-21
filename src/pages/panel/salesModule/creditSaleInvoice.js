@@ -32,14 +32,7 @@ import useTranslation from 'next-translate/useTranslation';
 
     const router = useRouter();
     const { t } = useTranslation('modules')
-    
-    setIsLoading(true); 
-    
-
-    useEffect(() => {
-      console.log(isLoading); // This will log the updated state after it's been set
-    }, [isLoading]);
-    
+  
 
     const searchParams = useSearchParams()
     const open = searchParams.get('open')
@@ -203,6 +196,7 @@ import useTranslation from 'next-translate/useTranslation';
       if(myUser.department === 'Admin'){
         setIsAdmin(true)
       }
+      setIsLoading(false)
     }, [router, userEmail])
 
     function filterProducts(variableName) {
@@ -316,8 +310,7 @@ import useTranslation from 'next-translate/useTranslation';
         body: JSON.stringify(data),
       })
       let response = await res.json()
-      setIsLoading(false)
-
+      
       if (response.success === true) {
         router.push('/panel/salesModule/receiptVoucher');
       }
@@ -378,6 +371,7 @@ import useTranslation from 'next-translate/useTranslation';
     }
 
     const editEntry = async(id)=>{
+      setIsLoading(true)
       router.push('?open=true');
 
       const data = { id, phoneNo, email, discount, amountPaid, amountReceived, billStatus, city, address, reference, dueDate, inputList, name,  memo, journalDate, billNo, fullAmount, fullTax, totalAmount, attachment, path:'CreditSalesInvoice' };
@@ -393,6 +387,7 @@ import useTranslation from 'next-translate/useTranslation';
       
       if (response.success === true) {
         router.push('?open=false');
+        setIsLoading(false)
       }
       else {
         toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -400,7 +395,7 @@ import useTranslation from 'next-translate/useTranslation';
     }
 
     const delEntry = async()=>{
-
+      setIsLoading(true)
       const data = { selectedIds , path: 'CreditSalesInvoice' };
       let res = await fetch(`/api/delEntry`, {
         method: 'POST',
@@ -411,6 +406,7 @@ import useTranslation from 'next-translate/useTranslation';
       })
       let response = await res.json()
 
+      setIsLoading(false)
       if (response.success === true) {
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         setTimeout(() => {
@@ -424,6 +420,7 @@ import useTranslation from 'next-translate/useTranslation';
 
     const getData = async (id) =>{
       router.push('?open=true');
+      setIsLoading(true)
       setIsOpenSaveChange(false)
 
       const data = { id, path: 'CreditSalesInvoice' };
@@ -435,6 +432,7 @@ import useTranslation from 'next-translate/useTranslation';
         body: JSON.stringify(data),
       })
       let response = await res.json()
+      setIsLoading(false)
 
       if (response.success === true){
 

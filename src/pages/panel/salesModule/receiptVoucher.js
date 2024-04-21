@@ -27,7 +27,7 @@ import useTranslation from 'next-translate/useTranslation';
     return classes.filter(Boolean).join(' ')
   }
 
-  const ReceiptVoucher = ({ userEmail, dbVouchers, dbBankAccount, dbCreditSalesInvoice, dbPaymentMethod, dbContacts, dbEmployees, }) => {
+  const ReceiptVoucher = ({ setIsLoading, userEmail, dbVouchers, dbBankAccount, dbCreditSalesInvoice, dbPaymentMethod, dbContacts, dbEmployees, }) => {
 
     const router = useRouter();
     const { t } = useTranslation('modules')
@@ -114,6 +114,7 @@ import useTranslation from 'next-translate/useTranslation';
       if(myUser.department === 'Admin'){
         setIsAdmin(true)
       }
+      setIsLoading(false)
     }, [router, userEmail])
 
 
