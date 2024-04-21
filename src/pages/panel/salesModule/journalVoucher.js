@@ -17,7 +17,7 @@ import ReactToPrint from 'react-to-print';
 import useTranslation from 'next-translate/useTranslation';
 
 
-  const JournalVoucher = ({ userEmail, dbVouchers, dbCharts, dbContacts, dbEmployees }) => {
+  const JournalVoucher = ({ setIsLoading ,userEmail, dbVouchers, dbCharts, dbContacts, dbEmployees }) => {
     
     const [open, setOpen] = useState(false)
     const { t } = useTranslation('modules')
@@ -66,6 +66,7 @@ import useTranslation from 'next-translate/useTranslation';
         setIsAdmin(true)
       }
 
+      setIsLoading(false)
     }, [userEmail])
     
 
@@ -133,6 +134,7 @@ import useTranslation from 'next-translate/useTranslation';
     // JV
     const submit = async(e)=>{
       e.preventDefault()
+      setIsLoading(true)
       
       inputList.forEach(item => {
         item.date = journalDate;
@@ -142,6 +144,7 @@ import useTranslation from 'next-translate/useTranslation';
       const data = { userEmail, totalDebit , totalCredit, inputList, name, desc,  memo, journalDate, journalNo, attachment, path:'journalVoucher' };
 
       if( totalDebit != totalCredit ){
+        setIsLoading(false)
         toast.error("Debit Credit values must be equal" , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
       }
       else{
@@ -153,6 +156,7 @@ import useTranslation from 'next-translate/useTranslation';
           body: JSON.stringify(data),
         })
         let response = await res.json()
+        setIsLoading(false)
 
         if (response.success === true) {
           toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -199,6 +203,7 @@ import useTranslation from 'next-translate/useTranslation';
 
     const editEntry = async(id)=>{
       setOpen(true)
+      setIsLoading(true)
 
       const data = { id, totalDebit, totalCredit, inputList, name, desc, memo, journalDate, journalNo, attachment ,  path: 'journalVoucher'};
       
@@ -209,21 +214,23 @@ import useTranslation from 'next-translate/useTranslation';
         },
         body: JSON.stringify(data),
       })
-        let response = await res.json()
-        
-        if (response.success === true) {
-          toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+      let response = await res.json()
+      setIsLoading(false)
+
+      if (response.success === true) {
+        toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         setTimeout(() => {
           window.location.reload();
         }, 2000);
-        }
-        else {
-          toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
-        }
+      }
+      else {
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+      }
     }
 
     const delEntry = async()=>{
 
+      setIsLoading(true)
       const data = { selectedIds , path: 'journalVoucher' };
       let res = await fetch(`/api/delEntry`, {
         method: 'POST',
@@ -232,22 +239,25 @@ import useTranslation from 'next-translate/useTranslation';
         },
         body: JSON.stringify(data),
       })
-        let response = await res.json()
+      let response = await res.json()
 
-        if (response.success === true) {
-          toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+      setIsLoading(false)
+
+      if (response.success === true) {
+        toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         setTimeout(() => {
           window.location.reload();
         }, 2000);
-        }
-        else {
-            toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
-        }
+      }
+      else {
+        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+      }
       
     }
 
     const getData = async (id) =>{
       setOpen(true)
+      setIsLoading(true)
       setIsOpenSaveChange(false)
 
       const data = { id, path: 'journalVoucher' };
@@ -258,22 +268,23 @@ import useTranslation from 'next-translate/useTranslation';
         },
         body: JSON.stringify(data),
       })
-        let response = await res.json()
+      let response = await res.json()
+      setIsLoading(false)
 
-        if (response.success === true){
-          const dbJournalDate = moment(response.data.journalDate).utc().format('YYYY-MM-DD')
-          
-          setId(response.data._id)
-          setJournalDate(dbJournalDate)
-          setJournalNo(response.data.journalNo)
-          setInputList(response.data.inputList)
-          setTotalDebit(response.data.totalDebit)
-          setTotalCredit(response.data.totalCredit)
-          setMemo(response.data.memo)
-          setName(response.data.name)
-          setDesc(response.data.desc)
-          setAttachment(response.data.attachment.data)
-        }
+      if (response.success === true){
+        const dbJournalDate = moment(response.data.journalDate).utc().format('YYYY-MM-DD')
+        
+        setId(response.data._id)
+        setJournalDate(dbJournalDate)
+        setJournalNo(response.data.journalNo)
+        setInputList(response.data.inputList)
+        setTotalDebit(response.data.totalDebit)
+        setTotalCredit(response.data.totalCredit)
+        setMemo(response.data.memo)
+        setName(response.data.name)
+        setDesc(response.data.desc)
+        setAttachment(response.data.attachment.data)
+      }
     }
 
     // For print

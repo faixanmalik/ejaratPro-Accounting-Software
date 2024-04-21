@@ -237,6 +237,7 @@ import useTranslation from 'next-translate/useTranslation';
     // JV
     const submit = async(e)=>{
       e.preventDefault()
+      setIsLoading(false)
       
       inputList.forEach(item => {
         item.date = journalDate;
@@ -253,7 +254,7 @@ import useTranslation from 'next-translate/useTranslation';
         body: JSON.stringify(data),
       })
       let response = await res.json()
-
+      setIsLoading(false)
       if (response.success === true) {
         router.push('?open=false');
       }
@@ -264,6 +265,7 @@ import useTranslation from 'next-translate/useTranslation';
 
     const delEntry = async()=>{
 
+      setIsLoading(true)
       const data = { selectedIds , path: 'ReceiptVoucher' };
       let res = await fetch(`/api/delEntry`, {
         method: 'POST',
@@ -273,6 +275,8 @@ import useTranslation from 'next-translate/useTranslation';
         body: JSON.stringify(data),
       })
       let response = await res.json()
+
+      setIsLoading(false)
 
       if (response.success === true) {
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -287,6 +291,7 @@ import useTranslation from 'next-translate/useTranslation';
 
     const getData = async (id) =>{
       router.push('?open=true');
+      setIsLoading(true)
       setIsOpenSaveChange(false)
 
       const data = { id, path: 'ReceiptVoucher' };
@@ -298,6 +303,8 @@ import useTranslation from 'next-translate/useTranslation';
         body: JSON.stringify(data),
       })
       let response = await res.json()
+
+      setIsLoading(false)
 
       if (response.success === true){
 
