@@ -16,7 +16,7 @@ import {XLSX, read, utils} from 'xlsx';
 import useTranslation from 'next-translate/useTranslation';
 
 
-const BankAccount = ({dbBankAccount, charts, userEmail}) => {
+const BankAccount = ({ setIsLoading, dbBankAccount, charts, userEmail}) => {
 
 
   const [open, setOpen] = useState(false)
@@ -58,6 +58,7 @@ const BankAccount = ({dbBankAccount, charts, userEmail}) => {
       return item.userEmail === userEmail;
     })
     setFilteredCharts(filteredCharts)
+    setIsLoading(false)
   }, [userEmail]);
 
 
@@ -116,6 +117,7 @@ const BankAccount = ({dbBankAccount, charts, userEmail}) => {
   }
 
   const convertToJson = (header, data)=>{
+    setIsLoading(true)
     const row = [];
     data.forEach(element => {
       const rowData = {};
@@ -137,6 +139,7 @@ const BankAccount = ({dbBankAccount, charts, userEmail}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
 
       if(response.success === true){
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -175,6 +178,7 @@ const BankAccount = ({dbBankAccount, charts, userEmail}) => {
 
   const editEntry = async(id)=>{
     setOpen(true)
+    setIsLoading(true)
 
     const data = { id,  bankBranch, accountNo, accountType, accountDesc, accountTitle, chartsOfAccount,  borrowingLimit,  path: 'bankAccount'};
     
@@ -186,6 +190,7 @@ const BankAccount = ({dbBankAccount, charts, userEmail}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
       
       if (response.success === true) {
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -200,6 +205,7 @@ const BankAccount = ({dbBankAccount, charts, userEmail}) => {
 
   const delEntry = async()=>{
 
+    setIsLoading(true)
     const data = { selectedIds , path: 'bankAccount' };
     let res = await fetch(`/api/delEntry`, {
       method: 'POST',
@@ -209,6 +215,7 @@ const BankAccount = ({dbBankAccount, charts, userEmail}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
 
       if (response.success === true) {
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -225,6 +232,7 @@ const BankAccount = ({dbBankAccount, charts, userEmail}) => {
   const getData = async (id) =>{
     setOpen(true)
     setIsOpenSaveChange(false);
+    setIsLoading(true)
 
     const data = { id, path: 'bankAccount' };
     let res = await fetch(`/api/getDataEntry`, {
@@ -235,6 +243,7 @@ const BankAccount = ({dbBankAccount, charts, userEmail}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
       if (response.success === true){
         setId(response.bankAccount._id)
         setBankBranch(response.bankAccount.bankBranch)
@@ -252,6 +261,7 @@ const BankAccount = ({dbBankAccount, charts, userEmail}) => {
 
   const submit = async(e)=>{
     e.preventDefault()
+    setIsLoading(true)
     
     // fetch the data from form to makes a file in local system
     const data = { userEmail, bankBranch, accountNo, accountType, accountDesc, accountTitle, chartsOfAccount,  borrowingLimit, path:'bankAccount' };
@@ -264,6 +274,7 @@ const BankAccount = ({dbBankAccount, charts, userEmail}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
 
       if(response.success === true){
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });

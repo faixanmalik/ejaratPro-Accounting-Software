@@ -21,7 +21,7 @@ import Link from 'next/link';
 import useTranslation from 'next-translate/useTranslation';
 
 
-const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
+const ContactList = ({ setIsLoading, userEmail, dbContact, dbAccounts, dbPaymentType}) => {
 
   const router = useRouter();
   const { t } = useTranslation('businessSetup')
@@ -83,6 +83,7 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
       return item.userEmail === userEmail;
     })
     setFilteredInvoices(filteredInvoices)
+    setIsLoading(false)
 
   }, [filterCharts, userEmail]);
 
@@ -140,6 +141,7 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
   }
 
   const convertToJson = (header, data)=>{
+    setIsLoading(true)
     const row = [];
     data.forEach(element => {
       const rowData = {};
@@ -152,6 +154,7 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
   }
 
   const importEntries = async(row)=>{
+
     const data = { row, path:'contactList', importEntries:'importEntries' };
       let res = await fetch(`/api/addEntry`, {
       method: 'POST',
@@ -161,6 +164,7 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
 
       if(response.success === true){
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -245,7 +249,7 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
 
   const editEntry = async(id)=>{
     
-
+    setIsLoading(true)
     const data = { id, name, type, accounts, email, phoneNo, secondaryEmail, secondaryPhoneNo, country, streetAddress, city, state, zip, taxRigNo, paymentMethod, terms , openingBalance, date ,  path: 'contactList'};
     
     let res = await fetch(`/api/editEntry`, {
@@ -256,6 +260,7 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
       
       if (response.success === true) {
         router.push('?open=false');
@@ -270,6 +275,7 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
 
   const delEntry = async()=>{
 
+    setIsLoading(true)
     const data = { selectedIds , path: 'contactList' };
     let res = await fetch(`/api/delEntry`, {
       method: 'POST',
@@ -279,6 +285,7 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
       body: JSON.stringify(data),
     })
     let response = await res.json()
+    setIsLoading(false)
     if (response.success === true) {
       toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         setTimeout(() => {
@@ -293,6 +300,7 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
   const getData = async (id) =>{
     router.push('?open=true');
     setIsOpenSaveChange(false)
+    setIsLoading(true)
 
     const data = { id, path: 'contactList' };
     let res = await fetch(`/api/getDataEntry`, {
@@ -303,6 +311,7 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
 
       const date = moment(response.contact.date).utc().format('YYYY-MM-DD')
       if (response.success === true){
@@ -329,6 +338,7 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
 
   const submit = async(e)=>{
     e.preventDefault()
+    setIsLoading(true)
     
     // fetch the data from form to makes a file in local system
     const data = { userEmail, name, type, accounts, email, phoneNo, secondaryEmail, secondaryPhoneNo, country, streetAddress, city, state, zip, taxRigNo, paymentMethod, terms , openingBalance, date, path:'contactList' };
@@ -340,6 +350,7 @@ const ContactList = ({ userEmail, dbContact, dbAccounts, dbPaymentType}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
 
       if(response.success === true){
         router.push('?open=false');

@@ -23,7 +23,7 @@ import useTranslation from 'next-translate/useTranslation';
     return classes.filter(Boolean).join(' ')
   }
 
-  const PaymentVoucher = ({ userEmail, dbVouchers, dbPurchaseInvoice, dbPaymentMethod, dbContacts, dbEmployees, dbAccounts }) => {
+  const PaymentVoucher = ({ setIsLoading, userEmail, dbVouchers, dbPurchaseInvoice, dbPaymentMethod, dbContacts, dbEmployees, dbAccounts }) => {
     
     const [open, setOpen] = useState(false)
     const { t } = useTranslation('modules')
@@ -76,6 +76,7 @@ import useTranslation from 'next-translate/useTranslation';
         return item.userEmail === userEmail;
       })
       setFilteredPaymentMethod(filteredPaymentMethod)
+      setIsLoading(false)
 
     }, [userEmail])
 
@@ -191,6 +192,7 @@ import useTranslation from 'next-translate/useTranslation';
     // JV
     const submit = async(e)=>{
       e.preventDefault()
+      setIsLoading(true)
       
       inputList.forEach(item => {
         item.date = journalDate;
@@ -207,6 +209,7 @@ import useTranslation from 'next-translate/useTranslation';
         body: JSON.stringify(data),
       })
       let response = await res.json()
+      setIsLoading(false)
 
       if (response.success === true) {
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -221,6 +224,7 @@ import useTranslation from 'next-translate/useTranslation';
 
     const delEntry = async()=>{
 
+      setIsLoading(true)
       const data = { selectedIds , path: 'PaymentVoucher' };
       let res = await fetch(`/api/delEntry`, {
         method: 'POST',
@@ -230,7 +234,7 @@ import useTranslation from 'next-translate/useTranslation';
         body: JSON.stringify(data),
       })
       let response = await res.json()
-
+      setIsLoading(false)
       if (response.success === true) {
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         setTimeout(() => {

@@ -12,7 +12,7 @@ import dbPaymentMethod from 'models/PaymentMethod';
 import useTranslation from 'next-translate/useTranslation';
 
 
-const PaymentMethod = ({ userEmail, dbPaymentMethods, charts}) => {
+const PaymentMethod = ({ setIsLoading, userEmail, dbPaymentMethods, charts}) => {
 
   const [open, setOpen] = useState(false)
   const { t } = useTranslation('settings')
@@ -47,6 +47,7 @@ const PaymentMethod = ({ userEmail, dbPaymentMethods, charts}) => {
       return item.userEmail === userEmail;
     })
     setFilteredCharts(filteredCharts)
+    setIsLoading(false)
 
   }, [userEmail]);
 
@@ -88,6 +89,7 @@ const PaymentMethod = ({ userEmail, dbPaymentMethods, charts}) => {
 
   const editEntry = async(id)=>{
     setOpen(true)
+    setIsLoading(true)
 
     const data = { id, paymentType, chartsOfAccount,  path: 'PaymentMethod'};
     
@@ -99,6 +101,7 @@ const PaymentMethod = ({ userEmail, dbPaymentMethods, charts}) => {
       body: JSON.stringify(data),
     })
     let response = await res.json()
+    setIsLoading(false)
     
     if (response.success === true) {
       toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -113,6 +116,7 @@ const PaymentMethod = ({ userEmail, dbPaymentMethods, charts}) => {
 
   const delEntry = async()=>{
 
+    setIsLoading(true)
     const data = { selectedIds , path: 'PaymentMethod' };
     let res = await fetch(`/api/delEntry`, {
       method: 'POST',
@@ -122,6 +126,7 @@ const PaymentMethod = ({ userEmail, dbPaymentMethods, charts}) => {
       body: JSON.stringify(data),
     })
     let response = await res.json()
+    setIsLoading(false)
 
     if (response.success === true) {
       toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -136,6 +141,7 @@ const PaymentMethod = ({ userEmail, dbPaymentMethods, charts}) => {
 
   const getData = async (id) =>{
     setOpen(true)
+    setIsLoading(true)
     setIsOpenSaveChange(false)
 
     const data = { id, path: 'PaymentMethod' };
@@ -147,6 +153,7 @@ const PaymentMethod = ({ userEmail, dbPaymentMethods, charts}) => {
       body: JSON.stringify(data),
     })
     let response = await res.json()
+    setIsLoading(false)
     if (response.success === true){
       setId(response.data._id)
       setPaymentType(response.data.paymentType)
@@ -159,7 +166,7 @@ const PaymentMethod = ({ userEmail, dbPaymentMethods, charts}) => {
 
   const submit = async(e)=>{
     e.preventDefault()
-    
+    setIsLoading(true)
     // fetch the data from form to makes a file in local system
     const data = { userEmail, paymentType, chartsOfAccount, path:'PaymentMethod' };
     
@@ -171,6 +178,7 @@ const PaymentMethod = ({ userEmail, dbPaymentMethods, charts}) => {
       body: JSON.stringify(data),
     })
     let response = await res.json()
+    setIsLoading(false)
 
     if(response.success === true){
       toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });

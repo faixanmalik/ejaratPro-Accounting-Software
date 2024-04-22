@@ -19,7 +19,7 @@ import useTranslation from 'next-translate/useTranslation';
 
 
 
-const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
+const ChartsOfAccounts = ({ setIsLoading, userEmail, dbAllCharts }) => {
 
   const tableRef = useRef(null);
   const { t } = useTranslation('businessSetup');
@@ -63,6 +63,7 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
     let filtered = allCharts.filter(item => item.userEmail === userEmail);
     filtered.sort((a, b) => a.accountCode - b.accountCode);
     setFilteredInvoices(filtered);
+    setIsLoading(true)
 
   }, [filterCharts, userEmail]);
 
@@ -186,6 +187,7 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
   }
 
   const convertToJson = (header, data)=>{
+    setIsLoading(true)
     const row = [];
     data.forEach(element => {
       const rowData = {};
@@ -207,6 +209,7 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
 
       if(response.success === true){
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -270,6 +273,7 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
 
   const getData = async (id) =>{
     setOpen(true)
+    setIsLoading(true)
     setIsOpenSaveChange(false);
 
     const data = { id, path: 'chartsOfAccounts' };
@@ -281,6 +285,7 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
       const date = moment(response.charts.asof).utc().format('YYYY-MM-DD')
 
       if (response.success === true){
@@ -300,6 +305,7 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
   
   const delEntry = async()=>{
 
+    setIsLoading(true)
     const data = { selectedIds, path: 'chartsOfAccounts' };
 
     let res = await fetch(`/api/delEntry`, {
@@ -310,6 +316,7 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
       if (response.success === true) {
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         setTimeout(() => {
@@ -324,6 +331,7 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
 
   const editEntry = async(e)=>{
     e.preventDefault();
+    setIsLoading(true)
 
     const data = { accountCode, account, accountName, balance , asof,  desc, subAccount , path:'chartsOfAccounts' };
     let res = await fetch(`/api/editEntry`, {
@@ -334,6 +342,7 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
 
       if (response.success === true){
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -351,6 +360,7 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
   const submit = async(e)=>{
     subAcc();
     e.preventDefault()
+    setIsLoading(true)
 
     // fetch the data from form to makes a file in local system
     const data = { userEmail, account, accountCode, accountName, balance , asof,  desc, subAccount, path:'chartsOfAccounts'};
@@ -363,6 +373,7 @@ const ChartsOfAccounts = ({ userEmail, dbAllCharts }) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
     
         if (response.success === true) {
           setOpen(false)

@@ -20,7 +20,7 @@ import useTranslation from 'next-translate/useTranslation';
 
 
 
-const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
+const ProductAndServices = ({ setIsLoading, userEmail, product, charts, dbTaxRate}) => {
 
   const [open, setOpen] = useState(false)
 
@@ -50,6 +50,7 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
       return item.userEmail === userEmail;
     })
     setFilteredCharts(filteredCharts)
+    setIsLoading(false)
 
   }, [userEmail]);
 
@@ -109,6 +110,7 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
   }
 
   const convertToJson = (header, data)=>{
+    setIsLoading(true)
     const row = [];
     data.forEach(element => {
       const rowData = {};
@@ -130,6 +132,7 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
 
       if(response.success === true){
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -179,6 +182,7 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
 
   const submit = async(e)=>{
     e.preventDefault()
+    setIsLoading(true)
 
     // fetch the data from form to makes a file in local system
     const data = { userEmail, code, name, linkAccount, linkContract, desc, path: 'productAndServices'  };
@@ -191,6 +195,7 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
       body: JSON.stringify(data),
     })
     let response = await res.json()
+    setIsLoading(false)
     if (response.success === true) {
       toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         setTimeout(() => {
@@ -204,6 +209,7 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
 
   const getData = async (id) =>{
     setOpen(true)
+    setIsLoading(true)
     setIsOpenSaveChange(false)
 
     const data = { id, path: 'productAndServices' };
@@ -215,6 +221,7 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
 
       if (response.success === true){
         setId(response.product._id)
@@ -232,6 +239,7 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
 
   const delEntry = async()=>{
 
+    setIsLoading(true)
     const data = { selectedIds, path: 'productAndServices' };
 
     let res = await fetch(`/api/delEntry`, {
@@ -242,6 +250,7 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
       
       if (response.success === true) {
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -257,6 +266,8 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
 
   const editEntry = async(id)=>{
 
+    setIsLoading(true)
+
     const data = { id, code, name, linkAccount, linkContract, desc , path: 'productAndServices' };
     let res = await fetch(`/api/editEntry`, {
       method: 'POST',
@@ -266,6 +277,7 @@ const ProductAndServices = ({ userEmail, product, charts, dbTaxRate}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
       
       if (response.success === true){
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });

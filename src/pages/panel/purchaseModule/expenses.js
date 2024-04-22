@@ -24,7 +24,7 @@ import useTranslation from 'next-translate/useTranslation';
     return classes.filter(Boolean).join(' ')
   }
 
-  const Expenses = ({ userEmail, dbVouchers, dbAccounts, dbPaymentType, dbContacts, dbEmployees, dbTaxRate, dbProject }) => {
+  const Expenses = ({ setIsLoading, userEmail, dbVouchers, dbAccounts, dbPaymentType, dbContacts, dbEmployees, dbTaxRate, dbProject }) => {
     
     const [open, setOpen] = useState(false)
     const { t } = useTranslation('modules')
@@ -87,6 +87,7 @@ import useTranslation from 'next-translate/useTranslation';
         return item.userEmail === userEmail;
       })
       setFilteredProject(filteredProject)
+      setIsLoading(false)
 
     }, [userEmail])
 
@@ -196,6 +197,7 @@ import useTranslation from 'next-translate/useTranslation';
     // JV
     const submit = async(e)=>{
       e.preventDefault()
+      setIsLoading(true)
       
       inputList.forEach(item => {
         item.date = journalDate;
@@ -212,7 +214,7 @@ import useTranslation from 'next-translate/useTranslation';
         body: JSON.stringify(data),
       })
       let response = await res.json()
-
+      setIsLoading(false)
       if (response.success === true) {
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         setTimeout(() => {
@@ -283,6 +285,7 @@ import useTranslation from 'next-translate/useTranslation';
 
     const editEntry = async(id)=>{
       setOpen(true)
+      setIsLoading(true)
 
       const data = { id, phoneNo, email, city, paidBy, project, dueDate, inputList, name,  memo, journalDate, journalNo, fullAmount, fullTax, totalAmount, attachment, path:'Expenses' };
       
@@ -294,7 +297,7 @@ import useTranslation from 'next-translate/useTranslation';
         body: JSON.stringify(data),
       })
       let response = await res.json()
-      
+      setIsLoading(false)
       if (response.success === true) {
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
         setTimeout(() => {
@@ -307,7 +310,7 @@ import useTranslation from 'next-translate/useTranslation';
     }
 
     const delEntry = async()=>{
-
+      setIsLoading(true)
       const data = { selectedIds , path: 'Expenses' };
       let res = await fetch(`/api/delEntry`, {
         method: 'POST',
@@ -317,6 +320,7 @@ import useTranslation from 'next-translate/useTranslation';
         body: JSON.stringify(data),
       })
       let response = await res.json()
+      setIsLoading(false)
 
       if (response.success === true) {
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -331,6 +335,7 @@ import useTranslation from 'next-translate/useTranslation';
 
     const getData = async (id) =>{
       setOpen(true)
+      setIsLoading(true)
 
       const data = { id, path: 'Expenses' };
       let res = await fetch(`/api/getDataEntry`, {
@@ -341,6 +346,7 @@ import useTranslation from 'next-translate/useTranslation';
         body: JSON.stringify(data),
       })
       let response = await res.json()
+      setIsLoading(false)
 
       if (response.success === true){
         const dbJournalDate = moment(response.data.journalDate).utc().format('YYYY-MM-DD')
