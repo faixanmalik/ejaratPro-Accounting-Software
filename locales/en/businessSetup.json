@@ -69,6 +69,11 @@
   "accountType":"Account Type",
   "addBankAccount":"Add Bank Account",
   "accountDesc":"Account Desctiption",
-  "borrowingLimit":"Borrowing Limit"
+  "borrowingLimit":"Borrowing Limit",
+
+
+  "paymentMethodTitle":"Payment Methods",
+  "addPaymentMethod":"Add Payment Method",
+  "paymentType":"Payment Type"
 
 }

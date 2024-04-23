@@ -23,6 +23,7 @@
     "/panel/businessSetup/contactList": ["panel", "businessSetup"],
     "/panel/businessSetup/productAndServices": ["panel", "businessSetup"],
     "/panel/businessSetup/bankAccount": ["panel", "businessSetup"],
+    "/panel/businessSetup/paymentMethod": ["panel", "businessSetup"],
 
 
     "/panel/purchaseModule/purchaseInvoice": ["panel", "modules"],
@@ -38,7 +39,7 @@
     "/panel/salesModule/journalVoucher": ["panel", "modules"],
 
 
-    "/panel/settings/paymentMethod": ["panel", "settings"],
+    
     "/panel/payroll/employees": ["panel", "payroll"],
     "/panel/financialManagment/reports/generalLedger": ["panel", "reporting"],
     "/panel/financialManagment/reports/trialBalance": ["panel", "reporting"],

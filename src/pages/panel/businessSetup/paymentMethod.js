@@ -15,7 +15,8 @@ import useTranslation from 'next-translate/useTranslation';
 const PaymentMethod = ({ setIsLoading, userEmail, dbPaymentMethods, charts}) => {
 
   const [open, setOpen] = useState(false)
-  const { t } = useTranslation('settings')
+  const { t } = useTranslation('businessSetup')
+
 
   // Add taxRates
   const [paymentType, setPaymentType] = useState('')

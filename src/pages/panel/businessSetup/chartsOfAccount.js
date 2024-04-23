@@ -63,7 +63,7 @@ const ChartsOfAccounts = ({ setIsLoading, userEmail, dbAllCharts }) => {
     let filtered = allCharts.filter(item => item.userEmail === userEmail);
     filtered.sort((a, b) => a.accountCode - b.accountCode);
     setFilteredInvoices(filtered);
-    setIsLoading(true)
+    setIsLoading(false)
 
   }, [filterCharts, userEmail]);
 

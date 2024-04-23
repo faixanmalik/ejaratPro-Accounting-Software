@@ -67,5 +67,10 @@
   "accountType":"نوع الحساب",
   "addBankAccount":"إضافة حساب بنكي",
   "accountDesc":"وصف الحساب",
-  "borrowingLimit":"حد الاقتراض"
+  "borrowingLimit":"حد الاقتراض",
+
+
+  "paymentMethodTitle":"طرق الدفع",
+  "addPaymentMethod":"إضافة طريقة دفع",
+  "paymentType":"نوع الدفع"
 }
