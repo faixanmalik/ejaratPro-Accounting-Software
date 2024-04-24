@@ -69,7 +69,7 @@ export default function App({ Component, pageProps }) {
         waitingTime={300}
         onLoaderFinished={() => setProgress(0)}
       />
-      <Component {...pageProps} isLoading={isLoading} setIsLoading={setIsLoading} userEmail={userEmail} />
+      <Component {...pageProps} locale={router.locale} isLoading={isLoading} setIsLoading={setIsLoading} userEmail={userEmail} />
       <Footer />
     </div>
   )
@@ -91,7 +91,7 @@ export default function App({ Component, pageProps }) {
         waitingTime={300}
         onLoaderFinished={() => setProgress(0)}
       />
-      <Component {...pageProps} setIsLoading={setIsLoading} userEmail={userEmail} />
+      <Component {...pageProps} locale={router.locale} setIsLoading={setIsLoading} userEmail={userEmail} />
       <Footer />
     </div>
   )

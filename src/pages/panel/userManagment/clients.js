@@ -12,7 +12,7 @@ import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 
 
-const Clients = ({dbUser}) => {
+const Clients = ({ locale, dbUser}) => {
 
 
   const [open, setOpen] = useState(false)
@@ -302,7 +302,7 @@ const Clients = ({dbUser}) => {
 
 
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-20" onClose={()=>{setOpen(false)}}>
+      <Dialog as="div" dir={`${locale === 'ar' && 'rtl'}`} className="relative z-20" onClose={()=>{setOpen(false)}}>
         <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
           <div className="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block" />
         </Transition.Child>

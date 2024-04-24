@@ -24,7 +24,7 @@ import useTranslation from 'next-translate/useTranslation';
     return classes.filter(Boolean).join(' ')
   }
 
-  const Expenses = ({ setIsLoading, userEmail, dbVouchers, dbAccounts, dbPaymentType, dbContacts, dbEmployees, dbTaxRate, dbProject }) => {
+  const Expenses = ({ locale, setIsLoading, userEmail, dbVouchers, dbAccounts, dbPaymentType, dbContacts, dbEmployees, dbTaxRate, dbProject }) => {
     
     const [open, setOpen] = useState(false)
     const { t } = useTranslation('modules')
@@ -553,7 +553,7 @@ import useTranslation from 'next-translate/useTranslation';
     </div>
 
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-20" onClose={()=>{setOpen(false)}}>
+      <Dialog as="div" dir={`${locale === 'ar' && 'rtl'}`} className="relative z-20" onClose={()=>{setOpen(false)}}>
         <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
           <div className="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block" />
         </Transition.Child>
