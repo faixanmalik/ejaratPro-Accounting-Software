@@ -130,7 +130,7 @@ const ContactTransactionSummary = (
           }
         });
 
-      filteredTrx = filteredTrx.concat( dbCreditSalesInvoices, dbReceipts, dbCreditNotes, dbPaymentVoucher);
+      filteredTrx = filteredTrx.concat( dbPurchaseInvoice, dbCreditSalesInvoices, dbReceipts, dbDebitNote, dbCreditNotes, dbPaymentVoucher);
       setFilteredTrx(filteredTrx);
     }
   }
