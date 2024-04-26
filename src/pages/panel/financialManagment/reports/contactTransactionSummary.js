@@ -22,9 +22,9 @@ import ReactToPrint from 'react-to-print';
 import { AiOutlinePrinter } from 'react-icons/ai';
 
 const ContactTransactionSummary = (
-  { userEmail, dbExpensesVoucher, dbPaymentVoucher, dbReceipts, 
-    dbCreditNotes, dbCreditNote, dbPurchaseInvoice, 
-    dbSalesInvoice, dbCreditSalesInvoices, dbJournalVoucher, 
+  { userEmail, dbPaymentVoucher, dbReceipts, 
+    dbCreditNotes, dbPurchaseInvoice, dbDebitNote,
+    dbCreditSalesInvoices, 
     dbContacts }) => {
 
   // Cash Receipt
@@ -54,6 +54,18 @@ const ContactTransactionSummary = (
       
       let filteredTrx = []
       // Credit Sales Invoice
+      dbPurchaseInvoice = dbPurchaseInvoice
+        .filter((item) => item.name === `${contact}` && item.userEmail === userEmail)
+        .map((item) => ({
+          ...item,
+          journalNo: item.billNo,
+          chequeStatus: 'Received',
+          trxTotalDebit: 0,
+          trxTotalCredit: parseInt(item.totalAmount, 10),
+          balance: 0,
+        }));
+
+
       dbCreditSalesInvoices = dbCreditSalesInvoices
         .filter((item) => item.name === `${contact}` && item.userEmail === userEmail)
         .map((item) => ({
@@ -74,6 +86,17 @@ const ContactTransactionSummary = (
           chequeStatus: 'Received',
           trxTotalDebit: 0,
           trxTotalCredit: parseInt(item.totalAmount, 10),
+          balance: 0,
+        }));
+
+      // Debit Note Invoice
+      dbDebitNote = dbDebitNote
+        .filter((item) => item.name === `${contact}` && item.userEmail === userEmail)
+        .map((item) => ({
+          ...item,
+          chequeStatus: 'Received',
+          trxTotalDebit: parseInt(item.totalAmount, 10),
+          trxTotalCredit: 0,
           balance: 0,
         }));
 
