@@ -143,18 +143,8 @@ export default function Home({customer, dbUnits, dbCheques, dbProducts, supplier
         </Row>
 
 
-        {/* <Row>
-          <Col sm="6" lg="6">
-            <UnitsChart userEmail={userEmail} dbUnits={dbUnits} />
-          </Col> 
-          <Col sm="6" lg="6">
-            <ChequesChart userEmail={userEmail} dbCheques={dbCheques} />
-          </Col>
-        </Row> */}
-
-
         {/***Sales & Feed***/}
-        <Row className="mt-4">
+        <Row>
           <Col sm="12" lg="12">
             <SalesChart dbProducts={dbProducts} userEmail={userEmail} dbCharts={dbCharts} dbJournalVoucher={dbJournalVoucher} dbExpensesVoucher={dbExpensesVoucher} dbPaymentVoucher={dbPaymentVoucher} dbReceiptVoucher={dbReceiptVoucher} dbDebitNote={dbDebitNote} dbCreditNote={dbCreditNote} dbPurchaseInvoice={dbPurchaseInvoice} dbSalesInvoice={dbSalesInvoice} dbCreditSalesInvoice={dbCreditSalesInvoice}/>
           </Col>

@@ -30,14 +30,48 @@ const Sidebar2 = ({ showMobilemenu }) => {
   const { t } = useTranslation('panel')
   const location = router.pathname;
   const [open, setOpen] = useState(false)
+  const [dbUser, setDbUser] = useState(false)
 
-  const [isOwner, setisOwner] = useState(false)
+  let adminBusinessName = 'Ejarat Pro';
+  let myBusinessName = 'Malik';
+
 
   useEffect(() => {
-    let myUser = JSON.parse(localStorage.getItem("myUser"));
-    if(myUser && myUser.department === 'Admin'){
-      setisOwner(true)
+
+    async function fetchData() {
+      let getUser = JSON.parse(localStorage.getItem("myUser"));
+      if(getUser){
+
+        let token = getUser.token;
+      
+        const data = { token };
+        let res = await fetch(`/api/getuser`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        let response = await res.json()
+        
+        if(response.success === true ){
+
+          let responseBusinessName = response.dbuser.businessName.replace(/\s+/g, ' ').trim();
+          
+          if(responseBusinessName == adminBusinessName || responseBusinessName == myBusinessName){
+            setDbUser(true)
+          }
+          else{
+            setDbUser(false)
+          }
+
+        }
+      }
     }
+
+    
+    fetchData();
+
   }, [])
 
 
@@ -190,7 +224,7 @@ const Sidebar2 = ({ showMobilemenu }) => {
               <MenuItem href={`/${router.locale}/panel/userManagment/addRole`} icon={<BiUserCheck className='text-lg'/>} className={ location === '/panel/userManagment/addRole' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
                 {t('addRole')}
               </MenuItem>
-              {isOwner === true && <MenuItem href="/panel/userManagment/clients" icon={<FaUserFriends className='text-lg'/>} className={ location === '/panel/userManagment/clients' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+              {dbUser === true && <MenuItem href="/panel/userManagment/clients" icon={<FaUserFriends className='text-lg'/>} className={ location === '/panel/userManagment/clients' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
                 {t('clients')}
               </MenuItem>}
             </SubMenu>

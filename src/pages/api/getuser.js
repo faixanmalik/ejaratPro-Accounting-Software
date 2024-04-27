@@ -1,5 +1,4 @@
 import connectDb from 'middleware/mongoose'
-import Employees from 'models/Employees';
 import User from 'models/User';
 
 // Jwt token
@@ -14,19 +13,14 @@ const handler = async (req,res)=>{
         let dbuser = await User.findOne({"email": user.email})
         if(dbuser){
             // working
-            const {firstname, lastname, email, phoneno ,streetAddress, state, zip} = dbuser
-            res.status(200).json({ success: true , firstname, lastname, email, phoneno,streetAddress, state, zip })
+            res.status(200).json({ success: true , dbuser })
         }
         else{
-            let employee = await Employees.findOne({"email": user.email})
-            const {name, email, phoneno ,streetAddress, state, zip} = employee
-            res.status(200).json({ success: true , firstname:name, lastname:'', email, phoneno,streetAddress, state, zip })
+            res.status(400).json({ success: false , message: "No user Found!" })
         }
-        
-
     }
     else{
-        res.status(400).json({ success: false , message: "No user Found!" })
+        res.status(400).json({ success: false , message: "Internal Server Error!" })
     }
 
 }
