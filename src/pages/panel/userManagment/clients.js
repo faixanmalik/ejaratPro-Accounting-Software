@@ -12,7 +12,7 @@ import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 
 
-const Clients = ({ setIsLoading, locale, dbUser}) => {
+const Clients = ({ setIsLoading, userEmail, locale, dbUser}) => {
 
 
   const [open, setOpen] = useState(false)
@@ -31,17 +31,33 @@ const Clients = ({ setIsLoading, locale, dbUser}) => {
   // id For delete contact
   const [id, setId] = useState('')
   const [selectedIds, setSelectedIds] = useState([]);
+  const [filteredInvoices, setFilteredInvoices] = useState([])
 
   // authentications
   const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
+
+    let owner = 'Malik'
+
+    if(userEmail != owner){
+      let filteredInvoices = dbUser.filter((item)=>{
+        return item.businessName != owner;
+      })
+      setFilteredInvoices(filteredInvoices)
+    }
+    else{
+      setFilteredInvoices(dbUser)
+
+    }
+
+
     const myUser = JSON.parse(localStorage.getItem('myUser'))
     if(myUser.department === 'Admin'){
       setIsAdmin(true)
     }
     setIsLoading(false)
-  }, []);
+  }, [userEmail]);
 
   
   function handleRowCheckboxChange(e, id) {
@@ -270,7 +286,7 @@ const Clients = ({ setIsLoading, locale, dbUser}) => {
 
                 <tbody>
                   
-                  {dbUser.map((item, index)=>{
+                  {filteredInvoices.map((item, index)=>{
                     return <tr key={index} className="bg-white border-b hover:bg-gray-50">
                     <td className="w-4 p-4">
                       <div className="flex items-center">
@@ -301,7 +317,7 @@ const Clients = ({ setIsLoading, locale, dbUser}) => {
                 </tbody>
 
               </table>
-                {dbUser.length === 0  ? <h1 className='text-red-600 text-center text-base my-3'>Not found</h1> : ''}
+                {filteredInvoices.length === 0  ? <h1 className='text-red-600 text-center text-base my-3'>Not found</h1> : ''}
             </div>
             </div>
           </form>
