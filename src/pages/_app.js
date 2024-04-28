@@ -17,9 +17,11 @@ export default function App({ Component, pageProps }) {
   const [progress, setProgress] = useState(0)
   const [user, setUser] = useState({value: null})
   const [userEmail, setUserEmail] = useState('')
+  const [businessName, setBusinessName] = useState('')
   const [key, setKey] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
 
+  const [dbUser, setDbUser] = useState('')
   //  Use Effect for routerChange
   useEffect(() => {
 
@@ -33,11 +35,39 @@ export default function App({ Component, pageProps }) {
     let myUser = JSON.parse(localStorage.getItem("myUser"));
     if( myUser ){
       setUserEmail(myUser.businessName);
+      setBusinessName(myUser.businessName);
       setUser({value: myUser.token , email: myUser.email, name: myUser.name, department: myUser.department });
       setKey(Math.random());
     }
     
   }, [router.query, userEmail])
+
+
+  useEffect(() => {
+
+    async function fetchData() {
+      let getUser = JSON.parse(localStorage.getItem("myUser"));
+      if(getUser){
+
+        let token = getUser.token;
+      
+        const data = { token };
+        let res = await fetch(`/api/getuser`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        let response = await res.json()
+        if(response.success === true){
+          setDbUser(response.dbuser)
+        }
+      }
+    }
+    
+    fetchData();
+  }, [])
 
 
 
@@ -69,7 +99,7 @@ export default function App({ Component, pageProps }) {
         waitingTime={300}
         onLoaderFinished={() => setProgress(0)}
       />
-      <Component {...pageProps} locale={router.locale} isLoading={isLoading} setIsLoading={setIsLoading} userEmail={userEmail} />
+      <Component {...pageProps} locale={router.locale} isLoading={isLoading} setIsLoading={setIsLoading} businessName={dbUser.businessName} userEmail={dbUser.businessName} />
       <Footer />
     </div>
   )
@@ -91,7 +121,7 @@ export default function App({ Component, pageProps }) {
         waitingTime={300}
         onLoaderFinished={() => setProgress(0)}
       />
-      <Component {...pageProps} locale={router.locale} setIsLoading={setIsLoading} userEmail={userEmail} />
+      <Component {...pageProps} locale={router.locale} setIsLoading={setIsLoading} businessName={dbUser.businessName} userEmail={dbUser.businessName} />
       <Footer />
     </div>
   )

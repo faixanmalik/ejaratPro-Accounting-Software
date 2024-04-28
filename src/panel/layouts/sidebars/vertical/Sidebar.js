@@ -32,7 +32,7 @@ const Sidebar2 = ({ showMobilemenu }) => {
   const [open, setOpen] = useState(false)
   const [dbUser, setDbUser] = useState(false)
 
-  let adminBusinessName = 'Ejarat Pro';
+  let adminBusinessName = 'EjaratPro';
   let myBusinessName = 'Malik';
 
 

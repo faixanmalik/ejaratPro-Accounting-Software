@@ -12,7 +12,7 @@ import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 
 
-const Clients = ({ locale, dbUser}) => {
+const Clients = ({ setIsLoading, locale, dbUser}) => {
 
 
   const [open, setOpen] = useState(false)
@@ -40,6 +40,7 @@ const Clients = ({ locale, dbUser}) => {
     if(myUser.department === 'Admin'){
       setIsAdmin(true)
     }
+    setIsLoading(false)
   }, []);
 
   
@@ -73,6 +74,7 @@ const Clients = ({ locale, dbUser}) => {
 
   const submit = async(e)=>{
     e.preventDefault()
+    setIsLoading(true)
     
     // fetch the data from form to makes a file in local system
     const data = { businessName, email, password, firstName, lastName, path:'clients' };
@@ -85,6 +87,7 @@ const Clients = ({ locale, dbUser}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
 
       if(response.success === true){
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -99,6 +102,7 @@ const Clients = ({ locale, dbUser}) => {
 
   const editEntry = async(id)=>{
     setOpen(true)
+    setIsLoading(true)
 
     const data = { id, businessName, email, password, firstName, lastName,  path: 'clients'};
     
@@ -110,6 +114,7 @@ const Clients = ({ locale, dbUser}) => {
       body: JSON.stringify(data),
     })
     let response = await res.json()
+    setIsLoading(false)
     
     if (response.success === true) {
         toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -124,6 +129,7 @@ const Clients = ({ locale, dbUser}) => {
 
   const delEntry = async()=>{
 
+    setIsLoading(true)
     const data = { selectedIds , path: 'clients' };
     let res = await fetch(`/api/delEntry`, {
       method: 'POST',
@@ -133,6 +139,7 @@ const Clients = ({ locale, dbUser}) => {
       body: JSON.stringify(data),
     })
     let response = await res.json()
+    setIsLoading(false)
 
     if (response.success === true) {
       toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
@@ -146,6 +153,7 @@ const Clients = ({ locale, dbUser}) => {
   }
 
   const getData = async (id) =>{
+    setIsLoading(true)
     setOpen(true)
     setIsOpenSaveChange(false)
 
@@ -158,6 +166,7 @@ const Clients = ({ locale, dbUser}) => {
       body: JSON.stringify(data),
     })
       let response = await res.json()
+      setIsLoading(false)
       if (response.success === true){
         setId(response.data._id)
         setBusinessName(response.data.businessName)
