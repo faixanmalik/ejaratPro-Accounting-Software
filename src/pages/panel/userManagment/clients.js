@@ -393,12 +393,7 @@ const Clients = ({ setIsLoading, userEmail, locale, dbUser}) => {
                         </div>
                       </div>
                     </div>
-
-                    <div>
-                  
-                    </div>
                   </div>
-
                 
                 </div>
               </Dialog.Panel>
