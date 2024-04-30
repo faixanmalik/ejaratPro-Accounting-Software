@@ -321,26 +321,26 @@ const Users = ({ dbUsers, dbUser, userEmail}) => {
                               <div className="bg-white px-4 py-5 sm:p-6">
                                 <div className="grid grid-cols-6 gap-6">
 
-                                    <div className="col-span-6 sm:col-span-3 lg:col-span-3">
-                                      <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">{t('firstName')}</label>
-                                      <input onChange={handleChange} value={firstName} type="text" name="firstName" id="firstName" className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-s requiredm"/>
-                                    </div>
+                                  <div className="col-span-6 sm:col-span-3 lg:col-span-3">
+                                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">{t('firstName')}</label>
+                                    <input onChange={handleChange} value={firstName} type="text" name="firstName" id="firstName" className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-s requiredm"/>
+                                  </div>
 
-                                    <div className="col-span-6 sm:col-span-3">
-                                      <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">{t('lastName')}</label>
-                                      <input onChange={handleChange} value={lastName} type="text" name="lastName" id="lastName" className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-s requiredm"/>
-                                    </div>
+                                  <div className="col-span-6 sm:col-span-3">
+                                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">{t('lastName')}</label>
+                                    <input onChange={handleChange} value={lastName} type="text" name="lastName" id="lastName" className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-s requiredm"/>
+                                  </div>
 
 
-                                    <div className="col-span-6 sm:col-span-4">
-                                      <label htmlFor="email" className="block text-sm font-medium text-gray-700">{t('email')}</label>
-                                      <input onChange={handleChange} value={email} type="email" name="email" id="email" className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required/>
-                                    </div>
+                                  <div className="col-span-6 sm:col-span-4">
+                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">{t('email')}</label>
+                                    <input onChange={handleChange} value={email} type="email" name="email" id="email" className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required/>
+                                  </div>
 
-                                    <div className="col-span-6 sm:col-span-2">
-                                      <label htmlFor="password" className="block text-sm font-medium text-gray-700">{t('password')}</label>
-                                      <input onChange={handleChange} value={password} type="text" name="password" id="password" autoComplete="password" className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"  required/>
-                                    </div>
+                                  <div className="col-span-6 sm:col-span-2">
+                                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">{t('password')}</label>
+                                    <input onChange={handleChange} value={password} type="text" name="password" id="password" autoComplete="password" className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"  required/>
+                                  </div>
 
 
                                 </div>
