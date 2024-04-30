@@ -479,6 +479,13 @@ export default async function handler(req, res) {
             res.status(400).json({ success: false, message: "Internal Server Error !" }) 
           }
         }
+        else if( path === 'users'){
+          const { businessName, userEmail, src, email, password, firstName, lastName, path } = req.body;
+          let newuser = new User( {businessName, userEmail, src, email, password, firstName, lastName, path, userStatus:'Activate' });
+          await newuser.save();
+  
+          res.status(200).json({ success: true, message: "Entry Added !" }) 
+        }
 
 
 

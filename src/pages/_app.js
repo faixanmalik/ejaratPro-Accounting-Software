@@ -22,6 +22,9 @@ export default function App({ Component, pageProps }) {
   const [isLoading, setIsLoading] = useState(false)
 
   const [dbUser, setDbUser] = useState('')
+
+
+
   //  Use Effect for routerChange
   useEffect(() => {
 
@@ -99,7 +102,7 @@ export default function App({ Component, pageProps }) {
         waitingTime={300}
         onLoaderFinished={() => setProgress(0)}
       />
-      <Component {...pageProps} locale={router.locale} isLoading={isLoading} setIsLoading={setIsLoading} businessName={dbUser.businessName} userEmail={dbUser.businessName} />
+      <Component {...pageProps} dbUser={dbUser} locale={router.locale} isLoading={isLoading} setIsLoading={setIsLoading} businessName={dbUser.businessName} userEmail={dbUser.businessName} />
       <Footer />
     </div>
   )
@@ -121,7 +124,7 @@ export default function App({ Component, pageProps }) {
         waitingTime={300}
         onLoaderFinished={() => setProgress(0)}
       />
-      <Component {...pageProps} locale={router.locale} setIsLoading={setIsLoading} businessName={dbUser.businessName} userEmail={dbUser.businessName} />
+      <Component {...pageProps} dbUser={dbUser} locale={router.locale} setIsLoading={setIsLoading} businessName={dbUser.businessName} userEmail={dbUser.businessName} />
       <Footer />
     </div>
   )

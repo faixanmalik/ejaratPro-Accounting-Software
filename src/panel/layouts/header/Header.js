@@ -16,13 +16,7 @@ const Header = ({ showMobmenu }) => {
   const router = useRouter()
 
   useEffect(() => {
-    const myUser = JSON.parse(localStorage.getItem('myUser'))
-    if(myUser.businessName){
-      setBusinessName(myUser.businessName)
-    }
-    else{
-      setBusinessName(myUser.name)
-    }
+    fetchUser();
   }, [])
 
 
@@ -31,6 +25,36 @@ const Header = ({ showMobmenu }) => {
     localStorage.removeItem("myUser");
     setUser({value:null});
     router.push(`/login`);
+  }
+
+
+  const fetchUser = async() =>{
+
+    const myUser = JSON.parse(localStorage.getItem('myUser'))
+    
+    // fetch the data from form to makes a file in local system
+    const data = { token: myUser.token  };
+    let res = await fetch(`/api/getuser`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    let response = await res.json()
+
+    const { src, email, path, businessName, firstName, lastName } = response.dbuser;
+
+    if(path === 'users'){
+      setBusinessName( `${firstName} ${lastName} - ${businessName}`)
+    }
+    else{
+      setBusinessName(businessName)
+    }
+    
+    if(src){
+      setSrc(src)
+    }
   }
 
   return (

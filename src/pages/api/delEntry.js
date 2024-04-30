@@ -226,7 +226,6 @@ export default async function handler(req, res) {
           selectedIds.forEach( async(newItem) => {
             let data = await Buildings.findById(newItem);
             let units = data.receiveUnitsArray;
-            console.log(units)
             // units.forEach(async element => {
               // await Units.deleteMany({ userEmail: userEmail, unitNo: element.unitNo });
             // });
@@ -262,8 +261,18 @@ export default async function handler(req, res) {
           const { selectedIds } = req.body;
 
           await User.deleteMany( { _id: { $in: selectedIds } } )
-            res.status(200).json({ success: true, message: "Deleted Successfully !" }) 
+          res.status(200).json({ success: true, message: "Deleted Successfully !" }) 
         }
+        else if (path === 'users'){
+          const { selectedIds } = req.body;
+          
+          await User.deleteMany( { _id: { $in: selectedIds } } )
+          res.status(200).json({ success: true, message: "Deleted Successfully !" }) 
+        }
+            
+            
+
+
 
         
 

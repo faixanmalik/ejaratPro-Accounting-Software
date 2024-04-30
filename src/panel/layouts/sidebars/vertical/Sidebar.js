@@ -14,7 +14,7 @@ import {HiOutlineBanknotes} from 'react-icons/hi2'
 
 import {BsBank, BsChatQuote, BsShop} from 'react-icons/bs'
 import {FiShoppingBag, FiUserPlus, FiUsers} from 'react-icons/fi'
-import {FaFileContract, FaRegBuilding, FaToriiGate, FaUserFriends} from 'react-icons/fa'
+import {FaFileContract, FaRegBuilding, FaToriiGate, FaUserFriends, FaUsers} from 'react-icons/fa'
 import {TbFileInvoice} from 'react-icons/tb'
 import {RiBankCardLine, RiBankLine, RiBillLine, RiCommunityLine} from 'react-icons/ri'
 import {SlCalender} from 'react-icons/sl'
@@ -224,6 +224,11 @@ const Sidebar2 = ({ showMobilemenu }) => {
               <MenuItem href={`/${router.locale}/panel/userManagment/addRole`} icon={<BiUserCheck className='text-lg'/>} className={ location === '/panel/userManagment/addRole' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
                 {t('addRole')}
               </MenuItem>
+
+              <MenuItem href="/panel/userManagment/users" icon={<FaUsers className='text-lg'/>} className={ location === '/panel/userManagment/users' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
+                {t('users')}
+              </MenuItem>
+
               {dbUser === true && <MenuItem href="/panel/userManagment/clients" icon={<FaUserFriends className='text-lg'/>} className={ location === '/panel/userManagment/clients' ?  'text-indigo-700 bg-zinc-50 font-medium' : 'text-gray-600 font-medium'}>
                 {t('clients')}
               </MenuItem>}

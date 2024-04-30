@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema({
     taxRigNo: { type: Number  },
     zip: { type: Number },
 
+    path: { type: String },
+    userEmail:{type: String},
+    userStatus: { type: String, default: 'Deactivate' },
+
   },{timestamps:true});
    
 
