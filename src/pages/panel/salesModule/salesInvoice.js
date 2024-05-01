@@ -131,12 +131,11 @@ import useTranslation from 'next-translate/useTranslation';
     const [fullAmount, setFullAmount] = useState(0)
     const [fullTax, setFullTax] = useState(0)
     const [totalAmount, setTotalAmount] = useState(0)
-    const [discount, setDiscount] = useState('')
 
     // JV
     const [inputList, setInputList] = useState([
-      { journalNo, date: journalDate, products: '', desc:'', amount:'', taxRate:'', taxAmount:'', totalAmountPerItem:'', discount: discount},
-      { journalNo, date: journalDate, products: '', desc:'', amount:'', taxRate:'', taxAmount:'', totalAmountPerItem:'', discount: discount},
+      { journalNo, date: journalDate, products: '', desc:'', amount:'', taxRate:'', taxAmount:'', totalAmountPerItem:''},
+      { journalNo, date: journalDate, products: '', desc:'', amount:'', taxRate:'', taxAmount:'', totalAmountPerItem:''},
     ]);
 
     const [searchInput, setSearchInput] = useState('');
@@ -216,10 +215,6 @@ import useTranslation from 'next-translate/useTranslation';
       else if(e.target.name === 'fullTax'){
         setFullTax(e.target.value)
       }
-      else if(e.target.name === 'discount'){
-        setDiscount(e.target.value)
-        setTotalAmount((fullAmount + fullTax) - e.target.value)
-      }
       else if(e.target.name === 'totalAmount'){
         setTotalAmount(e.target.value)
       }
@@ -236,7 +231,7 @@ import useTranslation from 'next-translate/useTranslation';
       });
 
       // fetch the data from form to makes a file in local system
-      const data = { userEmail, phoneNo, email, chqNo, discount, city, fromAccount:receivedBy, receivedBy, project, dueDate, inputList, name,  memo, journalDate, journalNo, fullAmount, fullTax, totalAmount, attachment, path:'SalesInvoice' };
+      const data = { userEmail, phoneNo, email, chqNo, city, fromAccount:receivedBy, receivedBy, project, dueDate, inputList, name,  memo, journalDate, journalNo, fullAmount, fullTax, totalAmount, attachment, path:'SalesInvoice' };
 
       let res = await fetch(`/api/addEntry`, {
         method: 'POST',
@@ -258,7 +253,7 @@ import useTranslation from 'next-translate/useTranslation';
     // JV
     const addLines = () => {
       setInputList([...inputList,
-        {journalNo:journalNo, products:'', desc:'', amount:'', taxRate:'', taxAmount:'', totalAmountPerItem:'',  discount: discount},
+        {journalNo:journalNo, products:'', desc:'', amount:'', taxRate:'', taxAmount:'', totalAmountPerItem:''},
       ])
     }
 
@@ -316,7 +311,7 @@ import useTranslation from 'next-translate/useTranslation';
       setIsLoading(true)
       router.push('?open=true');
 
-      const data = { id, phoneNo, discount, email, chqNo, city, fromAccount:receivedBy, receivedBy, project, dueDate, inputList, name,  memo, journalDate, journalNo, fullAmount, fullTax, totalAmount, attachment, path:'SalesInvoice' };
+      const data = { id, phoneNo, email, chqNo, city, fromAccount:receivedBy, receivedBy, project, dueDate, inputList, name,  memo, journalDate, journalNo, fullAmount, fullTax, totalAmount, attachment, path:'SalesInvoice' };
       
       let res = await fetch(`/api/editEntry`, {
         method: 'POST',
@@ -389,7 +384,6 @@ import useTranslation from 'next-translate/useTranslation';
         setAttachment(response.data.attachment.data)
         setFullAmount(response.data.fullAmount)
         setFullTax(response.data.fullTax)
-        setDiscount(response.data.discount)
         setChqNo(response.data.chqNo)
         setTotalAmount(response.data.totalAmount)
         setPhoneNo(response.data.phoneNo)
@@ -419,7 +413,7 @@ import useTranslation from 'next-translate/useTranslation';
 
 
       setInputList([
-        {journalNo : formattedInvoice, discount: discount, date: journalDate, products:'', desc:'', amount:'', taxRate:'', taxAmount:'', totalAmountPerItem:'' },
+        {journalNo : formattedInvoice, date: journalDate, products:'', desc:'', amount:'', taxRate:'', taxAmount:'', totalAmountPerItem:'' },
       ])
       setMemo('')
       setAttachment('')
@@ -427,7 +421,6 @@ import useTranslation from 'next-translate/useTranslation';
       setFullTax(0)
       setTotalAmount(0)
       setPhoneNo(0)
-      setDiscount(0)
       setName('')
       setReceivedBy('')
       setEmail('')
@@ -894,19 +887,7 @@ import useTranslation from 'next-translate/useTranslation';
                                   readOnly
                                 />
                               </div>
-                              <div className="flex items-center">
-                                <label htmlFor="discount" className="block w-full text-sm font-medium text-gray-700">
-                                  {t('discount')}
-                                </label>
-                                <input
-                                  type="number"
-                                  value = { discount }
-                                  onChange={handleChange}
-                                  name="discount"
-                                  id="discount"
-                                  className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                />
-                              </div>
+                              
                               <div className="flex items-center">
                                 <label htmlFor="totalAmount" className="block w-full text-sm font-medium text-gray-700">
                                   {t('totalAmount')}
