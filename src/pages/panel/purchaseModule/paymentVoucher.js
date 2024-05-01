@@ -108,6 +108,8 @@ import useTranslation from 'next-translate/useTranslation';
     const [reference, setReference] = useState('')
 
     const [searchInput, setSearchInput] = useState('');
+    const [isOpenSaveChange, setIsOpenSaveChange] = useState(true)
+
 
     const handleSearch = (e) => {
       const inputValue = e.target.value;
@@ -248,6 +250,7 @@ import useTranslation from 'next-translate/useTranslation';
 
     const getData = async (id) =>{
       setOpen(true)
+      setIsOpenSaveChange(false)
 
       const data = { id, path: 'PaymentVoucher' };
       let res = await fetch(`/api/getDataEntry`, {
@@ -315,6 +318,7 @@ import useTranslation from 'next-translate/useTranslation';
     const newStateSettings = ()=>{
 
       setOpen(true)
+      setIsOpenSaveChange(true)
       setId('')
       setJournalDate(today)
 
@@ -820,7 +824,9 @@ import useTranslation from 'next-translate/useTranslation';
                             pageStyle='print'
                           />
 
-                          <button type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">{t('save')}</button>
+                          {isOpenSaveChange && <button type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            {t('save')}
+                          </button>}
                         </div>
                       </div>
                     </form>
