@@ -29,18 +29,18 @@ const SalesChart = ({dbProducts, dbExpensesVoucher, dbPaymentVoucher, dbReceiptV
 
 
     const monthData = [
-        { fromDate: '2023-01-01', toDate: '2023-01-31' },
-        { fromDate: '2023-02-01', toDate: '2023-02-28' },
-        { fromDate: '2023-03-01', toDate: '2023-03-31' },
-        { fromDate: '2023-04-01', toDate: '2023-04-30' },
-        { fromDate: '2023-05-01', toDate: '2023-05-31' },
-        { fromDate: '2023-06-01', toDate: '2023-06-30' },
-        { fromDate: '2023-07-01', toDate: '2023-07-31' },
-        { fromDate: '2023-08-01', toDate: '2023-08-30' },
-        { fromDate: '2023-09-01', toDate: '2023-09-30' },
-        { fromDate: '2023-10-01', toDate: '2023-10-31' },
-        { fromDate: '2023-11-01', toDate: '2023-11-30' },
-        { fromDate: '2023-12-01', toDate: '2023-12-31' }
+        { fromDate: '2024-01-01', toDate: '2024-01-31' },
+        { fromDate: '2024-02-01', toDate: '2024-02-28' },
+        { fromDate: '2024-03-01', toDate: '2024-03-31' },
+        { fromDate: '2024-04-01', toDate: '2024-04-30' },
+        { fromDate: '2024-05-01', toDate: '2024-05-31' },
+        { fromDate: '2024-06-01', toDate: '2024-06-30' },
+        { fromDate: '2024-07-01', toDate: '2024-07-31' },
+        { fromDate: '2024-08-01', toDate: '2024-08-30' },
+        { fromDate: '2024-09-01', toDate: '2024-09-30' },
+        { fromDate: '2024-10-01', toDate: '2024-10-31' },
+        { fromDate: '2024-11-01', toDate: '2024-11-30' },
+        { fromDate: '2024-12-01', toDate: '2024-12-31' }
     ];
 
     

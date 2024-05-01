@@ -614,7 +614,7 @@ import useTranslation from 'next-translate/useTranslation';
                                 {t('paidBy')}
                               </label>
                               
-                              <select id="paidBy" name="paidBy" onChange={ handleChange } value={paidBy} className="mt-1 p-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                              <select id="paidBy" name="paidBy" onChange={ handleChange } value={paidBy} className="mt-1 p-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" required>
                                 <option value=''>select paid By</option>
                                 {filteredCharts.map((item, index)=>{
                                   return <option key={index} value={item.accountName}>{item.accountName}</option>
