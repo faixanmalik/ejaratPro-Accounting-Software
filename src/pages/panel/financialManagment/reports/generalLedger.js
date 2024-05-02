@@ -486,7 +486,7 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                 }
     
                 if(data.fullTax > 0){
-                    if(data.type === 'CreditNote' || data.type === 'DebitNote'){
+                    if(data.type === 'CreditNote' || data.type === 'PurchaseInvoice' || data.type === 'Expenses'){
                         let debitAmount = data.fullTax;
                         let debitAccount = 'Tax Payable';
                         let creditAmount = 0;
