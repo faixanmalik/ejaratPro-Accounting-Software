@@ -82,7 +82,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                     if(data.type === 'PurchaseInvoice'){
                         let journal = data.inputList.filter((newData)=>{
         
-                            let debitAmount = newData.totalAmountPerItem;
+                            let debitAmount = newData.totalAmountPerItem - newData.taxAmount;
                             let creditAmount = newData.amount;
                             let debitAccount = newData.account;
                             let creditAccount = 'Accounts Payable';
@@ -94,6 +94,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                     debitAccount: account === debitAccount ? debitAccount : '',
                                     credit: account === creditAccount ? parseInt(creditAmount) : 0,
                                     creditAccount: account === creditAccount ? creditAccount : '',
+                                    balance: 0
                                 });
         
                                 if(fromDate && toDate){
@@ -138,6 +139,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                     debitAccount: account === debitAccount ? debitAccount : '',
                                     credit: account === creditAccount ? parseInt(creditAmount) : 0,
                                     creditAccount: account === creditAccount ? creditAccount : '',
+                                    balance: 0
                                 });
         
                                 if(fromDate && toDate){
@@ -180,10 +182,12 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                 debitAccount: account === debitAccount ? debitAccount : '',
                                 credit: account === creditAccount ? parseInt(creditAmount) : 0,
                                 creditAccount: account === creditAccount ? creditAccount : '',
+                                balance: 0
                             });
         
                             if(fromDate && toDate){
-                                const dbDate = moment(data.date).format('YYYY-MM-DD')
+                                let checkDbDate = data.journalDate? data.journalDate : data.date;
+                                const dbDate = moment(checkDbDate).format('YYYY-MM-DD')
                                 if (dbDate >= fromDate && dbDate <= toDate) {
                                     return data;
                                 }
@@ -210,6 +214,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                     debitAccount: account === debitAccount ? debitAccount : '',
                                     credit: account === creditAccount ? parseInt(creditAmount) : 0,
                                     creditAccount: account === creditAccount ? creditAccount : '',
+                                    balance: 0
                                 });
         
                                 if(fromDate && toDate){
@@ -228,16 +233,16 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                         
                     }
                     else if(data.type === 'CreditNote'){
-    
+        
                         let journal = data.inputList.filter((newData)=>{
-    
+        
                             
                             let product = newData.products;
                             let checkProductLinking = dbProducts.filter((item)=>{
                                 return item.name === product;
                             });
                             let linkedCOA = checkProductLinking[0].linkAccount;
-    
+        
                             let debitAmount = data.fullAmount;
                             let creditAmount = data.totalAmount;
                             let debitAccount = linkedCOA;
@@ -267,7 +272,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
         
                         });
                         dbAllEntries = dbAllEntries.concat(journal);
-    
+        
                     }
                     else if(data.type === 'Expenses'){
                         let journal = data.inputList.filter((newData)=>{
@@ -279,14 +284,11 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                             });
         
                             let linkedAccountCOA;
-        
                             if (dbFromAccount.length > 0) {
                                 linkedAccountCOA = dbFromAccount[0].chartsOfAccount;
                             }
         
-        
-        
-                            let debitAmount = newData.totalAmountPerItem;
+                            let debitAmount = newData.totalAmountPerItem - newData.taxAmount;
                             let debitAccount = newData.accounts;
                             let creditAmount = newData.amount;
                             let creditAccount = linkedAccountCOA;
@@ -299,6 +301,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                     debitAccount: account === debitAccount ? debitAccount : '',
                                     credit: account === creditAccount ? parseInt(creditAmount) : 0,
                                     creditAccount: account === creditAccount ? creditAccount : '',
+                                    balance: 0
                                 });
         
                                 if(fromDate && toDate){
@@ -332,16 +335,14 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                             });
         
                             let linkedAccountCOA;
-        
                             if (dbFromAccount.length > 0) {
                                 linkedAccountCOA = dbFromAccount[0].chartsOfAccount;
                             }
                             
-                            
                             let debitAmount = newData.totalAmountPerItem;
                             let debitAccount = linkedAccountCOA;
                             
-                            let creditAmount = newData.amount;
+                            let creditAmount = newData.totalAmountPerItem - newData.taxAmount;
                             let creditAccount = linkedCOA;
                             
                             if(account === debitAccount || account === creditAccount){
@@ -353,8 +354,10 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                     debitAccount: account === debitAccount ? debitAccount : '',
                                     credit: account === creditAccount ? parseInt(creditAmount) : 0,
                                     creditAccount: account === creditAccount ? creditAccount : '',
+                                    balance: 0
                                 });
         
+                                
                                 if(fromDate && toDate){
                                     let checkDbDate = data.journalDate? data.journalDate : data.date;
                                     const dbDate = moment(checkDbDate).format('YYYY-MM-DD')
@@ -378,9 +381,10 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                             });
                             let linkedCOA = checkProductLinking[0].linkAccount;
         
+                        
                             let debitAmount = newData.totalAmountPerItem;
                             let debitAccount = data.fromAccount;
-                            let creditAmount = newData.amount;
+                            let creditAmount = newData.amount - newData.taxAmount;
                             let creditAccount = linkedCOA;
         
                             if(account === debitAccount || account === creditAccount){
@@ -391,6 +395,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                     debitAccount: account === debitAccount ? debitAccount : '',
                                     credit: account === creditAccount ? parseInt(creditAmount) : 0,
                                     creditAccount: account === creditAccount ? creditAccount : '',
+                                    balance: 0
                                 });
         
                                 if(fromDate && toDate){
@@ -427,6 +432,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                     debitAccount: account === debitAccount ? debitAccount : '',
                                     credit: account === creditAccount ? parseInt(creditAmount) : 0,
                                     creditAccount: account === creditAccount ? creditAccount : '',
+                                    balance: 0
                                 });
         
                                 if(fromDate && toDate){
@@ -444,14 +450,14 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                         });
                         dbAllEntries = dbAllEntries.concat(journal);
                     }
-    
+        
                     if(data.fullTax > 0){
-                        if(data.type === 'CreditNote'){
+                        if(data.type === 'PurchaseInvoice' || data.type === 'Expenses'){
                             let debitAmount = data.fullTax;
                             let debitAccount = 'Tax Payable';
                             let creditAmount = 0;
                             let creditAccount = 'Tax Payable';
-    
+        
                             if(account === debitAccount || account === creditAccount){
                                 Object.assign(data, {
                                     coaAccount: account,
@@ -461,7 +467,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                     credit: account === creditAccount ? parseInt(creditAmount) : 0,
                                     creditAccount: account === creditAccount ? creditAccount : '',
                                 });
-    
+        
                                 if(fromDate && toDate){
                                     let checkDbDate = data.journalDate? data.journalDate : data.date;
                                     const dbDate = moment(checkDbDate).format('YYYY-MM-DD')
@@ -479,7 +485,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                             let debitAccount = 'Tax Payable';
                             let creditAmount = data.fullTax;
                             let creditAccount = 'Tax Payable';
-    
+        
                             if(account === debitAccount || account === creditAccount){
                                 Object.assign(data, {
                                     coaAccount: account,
@@ -489,7 +495,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                     credit: account === creditAccount ? parseInt(creditAmount) : 0,
                                     creditAccount: account === creditAccount ? creditAccount : '',
                                 });
-    
+        
                                 if(fromDate && toDate){
                                     let checkDbDate = data.journalDate? data.journalDate : data.date;
                                     const dbDate = moment(checkDbDate).format('YYYY-MM-DD')
@@ -501,9 +507,9 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                     return data;
                                 }
                             }
-    
+        
                         }
-    
+        
                     }
                     if(data.discount > 0){
                         
@@ -511,7 +517,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                         let debitAccount = 'Sales Discount';
                         let creditAmount = 0;
                         let creditAccount = 'Sales Discount';
-    
+        
                         if(account === debitAccount || account === creditAccount){
                             Object.assign(data, {
                                 coaAccount: account,
@@ -521,7 +527,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                                 credit: account === creditAccount ? parseInt(creditAmount) : 0,
                                 creditAccount: account === creditAccount ? creditAccount : '',
                             });
-    
+        
                             if(fromDate && toDate){
                                 let checkDbDate = data.journalDate? data.journalDate : data.date;
                                 const dbDate = moment(checkDbDate).format('YYYY-MM-DD')
@@ -534,7 +540,7 @@ const BalanceSheet = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProdu
                             }
                         }
                     }
-
+    
                 }
                 
             })
