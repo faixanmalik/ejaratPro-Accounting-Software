@@ -116,7 +116,7 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                 if(data.type === 'PurchaseInvoice'){
                     let journal = data.inputList.filter((newData)=>{
     
-                        let debitAmount = newData.totalAmountPerItem - newData.taxAmount;
+                        let debitAmount = newData.totalAmountPerItem + newData.taxAmount;
                         let creditAmount = newData.amount;
                         let debitAccount = newData.account;
                         let creditAccount = 'Accounts Payable';
@@ -322,7 +322,7 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                             linkedAccountCOA = dbFromAccount[0].chartsOfAccount;
                         }
     
-                        let debitAmount = newData.totalAmountPerItem - newData.taxAmount;
+                        let debitAmount = newData.totalAmountPerItem + newData.taxAmount;
                         let debitAccount = newData.accounts;
                         let creditAmount = newData.amount;
                         let creditAccount = linkedAccountCOA;
@@ -376,7 +376,7 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                         let debitAmount = newData.totalAmountPerItem;
                         let debitAccount = linkedAccountCOA;
                         
-                        let creditAmount = newData.totalAmountPerItem - newData.taxAmount;
+                        let creditAmount = newData.totalAmountPerItem + newData.taxAmount;
                         let creditAccount = linkedCOA;
                         
                         if(account === debitAccount || account === creditAccount){
@@ -418,7 +418,7 @@ const GeneralLedger = ({ userEmail, dbPaymentMethod, dbChequeTransaction, dbProd
                     
                         let debitAmount = newData.totalAmountPerItem;
                         let debitAccount = data.fromAccount;
-                        let creditAmount = newData.amount - newData.taxAmount;
+                        let creditAmount = newData.amount + newData.taxAmount;
                         let creditAccount = linkedCOA;
     
                         if(account === debitAccount || account === creditAccount){
