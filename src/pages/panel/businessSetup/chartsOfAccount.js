@@ -540,7 +540,7 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
                           {item.accountCode}
                       </td>
                       <td className="px-6 py-1">
-                        <span className='text-base block text-gray-800 font-semibold -mb-1 mt-1'>{locale === 'en' ? item.accountName : item.accountNameInArabic}</span>
+                        <span className='text-base block text-gray-800 font-semibold -mb-1 mt-1'>{locale === 'en' ? item.accountName : item.accountNameInArabic || item.accountName }</span>
                         <span className='text-xs block'>{item.desc}</span>
                       </td>
                       <td className="px-6 py-1">
