@@ -43,7 +43,7 @@ export default async function handler(req, res) {
 
         }
         else if( path === 'chartsOfAccounts'){
-          const { userEmail, accountCode, accountName, account, balance , asof, desc, subAccount, row, importEntries  } = req.body;
+          const { userEmail, accountCode, accountName, accountNameInArabic, account, balance , asof, desc, subAccount, row, importEntries  } = req.body;
 
           let dbChart = await Charts.findOne({accountCode})
           if(dbChart){
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
             }
             else{
 
-              let newCharts = new Charts( { userEmail, account, accountCode, accountName, balance , asof, desc, subAccount } );
+              let newCharts = new Charts( { userEmail, account, accountCode, accountName, accountNameInArabic, balance , asof, desc, subAccount } );
               await newCharts.save();
               res.status(200).json({ success: true, message: "Entry Added!" }) 
             }

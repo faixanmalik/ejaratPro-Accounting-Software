@@ -4,6 +4,7 @@ const ChartSchema = new mongoose.Schema({
     userEmail:{type: String},
     accountCode:{type: Number},
     accountName:{type: String},
+    accountNameInArabic:{type: String},
     account:{type: String},
     balance: {type: Number},
     asof: {type: Date },

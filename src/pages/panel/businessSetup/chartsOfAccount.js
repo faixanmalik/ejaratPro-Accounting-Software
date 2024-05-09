@@ -120,8 +120,10 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
 
 
   // Forms Usestates
+  const [id, setId] = useState('')
   const [accountCode, setAccountCode] = useState('')
   const [accountName, setAccountName] = useState('')
+  const [accountNameInArabic, setAccountNameInArabic] = useState('')
   const [account, setAccount] = useState('')
   const [subAccount, setSubAccount] = useState('')
   const [balance, setBalance] = useState('')
@@ -251,6 +253,9 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
     else if(e.target.name === 'accountName'){
       setAccountName(e.target.value)
     }
+    else if(e.target.name === 'accountNameInArabic'){
+      setAccountNameInArabic(e.target.value)
+    }
     else if(e.target.name === 'subAccount'){
       setSubAccount(e.target.value)
     }
@@ -272,8 +277,8 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
   }
 
   const getData = async (id) =>{
+    
     setOpen(true)
-    setIsLoading(true)
     setIsOpenSaveChange(false);
 
     const data = { id, path: 'chartsOfAccounts' };
@@ -284,22 +289,24 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
       },
       body: JSON.stringify(data),
     })
-      let response = await res.json()
-      setIsLoading(false)
-      const date = moment(response.charts.asof).utc().format('YYYY-MM-DD')
+    let response = await res.json()
 
-      if (response.success === true){
-        setAccountCode(response.charts.accountCode)
-        setAccount(response.charts.account)
-        setAccountName(response.charts.accountName)
-        setSubAccount(response.charts.subAccount)
-        setBalance(response.charts.balance)
-        setAsof(date)
-        setDesc(response.charts.desc)
-      }
-      else{
-        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: false, draggable: true, progress: undefined, theme: "light", });
-      }
+    const date = moment(response.charts.asof).utc().format('YYYY-MM-DD')
+
+    if (response.success === true){
+      setId(response.charts._id)
+      setAccountCode(response.charts.accountCode)
+      setAccount(response.charts.account)
+      setAccountName(response.charts.accountName)
+      setAccountNameInArabic(response.charts.accountNameInArabic)
+      setSubAccount(response.charts.subAccount)
+      setBalance(response.charts.balance)
+      setAsof(date)
+      setDesc(response.charts.desc)
+    }
+    else{
+      toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: false, draggable: true, progress: undefined, theme: "light", });
+    }
 
   }
   
@@ -315,17 +322,18 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
       },
       body: JSON.stringify(data),
     })
-      let response = await res.json()
-      setIsLoading(false)
-      if (response.success === true) {
-        toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }
-      else {
-        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
-      }
+    let response = await res.json()
+    setIsLoading(false)
+
+    if (response.success === true) {
+      toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
+    else {
+      toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+    }
     
   }
 
@@ -333,7 +341,7 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
     e.preventDefault();
     setIsLoading(true)
 
-    const data = { accountCode, account, accountName, balance , asof,  desc, subAccount , path:'chartsOfAccounts' };
+    const data = { id, accountCode, account, accountName, accountNameInArabic, balance , asof,  desc, subAccount , path:'chartsOfAccounts' };
     let res = await fetch(`/api/editEntry`, {
       method: 'POST',
       headers: {
@@ -341,20 +349,19 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
       },
       body: JSON.stringify(data),
     })
-      let response = await res.json()
-      setIsLoading(false)
+    let response = await res.json()
+    setIsLoading(false)
 
-      if (response.success === true){
-        toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }
-      else {
-        toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: false, draggable: true, progress: undefined, theme: "light", });
+    if (response.success === true){
+      toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
+    else {
+      toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: false, draggable: true, progress: undefined, theme: "light", });
     }
       
-    
   }
 
   const submit = async(e)=>{
@@ -363,7 +370,7 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
     setIsLoading(true)
 
     // fetch the data from form to makes a file in local system
-    const data = { userEmail, account, accountCode, accountName, balance , asof,  desc, subAccount, path:'chartsOfAccounts'};
+    const data = { userEmail, account, accountCode, accountName, accountNameInArabic, balance , asof,  desc, subAccount, path:'chartsOfAccounts'};
 
       let res = await fetch(`/api/addEntry`, {
       method: 'POST',
@@ -372,19 +379,19 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
       },
       body: JSON.stringify(data),
     })
-      let response = await res.json()
-      setIsLoading(false)
-    
-        if (response.success === true) {
-          setOpen(false)
-          toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-        }
-        else {
-            toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
-        }
+    let response = await res.json()
+    setIsLoading(false)
+  
+    if (response.success === true) {
+      setOpen(false)
+      toast.success(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
+    else {
+      toast.error(response.message , { position: "top-right", autoClose: 1000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "light", });
+    }
   }
 
   return (
@@ -411,6 +418,7 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
               setOpen(true)
               setAccountCode(''),
               setAccountName(''),
+              setAccountNameInArabic(''),
               setAccount(''),
               setSubAccount(''),
               setBalance(''),
@@ -532,7 +540,7 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
                           {item.accountCode}
                       </td>
                       <td className="px-6 py-1">
-                        <span className='text-base block text-gray-800 font-semibold -mb-1 mt-1'>{item.accountName}</span>
+                        <span className='text-base block text-gray-800 font-semibold -mb-1 mt-1'>{locale === 'en' ? item.accountName : item.accountNameInArabic}</span>
                         <span className='text-xs block'>{item.desc}</span>
                       </td>
                       <td className="px-6 py-1">
@@ -569,7 +577,7 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
             <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 translate-y-4 md:translate-y-0 md:scale-95" enterTo="opacity-100 translate-y-0 md:scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 translate-y-0 md:scale-100" leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95">
-              <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-5xl">
+              <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-6xl">
                 <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
                   <button type="button" className="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-6 lg:right-8" onClick={() => setOpen(false)}>
                     <span className="sr-only">Close</span>
@@ -595,13 +603,21 @@ const ChartsOfAccounts = ({  locale, setIsLoading, userEmail, dbAllCharts }) => 
                                   {/* <p className='text-xs'>hello 10 world account code</p> */}
                                 </div>
                                 
-                                <div className="col-span-6 sm:col-span-3">
+                                <div className="col-span-6 sm:col-span-2">
                                   <label htmlFor="accountName" className="block text-sm font-medium text-gray-700">
                                     {t('accountName')}
                                   </label>
                                   <input onChange={handleChange} value={accountName} type="text" name="accountName" id="accountName" className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required/>
-                                  {/* <p className='text-xs'>hello 10 world account code</p> */}
                                 </div>
+
+                                <div className="col-span-6 sm:col-span-2">
+                                  <label htmlFor="accountNameInArabic" className="block text-sm font-medium text-gray-700">
+                                    {t('accountNameInArabic')}
+                                  </label>
+                                  <input onChange={handleChange} value={accountNameInArabic} type="text" name="accountNameInArabic" id="accountNameInArabic" className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"/>
+                                </div>
+
+
                                 <div className="col-span-6 sm:col-span-3">
                                   <label htmlFor="account" className="block text-sm font-medium text-gray-700">
                                     {t('account')}

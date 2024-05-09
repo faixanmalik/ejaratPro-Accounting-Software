@@ -12,6 +12,7 @@
   "delete":"حذف",
   "accountCode":"رمز الحساب",
   "accountName":"إسم الحساب",
+  "accountNameInArabic":"اسم الحساب باللغة العربية",
   "account":"حساب",
   "subAccount":"الحساب الفرعي",
   "balance":"الرصيد",
